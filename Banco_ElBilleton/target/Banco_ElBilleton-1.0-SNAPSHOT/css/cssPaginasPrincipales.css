@@ -1,0 +1,113 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 20/11/2020, 07:29:24
+    Author     : phily
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Actor&family=Anton&family=Arima+Madurai&family=Bree+Serif&display=swap');
+
+body{
+    font-family: Helvetica;
+    font-size: 20px;
+}
+
+table{
+    text-align: left;    
+}
+
+h1{
+    font-family: Anton;    
+    font-weight: bold;
+}
+h2{
+    font-family: 'Bree Serif';            
+}
+
+h3{
+    font-family: Actor;    
+}
+
+h4{
+    font-family: 'Arima Madurai';
+    font-weight: bold;
+}
+
+.button{
+   background-color: transparent;   
+   color: whitesmoke;
+   border-radius: 25px;
+   border: none;
+}
+
+.cliente:hover{
+    border-color: gray;
+    border: solid;
+    /*por si solo quieres ponerle color de fondo colocale -> darkslategray queda súper duper xD*/
+}
+
+.cajero:hover{
+   background-color: #4C6873;    
+}
+
+.gerente:hover{
+   background-color: #355A6D;
+}
+
+#menuCliente{  
+    /*background: #606c88;  /* fallback for old browsers */
+    /*background: -webkit-linear-gradient(to right, #3f4c6b, #606c88);  /* Chrome 10-25, Safari 5.1-6 */
+    /*background: linear-gradient(to right, #3f4c6b, #606c88); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    background: #0F2027;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    
+/*    background: #0f0c29;  /* fallback for old browsers */
+/*    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+/*    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    
+    height: 95px;
+}
+
+#menuCajero{
+    height: 95px;
+    
+    /*background: #536976;  /* fallback for old browsers */
+    /*background: -webkit-linear-gradient(to right, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
+    /*background: linear-gradient(to left, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    background: #16222A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+}
+
+#menuGerente{
+    height: 95px;
+    
+    background: #485563;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #29323c, #485563);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+}
+
+#perfil, #off{
+    float: right;    
+}
+
+#opciones{        
+    height: 50px;
+    padding-left: 55px;
+    padding-right: 55px;     
+    font-size: 20px;    
+    font-family: Georgia;
+    float: right;
+}
+
+#submit{
+    width: 175px;
+    height: 45px;        
+}

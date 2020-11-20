@@ -1,0 +1,66 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19/11/2020, 21:45:28
+    Author     : phily
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+
+.cuerpo{
+    margin-top: 175px;      
+}
+
+
+#franjaGradient{    
+    /*background: #141E30;  /* fallback for old browsers */
+    /*background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    /*background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    
+    background: #360033;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0b8793, #360033);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0b8793, #360033); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+#divLogin{
+    /*background-color: aliceblue;*/
+    background: #360033;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0b8793, #360033);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0b8793, #360033); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    border-radius: 15px;
+    height: 550px;
+    width: 500px;      
+}
+
+label, #user{
+    font-family: Dosis;
+    font-size: 22px;
+    padding-left: 15px;
+    padding-right: 15px;    
+    color: whitesmoke;
+}
+
+#userData{
+    width: 300px;
+    height: 40px;      
+}
+
+#infoLog{    
+    width: 100px;
+    height: 35px;      
+}
+
+#submit{
+    font-size: 20px;
+    font-family: Questrial;
+    font-weight: bolder;
+    width: 175px;
+    height: 50px; 
+    box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19);        
+}
