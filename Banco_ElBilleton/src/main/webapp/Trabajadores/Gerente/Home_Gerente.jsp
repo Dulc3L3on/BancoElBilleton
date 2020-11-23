@@ -28,10 +28,7 @@
                     <input type="submit" class="button gerente" id="opciones" name="opcion" value="CREACION" >                                                                              
                 </center>                   
             </form>                                            
-        </div>                
-        <br/>
-        <hr>      
-        
+        </div>                                           
         <iframe src="<%=pagina%>" id="frameGerente"></iframe>            
     </body>
 </html>

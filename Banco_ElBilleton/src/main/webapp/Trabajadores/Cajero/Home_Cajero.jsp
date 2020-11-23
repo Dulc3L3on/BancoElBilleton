@@ -23,15 +23,12 @@
                     <br/>
                     <a href="../../gestorLogout"><img src="../../img/off.png" width="50" height="50" id="off"></a>
                     <a href="Home_Cajero.jsp"><img src="../../img/user.png" width="50" height="50" id="perfil"></a>                                       
-                    <input type="submit" class="button cajero" id="opciones" name="opcion" value="REPORTES" >                    
-                    <input type="submit" class="button cajero" id="opciones" name="opcion" value="RETIRO" >
-                    <input type="submit" class="button cajero" id="opciones" name="opcion" value="DEPOSITO" >
+                    <input type="submit" class="button cajero <%=(pagina.startsWith("Reportes")?"marcadoCajero":"")%>" id="opciones" name="opcion" value="REPORTES" >                    
+                    <input type="submit" class="button cajero <%=(pagina.startsWith("Retiro")?"marcadoCajero":"")%>" id="opciones" name="opcion" value="RETIRO" >
+                    <input type="submit" class="button cajero <%=(pagina.startsWith("Deposito")?"marcadoCajero":"")%>" id="opciones" name="opcion" value="DEPOSITO" >
                 </center>                   
             </form>                                            
-        </div>                
-        <br/>
-        <hr>      
-        
+        </div>                                        
         <iframe src="<%=pagina%>" id="frameCajero"></iframe>
     </body>
 </html>

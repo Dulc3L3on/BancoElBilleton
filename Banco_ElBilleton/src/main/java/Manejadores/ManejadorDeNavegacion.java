@@ -48,26 +48,24 @@ public class ManejadorDeNavegacion {
         if(tipoCreacion!=null){//podrías hacer que se muestre como default lo de cuentas [para seguir el estándar o mostrar otra página donde se pudiera especificar la temática, o algo por el estilo xD pero el TIEMPO niña EL TIEMPO!!!
             switch(tipoCreacion){                
                 case "Cajero":
-                    return "Creacion_Cajero.jsp";
+                    return "Creacion_Trabajador.jsp?trabajador=CAJERO";
                 case "Cliente":
-                    return "Creacion_Cliente.jsp";
+                    return "Creacion_Cliente.jsp";//y aquí [SI SE PUEDE y NO complica la programada... porque ya quello mimir xD] colocarás el valor que se recuperará para mostrar correctamente el título, y almacenar los datos dónde corresponde [es decir la tabla... [recuerda que para hacer la creación, puesdes emplear el mismo método y devolver un usuario o trbajador para el cajero y gerente...]
                 case "Gerente":
-                    return "Creacion_Gerente.jsp";
+                    return "Creacion_Trabajador.jsp?trabajador=GERENTE";
             }        
         }        
-        return "Creacion_Cuentas.jsp";           
+        return "ListadoUsuarios.jsp?pagina=Creacion_Cuenta.jsp";           
     }
     
     public String darPaginasModificacion(String tipoModificacion){
         if(tipoModificacion!=null){//podrías hacer que se muestre como default lo de cuentas [para seguir el estándar o mostrar otra página donde se pudiera especificar la temática, o algo por el estilo xD pero el TIEMPO niña EL TIEMPO!!!
             switch(tipoModificacion){                
                 case "Cajero":
-                    return "Modificacion_Cajero.jsp";
-                case "Gerente":
-                    return "Modificacion_Gerente.jsp";                    
-            }        
+                    return "ListadoUsuarios.jsp?pagina=Modificacion_Cajero.jsp";                            
+            }//el del gerente no porque eso se trata en su perfil una parte y el resto en ej servlet...        
         }        
-        return "Modificacion_Cliente.jsp";         
+        return "ListadoUsuarios.jsp?pagina=Modificacion_Cliente.jsp";         
     }
     
     public void darPaginasReportes(){
@@ -113,7 +111,7 @@ public class ManejadorDeNavegacion {
         if(opcionSeleccionada!=null){
             switch(opcionSeleccionada){                                    
                 case "RECIBIDAS":
-                    return "";//esto es con JR... pero creo que tb habrá que crear su propia pag... o ser la misma que a que está en reportes, no la que tiene los btn sino la que está en el frame...
+                    return "Solicitudes_Recibidas.jsp";//esto es con JR... pero creo que tb habrá que crear su propia pag... o ser la misma que a que está en reportes, no la que tiene los btn sino la que está en el frame...
                 case "REDACTADAS":
                     return "";                   
             }

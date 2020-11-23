@@ -1,0 +1,73 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21/11/2020, 05:54:34
+    Author     : phily
+*/
+@import url('https://fonts.googleapis.com/css2?family=Actor&family=Anton&family=Arima+Madurai&family=Bree+Serif&family=Questrial&display=swap');
+
+h1{
+    font-family: Anton;    
+    font-weight: bold;
+}
+h2{
+    font-family: 'Bree Serif';            
+}
+
+h3{
+    font-family: Actor;    
+}
+
+h4{
+    font-family: 'Arima Madurai';
+    font-weight: bold;
+}
+
+.button{
+   border-radius: 25px;
+   color: black;    
+   border: none;
+   float: left;
+}
+
+.button:hover{
+    /*background-color: #82BFB6;*/
+   text-decoration: underline;
+}
+
+.creacion{
+    width: 400px;  
+    height: 45px;    
+    margin-top: 0px;
+    margin-left: 1200px;
+}
+
+.modificacion{
+    width: 250px;  
+    height: 45px;    
+    margin-top: 0px;
+    margin-left: 1435px;    
+}
+
+.marcadoAcciones{
+    text-decoration: underline lightblue;    
+}
+
+#submit{
+    font-family: Questrial;
+    font-size: 17px;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 95px;
+    height: 45px;  
+    background-color: lightseagreen;/*codigo #5EAA9F [al menos se parece xD]*/  
+}/*si no te cuadra solo le cambias el colorcito y ya xD... pero debe ser una tonalidad de verde aqua xD*/
+
+#frameAccion{
+    width: 1875px;
+    height: 775px;    
+    border:none;
+}

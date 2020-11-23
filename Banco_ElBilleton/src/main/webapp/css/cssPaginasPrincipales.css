@@ -57,6 +57,18 @@ h4{
    background-color: #355A6D;
 }
 
+.marcadoGerente{
+    background-color: #516F85;/*talvez sería de cambiarle el color xD a uno más grisito xD como el de los subencabezados...*/
+}/*ahpi te recuerdas de cambiar el mrcado que se dejará si es que al tener las páginas internas completas no se mira bien...*/
+
+.marcadoCajero{
+    background-color: #688B9E;    
+}
+
+.marcadoCliente{
+    background-color: #5D7981;    
+}
+
 #menuCliente{  
     /*background: #606c88;  /* fallback for old browsers */
     /*background: -webkit-linear-gradient(to right, #3f4c6b, #606c88);  /* Chrome 10-25, Safari 5.1-6 */
@@ -110,4 +122,10 @@ h4{
 #submit{
     width: 175px;
     height: 45px;        
+}
+
+#frameGerente, #frameCajero, #frameCliente{
+    width: 1900px;
+    height: 850px;   
+    border:none;
 }

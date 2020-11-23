@@ -24,12 +24,11 @@
                 <br/>                    
                 <a href="../gestorLogout"><img src="../img/off.png" width="50" height="50" id="off"></a>
                 <a href="Home_Cliente.jsp"><img src="../img/user.png" width="50" height="50" id="perfil"></a>
-                <input type="submit" class="button cliente" id="opciones" name="opcion" value="REPORTES" >
-                <input type="submit" class="button cliente" id="opciones" name="opcion" value="ASOCIACION" >
-                <input type="submit" class="button cliente" id="opciones" name="opcion" value="TRANSFERENCIA" >                                                                               
+                <input type="submit" class="button cliente <%=(pagina.startsWith("Reportes")?"marcadoCliente":"")%>" id="opciones" name="opcion" value="REPORTES" >
+                <input type="submit" class="button cliente <%=(pagina.contains("Asociacion")?"marcadoCliente":"")%>" id="opciones" name="opcion" value="ASOCIACION" >
+                <input type="submit" class="button cliente <%=(pagina.contains("Transferencia")?"marcadoCliente":"")%>" id="opciones" name="opcion" value="TRANSFERENCIA" >                                                                               
             </form>                                            
-        </div>                        
-        <hr>              
+        </div>                                         
         <iframe src="<%=pagina%>" id="frameCliente"></iframe>
     </body>
 </html>

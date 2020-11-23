@@ -1,0 +1,98 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22/11/2020, 11:16:59
+    Author     : phily
+*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Questrial&display=swap');
+
+
+table{   
+    text-align: left;  
+    width: 800px;    
+    font-family: Poppins;
+    font-size: 20px;
+}
+th{
+    width: 190px;    
+}
+
+tr{
+    height: 55px;    
+}
+
+#nombresDatos{
+    height: 15px;
+}
+
+#contenedorGeneral{
+    margin-top: 35px;
+    width: 900px;
+    height: 300px;       
+}
+
+input, select{    
+    width: 85%;
+    height: 30px;    
+}
+
+#FrameListado{
+    margin-top: -760px;
+    height: 750px;
+    width: 340px;
+    overflow-y: scroll;
+    /*background: rgb(129,129,135);
+    background: linear-gradient(180deg, rgba(129,129,135,1) 0%, rgba(180,232,221,1) 38%, rgba(129,187,210,0.5214460784313726) 100%);/*:3 bonito gradiente xD*/
+    /*background: rgb(161,161,166);
+    background: linear-gradient(180deg, rgba(161,161,166,1) 7%, rgba(157,206,235,1) 48%, rgba(180,230,221,0.5214460784313726) 100%);*/
+   /* background: rgb(161,161,166);
+    background: linear-gradient(180deg, rgba(161,161,166,1) 31%, rgba(157,206,235,1) 80%, rgba(180,230,221,0.5214460784313726) 100%);*/
+    /*background: rgb(161,161,166);
+    background: linear-gradient(180deg, rgba(161,161,166,1) 31%, rgba(157,206,235,0.6250875350140056) 100%, rgba(180,230,221,0.5214460784313726) 100%);*/
+    background-color: #D9DDE0;/*#D3D3C6*/
+    border: solid gray;
+    border-radius: 5px;
+}
+
+#bannerBusqueda{
+    height: 40px;
+    width: 240px
+}
+
+#ListadoUsuarios{
+    height: 690px;
+    
+}
+
+#elemento{
+    background-color: transparent;
+    border: none;
+    height: 35px;
+    width: 320px;
+}
+
+#submit{
+    width: 200px;
+    height: 55px;        
+}
+
+#submit:hover{
+    box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19);    
+}
+
+#subtitulo{
+    margin-left: 35px;
+}
+
+#accionConListado{
+    margin-left: 345px;
+    width: 1475px;
+    height: 750px;      
+}
+
+#subencabezado{
+    background-color: #D9DDE0;    
+}/*si n te gusta [imagino que no xD porque parecería piñatita xD solo lo borras xD igual lo que add en crec de ctas...]*/

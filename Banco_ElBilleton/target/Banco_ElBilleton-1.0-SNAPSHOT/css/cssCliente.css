@@ -1,0 +1,101 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21/11/2020, 09:57:53
+    Author     : phily
+*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Oxygen&family=Questrial&display=swap');
+
+table{   
+    text-align: left;  
+    width: 800px;    
+    font-family: Poppins;
+    font-size: 20px;
+}
+th{
+    width: 190px;    
+}
+
+tr{
+    height: 55px;    
+}
+
+#nombresDatos{
+    height: 15px;
+}
+
+#contenedorGeneral{
+    margin-top: 35px;
+    width: 900px;
+    height: 300px;       
+}
+
+input, select{    
+    width: 85%;
+    height: 30px;    
+}
+
+#enviar, #busqueda{
+    width: 200px;
+    height: 55px;        
+}
+
+.asociacion{
+    margin-top: 200px;
+    background-color: #9DB0A7;/*#779487*/
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+    width: 200px;
+    height: 400px;
+    border-radius: 10px;
+}
+
+#frameAsociacion{    
+    margin-left: 205px; 
+    margin-top: -590px;/*si quieres que el frame de las opciones abarque todo el espacio de largo colocale 800 y al frame donde aparecen los comp corresp ponel un margin top =900...*/
+    width: 1675px;
+    height: 820px;  
+    border:none;
+}
+
+#submit:hover{
+   /* background-color: darkgoldenrod;*/
+      box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19); 
+}
+
+#enviar:hover{
+      box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19); 
+}/*--ahí buscas como compartir hovers... así como con las características normales...--*/
+
+#submit{
+    height: 90px;
+    width: 98px;    
+    background-color: transparent;
+    border-radius: 100px;
+    border: solid;
+}
+
+/*#reaccion{    
+    border: none;
+}*//*miro que quedan bonitos con el borde xD*/
+
+#aceptada:hover{
+   background-color: palevioletred; 
+}
+
+#denegada:hover{
+   background-color: #D3EAD2;
+}
+
+
+#subencabezado{
+    background-color: #D9DDE0;    
+}
+
+#subtitulo{
+    margin-left: 35px;
+}
