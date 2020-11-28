@@ -83,14 +83,13 @@ input, select{
     border: none;
 }*//*miro que quedan bonitos con el borde xD*/
 
-#aceptada:hover{
+.aceptada:hover{
    background-color: palevioletred; 
 }
 
-#denegada:hover{
+.denegada:hover{
    background-color: #D3EAD2;
 }
-
 
 #subencabezado{
     background-color: #D9DDE0;    

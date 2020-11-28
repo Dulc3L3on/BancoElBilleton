@@ -5,14 +5,23 @@
  */
 package Modelo.Entidades.Usuarios;
 
-import Modelo.Usuario;
-
 /**
  *
  * @author phily
  */
-public class Trabajador extends Usuario{
+public class Trabajador extends Usuario{      
+    String turno;
     
+    public Trabajador(int elCodigo, String elNombre, String elDPI, String laDireccion,
+            String elGenero, String elPassword, String elTurno) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword);
+        
+        turno = elTurno;
+    }
+
+    public String getTurno(){
+        return turno;
+    }
     
     /*NOTA: esta clase me será útil para reducir el # de JSP's que tengan 
       un mismo fin para dichos trabajadores, de tal forma que pueda emplear una sola página para

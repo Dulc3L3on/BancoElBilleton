@@ -93,11 +93,11 @@
                         </tr>
                         <tr>
                             <th colspan="2">
-                                <h6><i>+ no es necesario modificarlo pero si que no esté vacío al momento de preionar "modificar"</i></h6>
+                                <h6><i>+ no es necesario modificarlo, pero no debe estar vacío al momento de presionar "MODIFICAR"</i></h6>
                             </th>
                         </tr>
                     </table>
-                     <input type="submit" id="submit" name="crearCuenta" value="CREAR CUENTA">
+                     <input type="submit" id="submit" name="modificar" value="MODIFICAR CLIENTE">
                 </div>
             </form>            
         </center>                 

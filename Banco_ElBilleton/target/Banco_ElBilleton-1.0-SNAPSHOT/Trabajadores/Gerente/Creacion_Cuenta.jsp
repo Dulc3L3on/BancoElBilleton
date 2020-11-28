@@ -4,6 +4,8 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Entidades.Usuarios.Cliente"%>
+<%@page import="Modelo.Herramientas.ControladorIndices"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,10 +13,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
          <link rel="stylesheet" href="../../css/cssGerente.css">
         <title>CreateAccount</title>
+        <%!ControladorIndices controlador = new ControladorIndices();
+           Cliente cliente;%>
     </head>
     <body>
-        <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->
-            <form method="POST" enctype="multipart/form-data" action="../../cargaDPI">
+        <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->                        
+           <%cliente = (Cliente)request.getSession().getAttribute("usuarioBuscado_Cliente");%>            
+            <form method="POST" action="../../gestorCreacionCuenta">
                 <div id="contenedorGeneral">
                     <table>                        
                         <tr>
@@ -27,7 +32,7 @@
                                 <h5 id="subtitulo">Código:</h5>
                             </th>
                             <th>
-                               <input type="text" name="datosCuenta" id="nombre" readonly>
+                               <input type="number" name="datosCuenta" id="nombre" value="<%=(cliente!=null)?cliente.getCodigo():""%>" readonly>
                             </th>
                             
                         </tr>
@@ -37,7 +42,7 @@
                             </th>
 
                             <th>
-                                <input type="number" name="datosCuenta" id="CUI"readonly>
+                                <input type="text" name="datosCuenta" id="CUI" value="<%=(cliente!=null)?cliente.getNombre():""%>" readonly>
                             </th>
                         </tr>                       
                         <tr>                            
@@ -50,7 +55,7 @@
                                 <h5 id="subtitulo">Número:</h5>
                             </th>
                             <th>
-                               <input type="number" name="datosCuenta" id="numeroCuenta" min="0" readonly value="" >
+                                <input type="number" name="datosCuenta" id="numeroCuenta" min="0" value="<%=(cliente!=null)?controlador.autoincrementarEntidad("numeroCuenta", 4):""%>" readonly><!--Sino cada vez estaría aparenciendo un número de cuenta [diferente o no, dependiendo de si se han creado más cuentas o no...]aunque no se tenga ningún solo dato... xD-->
                             </th>
                             
                         </tr>
@@ -66,14 +71,16 @@
                         </tr>
                        <tr id="nombresDatos">                            
                             <th>
-                                <h5 id="subtitulo">Monto Inicial:</h5>
+                                <h5 id="subtitulo">* Monto Inicial:</h5>
                             </th>                                                                        
                             <th>
                                 <input type="number" name="datosCuenta" id="monto" min="100" required>                           
                             </th>                            
                         </tr>
                     </table>
-                     <input type="submit" id="submit" name="crearCuenta" value="CREAR CUENTA">
+                    <%if(request.getSession().getAttribute("usuarioBuscado_Cliente")!=null){%>
+                         <input type="submit" id="submit" name="crearCuenta" value="CREAR CUENTA">
+                    <%}%><!--para que no existan inconsistencias...-->
                 </div>
             </form>            
         </center>                 

@@ -11,6 +11,10 @@ package Modelo.Entidades.Usuarios;
  */
 public class Gerente extends Trabajador{
     
+    public Gerente(int elCodigo, String elNombre, String elDPI, String laDireccion, String elGenero, String elPassword, String elTurno) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, elTurno);
+    }
+    
 }
 /*<%=(pagina.startsWith("Reportes")?"marcadoGerente":"")%> ya no xD porque se mira con muuuuchos colores... xD
   <%=(pagina.startsWith("Modificacion")?"marcadoGerente":"")%>

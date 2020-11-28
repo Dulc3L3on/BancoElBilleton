@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../css/cssCliente.css">
-        <title>JSP Page</title>
+        <title>RequestReceived</title>
     </head>
     <body>
          <br/>
@@ -24,20 +24,20 @@
                     </tr>
                     <%for(int solicitudActual=0; solicitudActual<10; solicitudActual++){%>
                         <tr>
-                            <th style="width: 400px;"> 
-                                <h5><%=solicitudActual%>. Nombre de la persona [DPI]</h5>
+                            <th style="width: 500px;"> 
+                                <h5><%=solicitudActual%>. Nombre de la persona [DPI] [No. Cuenta]</h5>
                             </th>                    
                             <th>
                                 <center>
-                                    <input type="submit" name="reaccion" id="reaccion aceptada" value="ACEPTAR"> 
+                                    <input type="submit" name="reaccion" class="reaccion aceptada" value="ACEPTAR"> 
                                 </center>                                
                             </th>
                             <th>
                                 <center>
-                                    <input type="submit" name="reaccion" id="reaccion denegada" value="RECHAZAR"> 
+                                    <input type="submit" name="reaccion" class="reaccion denegada" value="RECHAZAR"> 
                                 </center>                                
                             </th>
-                        </tr>
+                        </tr><!--las solicitudes que aquí se muestren serán las que tengan como estado "enEspera"... pero eso no bastaría para mostrar el globito de notificaciones... dependería del atrib "vista" o del atrib "fecha".... o de ambas, por el hecho de que puede que revise o no en la fecha que corresponde [es decir en aquella en la que le "cayeron", las solicitudes recibidas...-->
                     <%}%>
                 </table>                
             </form>             

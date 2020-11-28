@@ -11,4 +11,8 @@ package Modelo.Entidades.Usuarios;
  */
 public class Cajero extends Trabajador{
     
+    public Cajero(int elCodigo, String elNombre, String elDPI, String laDireccion, String elGenero, String elPassword, String elTurno) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, elTurno);
+    }
+    
 }

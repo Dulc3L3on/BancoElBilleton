@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : 22/11/2020, 11:16:59
     Author     : phily
 */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Nunito&family=Nunito+Sans:wght@300&family=Poppins:wght@300&family=Questrial&display=swap');
 
 
 table{   
@@ -22,6 +22,16 @@ th{
 
 tr{
     height: 55px;    
+}
+
+#resultados{      
+    margin-top: 125px;
+    border: solid;
+    width: 900px;    
+}
+
+#datos{
+    font-family: 'Nunito Sans';    
 }
 
 #nombresDatos{
@@ -39,10 +49,21 @@ input, select{
     height: 30px;    
 }
 
+label, #radio{        
+    font-size: 15px;
+    padding-left: 15px;
+    padding-right: 15px;      
+    margin-top: 3px;
+}
+
+#radio{
+    width: 25px;
+}
+
 #FrameListado{
     margin-top: -760px;
     height: 750px;
-    width: 340px;
+    width: 350px;
     overflow-y: scroll;
     /*background: rgb(129,129,135);
     background: linear-gradient(180deg, rgba(129,129,135,1) 0%, rgba(180,232,221,1) 38%, rgba(129,187,210,0.5214460784313726) 100%);/*:3 bonito gradiente xD*/
@@ -58,20 +79,25 @@ input, select{
 }
 
 #bannerBusqueda{
-    height: 40px;
-    width: 240px
+    height: 70px;
+    width: 335px
 }
 
 #ListadoUsuarios{
-    height: 690px;
-    
+    height: 690px;    
 }
 
 #elemento{
     background-color: transparent;
     border: none;
+    text-align: left;
     height: 35px;
     width: 320px;
+}
+
+#elemento:hover{
+    background-color: gray;  
+    font-weight: bold;
 }
 
 #submit{
@@ -87,12 +113,13 @@ input, select{
     margin-left: 35px;
 }
 
-#accionConListado{
+#frameConListado{
     margin-left: 345px;
     width: 1475px;
-    height: 750px;      
+    height: 750px; 
+    border:none;
 }
 
 #subencabezado{
-    background-color: #D9DDE0;    
+    background-color: #D9DDE0;       
 }/*si n te gusta [imagino que no xD porque parecería piñatita xD solo lo borras xD igual lo que add en crec de ctas...]*/
