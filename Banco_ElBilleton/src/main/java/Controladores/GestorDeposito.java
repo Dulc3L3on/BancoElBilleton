@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author phily
  */
-@WebServlet("gestorDeposito")
+@WebServlet("/gestorDeposito")
 public class GestorDeposito extends HttpServlet{
     Tramitador tramitador = new Tramitador();    
     Transaccion transaccion;   

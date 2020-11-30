@@ -23,6 +23,20 @@ tr{
     height: 55px;    
 }
 
+h2{
+    font-family: 'Bree Serif';            
+}
+
+h3{
+    font-family: Actor;    
+}
+
+
+h4{
+    font-family: 'Arima Madurai';
+    font-weight: bold;
+}
+
 #nombresDatos{
     height: 15px;
 }

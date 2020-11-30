@@ -151,6 +151,24 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         return null;
     }
     
+    public Cuenta[] transformarACuentas(ResultSet resultado){
+        Cuenta[] cuentas = null;
+        
+        try{
+            resultado.last();
+            cuentas = new Cuenta[resultado.getRow()];
+            resultado.first();
+            
+            for(int cuentaActual = 0; cuentaActual < cuentas.length; cuentaActual++) {
+               cuentas[cuentaActual] = transformarACuenta(resultado);
+               resultado.next();
+            }            
+        }catch(SQLException sqlE){
+            System.out.println("Error al transformar a CUENTAS: "+ sqlE.getMessage());
+        }
+        return cuentas;
+    }
+    
     public Cuenta transformarACuenta(ResultSet resultado){
         try{
             return new Cuenta(resultado.getInt(1), resultado.getInt(2), resultado.getInt(3),

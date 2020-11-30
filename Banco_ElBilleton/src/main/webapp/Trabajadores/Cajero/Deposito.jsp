@@ -52,7 +52,7 @@
                 </table>                
             </form>                                   
                 
-            <%if(cliente!=null){%>
+            <%if(cliente!=null && request.getParameter("cuentaBuscada")!=null){%>
                 <form method="POST" action="../../gestorDeposito">
                     <div id="contenedorGeneral">
                         <input type="text" name="codigoDueno" value="<%=cliente.getCodigo()%>" hidden>
@@ -97,19 +97,19 @@
                                     <h5 id="subtitulo">* Monto</h5>
                                 </th>
                                 <th>
-                                   <input type="number" name="monto" value="1" id="monto" min="1" required>
+                                   <input type="number" name="monto" value="1" id="monto" min="1" required><!--Este no tiene un límite máx xd y si fuera así... sería una cantidad general... xD-->
                                 </th>                            
                             </tr>                        
                         </table>
                          <input type="submit" id="submit" name="depositar" value="DEPOSITAR">
                     </div>
                 </form>            
-            <%}else if(request.getParameter("cuentaBuscada")!=null && cuenta==null){%>
+          <%}else if(request.getParameter("cuentaBuscada")!=null && cuenta==null){%>
                 <!--se muestra el sweet de error, que indicará que: no exite una cuenta con el número ingresado [suponiendo que todo salió bien en la búsqueda de la cuenta xD]-->
                 <!--eso si, se mostrará cuando el input search no sea nulo y la variable de hallado o algo por el estilo tenga el valor no esperado xD-->
-            <%}else if(cuenta!=null && cliente==null){%>
+          <%}else if(cuenta!=null && cliente==null){%>
                 <!--eso quiere decir que el dueño de la cuenta ya no es cliente del banco... xD-->
-            <%}%>
+          <%}%>
         </center>                 
     </body>
 </html>

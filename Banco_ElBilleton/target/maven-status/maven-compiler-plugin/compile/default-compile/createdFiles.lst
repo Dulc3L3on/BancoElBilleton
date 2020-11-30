@@ -36,4 +36,5 @@ Modelo/Entidades/Usuarios/Trabajador.class
 Controladores/GestorModificacionGerente.class
 Modelo/Herramientas/Verificador.class
 Controladores/GestorCreacionCuenta.class
+Controladores/GestorRetiro.class
 Modelo/Manejadores/ManejadorDeNavegacion.class

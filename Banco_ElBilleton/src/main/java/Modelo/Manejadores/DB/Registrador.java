@@ -77,7 +77,7 @@ public class Registrador {
    
     public Transaccion registrarTransaccion(int codigoCajero, String numeroCuenta, String monto, String tipo){
         String registrar = "INSERT INTO Transaccion (codigo, numeroCuentaAfectada, "
-                + "tipo, monto, fecha, hora, codigoCajero) VALUES (?,?,?,?,?,?)";
+                + "tipo, monto, fecha, hora, codigoCajero) VALUES (?,?,?,?,?,?,?)";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(registrar)){
             int codigo = controlador.autoincrementarEntidad("codigo", 3);
@@ -85,13 +85,13 @@ public class Registrador {
             int montoDeposito = Integer.parseInt(monto);
             String hora = herramientas.darHoraActual();            
                 
-            
-            instrucciones.setInt(1, numeroDeCuenta);
-            instrucciones.setString(2, tipo);// == deposito [para el otro debes usar debito...]
-            instrucciones.setInt(3, montoDeposito);
-            instrucciones.setString(4, herramientas.darFechaActualString());
-            instrucciones.setString(5, hora);
-            instrucciones.setInt(6, codigoCajero);
+            instrucciones.setInt(1, codigo);
+            instrucciones.setInt(2, numeroDeCuenta);
+            instrucciones.setString(3, tipo);// == deposito [para el otro debes usar debito...]
+            instrucciones.setInt(4, montoDeposito);
+            instrucciones.setString(5, herramientas.darFechaActualString());
+            instrucciones.setString(6, hora);
+            instrucciones.setInt(7, codigoCajero);
             
             instrucciones.executeUpdate();            
             

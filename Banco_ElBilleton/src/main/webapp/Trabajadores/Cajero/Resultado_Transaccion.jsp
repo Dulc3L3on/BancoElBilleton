@@ -9,6 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="css/cssCajero.css">
         <title>JSP Page</title>
         <%!String codigoDueno;
            String numeroCuenta;
@@ -30,11 +31,13 @@
                     saldoActual = saldoAntiguo - Integer.parseInt(request.getParameter("monto"));
                     signo="-";
                 }%><!--no le coloco si es distinto de null, pues solo lo sería si surgió algo malo en cualquiera de los subprocesos para tramitar, si no, NO xd-->                     
-         
-                <table>                     
+                         
+                <table style="margin-top: 125px;">  
                     <tr>
                         <th colspan="4">
-                            <h2>>>>>RESUMEN DE TRANSACCIÓN<<<<</h2>
+                            <center>
+                                <h2>RESUMEN DE TRANSACCIÓN</h2>
+                            </center>                            
                         </th>
                     </tr>
                     <tr>
@@ -44,10 +47,10 @@
                     </tr>
                     <tr>
                         <th colspan="2">
-                           <h4>-------->>Datos del cliente<<--------</h4>
+                           <h4 id="subencabezado">>>Datos del cliente</h4>
                         </th>
                         <th colspan="2">
-                            <h4>------->>Datos del depósito<<------</h4>
+                            <h4 id="subencabezado">>>Datos del depósito</h4>
                         </th>    
                     </tr>                    
                     <tr>
@@ -93,7 +96,7 @@
                         </th>
                     </tr>                                                               
                 </table><!--esto debería ser reemplazado por el html del JR...-->                                    
-                <input type="submit" name="sumbit" value="DESCARGAR ESTADO DE CUENTA">
+                <input type="submit" name="sumbit" id="submit" value="DESCARGAR ESTADO DE CUENTA" style="width: 300px; height: 65px;">
             <%}else{%>             
                 <!--se muestra le suweet de error de transaccion... digo esto porque seguramente para tener más orden, se creará un arch de sweet por entidad o agrupación mayor xD-->      
             <%}%>    

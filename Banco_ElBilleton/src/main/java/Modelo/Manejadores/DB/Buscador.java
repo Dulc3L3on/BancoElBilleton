@@ -73,6 +73,22 @@ public class Buscador {
         }        
         return null;
     }
+    
+    public Cuenta[] buscarCuentasDeDueno(int codigoUsuario){
+        String buscar = "SELECT * FROM Cuenta WHERE codigoDueno = "+String.valueOf(codigoUsuario);
+        
+        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE)){ 
+        
+            ResultSet resultado = instrucciones.executeQuery();
+            if(transformador.colocarseAlPrincipio(resultado)){
+                return transformador.transformarACuentas(resultado);
+            }            
+        }catch(SQLException sqlE){
+            System.out.println("Error al buscar CUENTAS: "+ sqlE.getMessage());
+        }
+        return null;
+    }
 
     public Cuenta buscarCuenta(String codigoCuenta){
         String buscar ="SELECT * FROM Cuenta WHERE numeroCuenta = ?";
@@ -82,12 +98,14 @@ public class Buscador {
          
             int cuenta = Integer.parseInt(codigoCuenta);
             
+            instrucciones.setInt(1, cuenta);
+            
             ResultSet resultado = instrucciones.executeQuery();
             if(transformador.colocarseAlPrincipio(resultado)){
                 return transformador.transformarACuenta(resultado);
             }                                   
         }catch(SQLException | NumberFormatException e){
-            System.out.println("Error al buscar la cuenta");
+            System.out.println("Error al buscar la cuenta: "+e.getMessage());
         }
         return null;        
     }
