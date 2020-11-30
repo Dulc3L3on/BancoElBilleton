@@ -14,12 +14,14 @@ public class Cuenta{
     private int codigoDueno;    
     private int monto;
     private String fechaCreacion;
+    private String estado;
     
-    public Cuenta(int elNumeroCuenta, int elCodigoDueno, int elMonto, String laFechaCreacion){
+    public Cuenta(int elNumeroCuenta, int elCodigoDueno, int elMonto, String laFechaCreacion, String elEstado){
         numeroCuenta = elNumeroCuenta;
         codigoDueno = elCodigoDueno;
         monto = elMonto;
         fechaCreacion = laFechaCreacion;
+        estado = elEstado;
     }
     
     public void cambiarSaldo(int nuevoSaldo){
@@ -30,7 +32,7 @@ public class Cuenta{
         return numeroCuenta;
     }
     
-    public int getNumeroDueno(){
+    public int getCodigoDueno(){
         return codigoDueno;
     }
     

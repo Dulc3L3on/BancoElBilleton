@@ -40,7 +40,7 @@ public class Creador {
             instrucciones.setString(4, path);//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor... está Más que HECHO XD
             instrucciones.setString(5, datosUsuario[4]);
             instrucciones.setString(6, datosUsuario[2]);
-            instrucciones.setString(7, contrasenia);
+            instrucciones.setString(7, herramientas.encriptarContrasenia(contrasenia));
             instrucciones.setString(8, datosUsuario[3]);            
             
             instrucciones.executeUpdate();
@@ -65,7 +65,7 @@ public class Creador {
            instrucciones.setString(3,datosTrabajador[1]);           
            instrucciones.setString(4, datosTrabajador[2]);
            instrucciones.setString(5, datosTrabajador[3]);
-           instrucciones.setString(6, contrasenia);
+           instrucciones.setString(6, herramientas.encriptarContrasenia(contrasenia));
            instrucciones.setString(7, datosTrabajador[4]); 
            
            instrucciones.executeUpdate();

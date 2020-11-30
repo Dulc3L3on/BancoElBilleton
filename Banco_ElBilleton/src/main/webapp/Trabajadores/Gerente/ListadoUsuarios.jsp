@@ -25,7 +25,7 @@
     <body>           
         <%laPagina = (request.getParameter("pagina")!=null)?request.getParameter("pagina"):laPagina;%>
                
-        <%usuarios = buscador.buscarUsuario((laPagina.contains("Cuenta") || laPagina.contains("Cliente"))?"Cliente":"Cajero", (request.getParameter("tipoOrden")==null)?"codigo":request.getParameter("tipoOrden"));%>        
+        <%usuarios = buscador.buscarUsuarios((laPagina.contains("Cuenta") || laPagina.contains("Cliente"))?"Cliente":"Cajero", (request.getParameter("tipoOrden")==null)?"codigo":request.getParameter("tipoOrden"));%>        
         <%if(request.getParameter("elemento")!=null){%><!--si no hay elemento es porque no hay usuarios xd, así que no hay problema de un nullPointer, por la lógica de abajito xD--><!--si te da error es por el hecho de estar revisando al botón y no a un input... [pero eso sería lo que deberías hacer teneiendo un listado...[a menos que usaras JS para llenar un input hidden...-->
             <!--haces el valor del arreglo de usarios que corresponde al valor de la búsqueda por medio delcódigo... un atributo de sesión...-->                        
             <%request.getSession().setAttribute("usuarioBuscado_"+((laPagina.contains("Cuenta") || laPagina.contains("Cliente"))?"Cliente":"Cajero"), usuarios[Integer.parseInt(request.getParameter("elemento"))]);%><!--si te da error puede ser esto, pues recuerda que en unas ocasiones es parseando, en otrar conviertirendo pero usando toString en el parámetro... [revisa la vrs anteriror del proyecto xD-->
@@ -55,11 +55,11 @@
                         <tr>
                             <th colspan="2">                                
                                 <center>
-                                    <input type="radio" name="tipoOrden" value ="Codigo" id="radio" checked>
-                                    <label for="Codigo">Codigo</label> 
+                                    <input type="radio" name="tipoOrden" value ="Codigo" id="radio1" class="radio" checked>
+                                    <label for="radio1">Codigo</label> 
                             
-                                    <input type="radio" name="tipoOrden" value ="Nombre" id="radio">
-                                    <label for="Nombre">Nombre</label>                                                                
+                                    <input type="radio" name="tipoOrden" value ="Nombre" id="radio2" class="radio">
+                                    <label for="radio2">Nombre</label>                                                                
                                 </center>                                
                             </th>
                         </tr>                            
@@ -81,7 +81,7 @@
                            <%}else{
                                 //se hace la búsqueda en el listado de usuarios hallado a partir del código que se encuentra en el input search...
 
-                                datosUsuarioBuscado = request.getParameter("unUsuario").split(" ");
+                                datosUsuarioBuscado = request.getParameter("unUsuario").trim().split(" ");//el trim solo quita los espacios de los extremos, así que seguriá funcionando con normalidad xD
                                 ubicacionUsuarioBuscado = herramienta.buscarUbicacionUsuarioBuscado(datosUsuarioBuscado[0], usuarios);
                                 
                                 if(ubicacionUsuarioBuscado!=-1){%>

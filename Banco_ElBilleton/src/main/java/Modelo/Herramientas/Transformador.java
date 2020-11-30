@@ -5,6 +5,7 @@
  */
 package Modelo.Herramientas;
 
+import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Gerente;
@@ -28,7 +29,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         return false;
     }//Aunque si lo piensas, cuando esto diera una excep, entonces se llevaría al método siguiente y por lo tanto tb propvocaría una excep y por lo tanto devolvería null, justo lo que debería devoler...
     
-    public Usuario[] transformarAUsuario(String tipo, ResultSet resultado){
+    public Usuario[] transformarAUsuarios(String tipo, ResultSet resultado){
         switch(tipo){
             case "gerente":
                 return transformarAGerentes(resultado);
@@ -36,6 +37,16 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
                 return transformarACajeros(resultado);
         }
         return transformarAClientes(resultado);//no es necesario el casteo, puesto que es implícita su genealogía xD...
+    }
+    
+    public Usuario transformarAUsuario(String tipo, ResultSet resultado){
+        switch(tipo){
+            case "cliente":
+               return transformarACliente(resultado);
+            case "cajero":
+               return transformarACajero(resultado);             
+        }
+        return transformarAGerente(resultado);
     }
     
     private Cliente[] transformarAClientes(ResultSet resultado){                
@@ -56,7 +67,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         return clientes;        
     }
     
-    public Cliente transformarACliente(ResultSet resultado){
+    private Cliente transformarACliente(ResultSet resultado){
         try {                        
             return new Cliente(resultado.getInt(1),resultado.getString(2),
                     resultado.getString(3), resultado.getString(4), resultado.getString(5),
@@ -86,6 +97,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
             resultado.last();            
             cajeros = new Cajero[resultado.getRow()];
             resultado.first();
+            resultado.next();//con tal de que no se muestre el cajero de la banca virtual...
             
             for(int clienteActual =0; clienteActual<cajeros.length; clienteActual++){
                 cajeros[clienteActual] = transformarACajero(resultado);
@@ -97,11 +109,13 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         return cajeros;                        
     }
      
-    public Cajero transformarACajero(ResultSet resultado){
-        try {                        
+    private Cajero transformarACajero(ResultSet resultado){
+        try {       
+            if(resultado.getInt(1)!=101){//para que no puedan mostrarse los datos del cajero virtual xD
             return new Cajero(resultado.getInt(1),resultado.getString(2),
                     resultado.getString(3), resultado.getString(4), resultado.getString(5),
                     resultado.getString(6), resultado.getString(7));
+            }            
         } catch (SQLException e) {
             System.out.println("Error al transformar a CAJERO: "+ e.getMessage());
         }        
@@ -126,7 +140,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         return gerentes;                        
     }
      
-    public Gerente transformarAGerente(ResultSet resultado){
+    private Gerente transformarAGerente(ResultSet resultado){
         try {                        
             return new Gerente(resultado.getInt(1),resultado.getString(2),
                     resultado.getString(3), resultado.getString(4), resultado.getString(5),
@@ -134,6 +148,16 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         } catch (SQLException e) {
             System.out.println("Error al transformar a GERENTE: "+ e.getMessage());
         }        
+        return null;
+    }
+    
+    public Cuenta transformarACuenta(ResultSet resultado){
+        try{
+            return new Cuenta(resultado.getInt(1), resultado.getInt(2), resultado.getInt(3),
+            resultado.getString(4), resultado.getString(5));
+        }catch(SQLException sqlE){
+            System.out.println("Error al transformar a CUENTA: "+sqlE.getMessage());
+        }
         return null;
     }
     

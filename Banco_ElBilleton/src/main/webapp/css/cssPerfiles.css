@@ -7,12 +7,18 @@ and open the template in the editor.
     Created on : 21/11/2020, 22:22:27
     Author     : phily
 */
-@import url('https://fonts.googleapis.com/css2?family=Actor&family=Anton&family=Arima+Madurai&family=Bree+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Actor&family=Anton&family=Arima+Madurai&family=Bree+Serif&family=Crete+Round&display=swap');
 
 h4{
     font-family: 'Arima Madurai';
     font-weight: bold;
     font-size: 25px;
+}
+
+h5{
+    font-family: 'Crete Round';  
+    font-weight: bold;    
+    float: left;
 }
 
 label{

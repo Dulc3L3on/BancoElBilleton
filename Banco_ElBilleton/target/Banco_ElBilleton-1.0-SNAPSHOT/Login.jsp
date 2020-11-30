@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/cssUniversal.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();%>
         <title>Login</title>
         
@@ -42,13 +43,13 @@
                       </tr> 
                       <tr>
                            <th>
-                               <input type="radio" name="tipoUsuario" value ="cliente" id="user" checked>
+                               <input type="radio" name="tipoUsuario" value ="Cliente" id="user" checked>
                                 <label for="cliente">Cliente</label>                            
                             
-                               <input type="radio" name="tipoUsuario" value ="cajero" id="user">
+                               <input type="radio" name="tipoUsuario" value ="Cajero" id="user">
                                <label for="cajero">Cajero</label>
 
-                               <input type="radio" name="tipoUsuario" value ="gerente" id="user">
+                               <input type="radio" name="tipoUsuario" value ="Gerente" id="user">
                                <label for="gerente">Gerente</label>
                             </th>
                       </tr>                          
@@ -60,6 +61,10 @@
                       </tr>                                                
                   </table>                                       
                 </form>
+                <%if(request.getSession().getAttribute("mostrarErrorLog")!=null){%><!--pero debes revisar que no provoque problemas por el hecho de no borrarlo, o de colocar la línea para borrarlo pero no se elimina...-->
+                    <script src="js/sweet.js"></script>                    
+                    <% request.getSession().removeAttribute("mostrarErrorLog");
+                }%>                
             </div>                     
         </center>               
     </body>

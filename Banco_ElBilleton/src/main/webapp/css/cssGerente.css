@@ -7,8 +7,11 @@ and open the template in the editor.
     Created on : 22/11/2020, 11:16:59
     Author     : phily
 */
-@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Nunito&family=Nunito+Sans:wght@300&family=Poppins:wght@300&family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Nunito&family=Nunito+Sans:wght@300&family=Poppins:wght@300&family=Questrial&&family=Secular+One&display=swap');
 
+h1{
+    font-family: 'Secular One';    
+}
 
 table{   
     text-align: left;  
@@ -49,16 +52,16 @@ input, select{
     height: 30px;    
 }
 
-label, #radio{        
+label, .radio, .checkBox{    
     font-size: 15px;
     padding-left: 15px;
-    padding-right: 15px;      
-    margin-top: 3px;
+    padding-right: 15px;    
+    margin-top: 3px; 
+}
+.radio, .checkBox{   
+    width: 25px; 
 }
 
-#radio{
-    width: 25px;
-}
 
 #FrameListado{
     margin-top: -760px;
@@ -101,7 +104,7 @@ label, #radio{
 }
 
 #submit{
-    width: 200px;
+    width: 220px;
     height: 55px;        
 }
 

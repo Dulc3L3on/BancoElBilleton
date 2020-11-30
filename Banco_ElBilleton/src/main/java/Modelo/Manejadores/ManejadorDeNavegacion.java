@@ -16,18 +16,17 @@ public class ManejadorDeNavegacion {
      * @return 
      */
     public String darPaginasPrincipales(String tipoUsuario){
-        switch(tipoUsuario){
-            case "cliente":
-                return "Cliente/Home_Cliente.jsp";
-            case "cajero":
-                return "Trabajadores/Cajero/Home_Cajero.jsp";
-            case "gerente":
-                return "Trabajadores/Gerente/Home_Gerente.jsp";        
-        }
-        
-        return null;//pero aquí jamás debería llegar, puesto que no se ejecutará 
-       //este bloque, al menos que todo haya salido bien, es decir el nombre de usuario 
-       //y contra estén correctos... pero de todos modos sería bueno que tuvieas una página de error...
+        if(tipoUsuario!=null){
+            switch(tipoUsuario){
+                case "Cliente":
+                    return "Cliente/Home_Cliente.jsp";
+                case "Cajero":
+                    return "Trabajadores/Cajero/Home_Cajero.jsp";
+                case "Gerente":
+                    return "Trabajadores/Gerente/Home_Gerente.jsp";        
+            }        
+        }        
+        return "Login.jsp";//De tal forma que se le muestre el msje de error y pueda reintentarlo...
     }
     
     public String darPaginasAlGerente(String opcionSeleccionada){
@@ -38,7 +37,7 @@ public class ManejadorDeNavegacion {
                 case"MODIFICACION":
                     return "Modificacion.jsp";
                 case"REPORTES":
-                    return "Reportes_Gerente.jsp";                
+                    return "Reportes_Gerente.jsp";//recuerda que la apariencia será diferente a la de la versión anterior...              
             }
         }                
         return "Perfil_Gerente.jsp";//recuerda que como se tendrá una página defaul, entonces se debe poner que cuando sea == a null mande la del perfil, pues en ese punto no recibiría nada xD 

@@ -18,7 +18,7 @@
     </head>
     <body>
         <select id="DPIsRegistrados" hidden>
-            <%usuarios = buscador.buscarUsuario("Cliente", "codigo");
+            <%usuarios = buscador.buscarUsuarios("Cliente", "codigo");
                 if(usuarios!=null){
                     for(int usuarioActual=0; usuarioActual< usuarios.length; usuarioActual++){%>                    
                         <option value="<%=usuarios[usuarioActual].getDPI()%>"></option>

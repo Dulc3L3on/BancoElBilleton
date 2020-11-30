@@ -6,6 +6,7 @@
 package Modelo.Herramientas;
 
 import Modelo.Entidades.Objetos.Cuenta;
+import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Gerente;
@@ -39,7 +40,13 @@ public class Conversor {
     }
     
     public Cuenta convertirACuenta(int numeroCuenta, int codigoDueno, int monto, String fechaCreacion){
-        return new Cuenta(numeroCuenta, codigoDueno, monto, fechaCreacion);
+        return new Cuenta(numeroCuenta, codigoDueno, monto, fechaCreacion, "activa");
+    }
+    
+    public Transaccion convertirATransaccion(int elCodigo, int elNumeroCuenta, String elTipo, 
+        int elMonto, String laFecha, String laHora, int elCodigoCajero){
+        
+        return new Transaccion(elCodigo, elNumeroCuenta, elTipo, elMonto, laFecha, laHora, elCodigoCajero);    
     }
     
 }
