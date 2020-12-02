@@ -78,7 +78,7 @@
                             <h4><strong><%=signo%> monto:</strong></h4>
                         </th>
                         <th>
-                            <h5>${transaccion.darMonto()}</h5>
+                            <h5>${transaccion.getMonto()}</h5>
                         </th>
                     </tr>
                     <tr>                        
@@ -86,7 +86,7 @@
                             <h4><strong>No. Cuenta</strong></h4>
                         </th>
                         <th>
-                            <h5>${transaccion.darNumeroCuenta()}</h5>
+                            <h5>${transaccion.getNumeroCuenta()}</h5>
                         </th>   
                          <th>
                             <h4><strong>Saldo Actual Q.</strong></h4>

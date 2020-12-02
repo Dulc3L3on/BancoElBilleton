@@ -29,27 +29,31 @@ public class Transaccion {
         codigoCajero = elCodigoCajero;        
     }
     
-    public int darNumeroCuenta(){
+    public int getCodigo(){
+        return codigo;
+    }
+    
+    public int getNumeroCuenta(){
         return numeroCuentaAfectada;
     }
     
-    public String darTipoTransaccion(){
+    public String getTipoTransaccion(){
         return TipoTransaccion;
     }
     
-    public int darMonto(){
+    public int getMonto(){
         return monto;
     }
     
-    public String darFechaRealizacion(){
+    public String getFechaRealizacion(){
         return fecha;
     }
     
-    public String darHoraRealizacion(){
+    public String getHoraRealizacion(){
         return hora;
     }
     
-    public int darCodigoCajero(){
+    public int getCodigoCajero(){
         return codigoCajero;
     }    
 }

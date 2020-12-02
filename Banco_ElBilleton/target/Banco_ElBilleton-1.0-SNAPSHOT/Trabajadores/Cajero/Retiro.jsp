@@ -87,7 +87,7 @@
                                 </th>
                                 <th>
                                     <select name="numeroCuenta"  id="numeroCuenta"  onChange="maximoMonto()" required><!--si se tomara en cuenta el estado.. aquí solo deberían mostrarse habilitadas las activas y las canceladas inhabilitadas, con tal de que el cajero pueda ver todas las ctas asociadas al cliente... peuesto que no se eli solo se marcan como "canceladas" [lo cual lo hice con tal de que no existiera la posibilidad de que una cuenta nueva tuviera el número de una anterior y por lo tanto haber problemas mayores...]-->
-                                        <option disbled selected>-Seleccione la cuenta-</option>
+                                        <option disabled selected>-Seleccione la cuenta-</option>
                                         <%for(int cuentaActual=0; cuentaActual<cuentas.length; cuentaActual++){%>
                                             <option value="<%=cuentas[cuentaActual].getNumeroCuenta()%>"><%=cuentas[cuentaActual].getNumeroCuenta()%></option>
                                         <%}%>
@@ -129,7 +129,8 @@
                         document.getElementById('saldo').value = opciones[cuentas.selectedIndex-1].value;  
                     }else{
                         document.getElementById('saldo').value =0;//De aquí hacia abajo no funciona :v... aún xD
-                    }                                                           
+                    }
+                    
                     if(document.getElementById('saldo').value > 0){
                         document.getElementsByClassName('saldo').style.color="green";
                         document.getElementById('submit').disabled =false;

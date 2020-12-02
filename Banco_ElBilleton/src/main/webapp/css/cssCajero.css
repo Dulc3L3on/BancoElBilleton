@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : 22/11/2020, 21:17:21
     Author     : phily
 */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Actor&family=Arima+Madurai&family=Bree+Serif&family=Poppins:wght@300&family=Questrial&display=swap');
 
 table{   
     text-align: left;  
@@ -25,16 +25,6 @@ tr{
 
 h2{
     font-family: 'Bree Serif';            
-}
-
-h3{
-    font-family: Actor;    
-}
-
-
-h4{
-    font-family: 'Arima Madurai';
-    font-weight: bold;
 }
 
 #nombresDatos{

@@ -24,14 +24,14 @@
             <div>                
                 <div id="divDatosGerente">
                     <label><h4>CÓDIGO: <%=(cliente!=null)?cliente.getCodigo():""%></h4></label>
-                    <img src="../img/cliente_<%=(cliente!=null)?cliente.getSexo():""%>.png" alt="cliente"height="370px" width="370px"> 
+                    <img src="../img/cliente_<%=(cliente!=null)?cliente.getSexo():""%>.png" alt="cliente"height="270px" width="270px"> 
                     <table id="datosGerente">                                                                                                                                                                             
                         <tr>
                             <th>
-                                <h4>Nombre</h4>
+                                <h5>Nombre</h5>
                             </th>
                             <th>
-                                <h4>Contraseña</h4>
+                                <h5>Contraseña</h5>
                             </th>
                         </tr>
                         <tr>
@@ -44,10 +44,10 @@
                         </tr>
                         <tr>
                             <th>
-                                <h4>CUI</h4>
+                                <h5>CUI</h5>
                             </th>
                             <th>
-                                <h4>Dirección</h4>
+                                <h5>Dirección</h5>
                             </th>
                         </tr>                            
                         <tr>
@@ -60,10 +60,10 @@
                         </tr>
                         <tr>
                             <th>
-                                <h4>Género</h4>
+                                <h5>Género</h5>
                             </th>
                             <th>
-                                <h4>Cumpleaños</h4>
+                                <h5>Cumpleaños</h5>
                             </th>
                         </tr>
                         <tr>

@@ -5,6 +5,7 @@
  */
 package Modelo.Manejadores.DB;
 
+import Modelo.Entidades.Objetos.Asociacion;
 import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Usuario;
@@ -13,17 +14,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author phily
  */
 public class Buscador {
-    Connection conexion = ManejadorDB.darConexion();
-    Transformador transformador = new Transformador();        
-        
+    private Connection conexion = ManejadorDB.darConexion();
+    private Transformador transformador = new Transformador();        
+    private int tipoSituacion;//Este será util para informar que tipo de situación surgió... especialmente cuando pueden suceder más de 2, puesto que solo se puede expresar en una de dos formas..., devolver el obj o devolver nulo, entonces de esta manera se evita la ambigüedad...    
+    
     public boolean esTablaLlena(int numeroEntidad){
         String entidades[] = {"Cliente", "Gerente", "Cajero", "Transaccion", "Cuenta"};
         String buscar = "SELECT * FROM "+entidades[numeroEntidad];
@@ -74,6 +74,23 @@ public class Buscador {
         return null;
     }
     
+    public int buscarUsuarioBancaVirtual(){//me dan ganas de solo colocar el 101 como parámetro en el registrador [que está en el gestor de transferencia xD
+        String buscar ="SELECT * FROM Cajero WHERE nombre =?";
+        
+        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE)){
+            instrucciones.setString(1, "Banca Virtual");
+            
+            ResultSet resultado = instrucciones.executeQuery();
+            
+            resultado.first();
+            return resultado.getInt(1);//y así retorno el código xD
+        }catch (SQLException e) {
+            System.out.println("Error: al buscar al cajero de la Banca Virtual "+e.getMessage());
+        }        
+        return -1;
+    }
+    
     public Cuenta[] buscarCuentasDeDueno(int codigoUsuario){
         String buscar = "SELECT * FROM Cuenta WHERE codigoDueno = "+String.valueOf(codigoUsuario);
         
@@ -85,9 +102,29 @@ public class Buscador {
                 return transformador.transformarACuentas(resultado);
             }            
         }catch(SQLException sqlE){
-            System.out.println("Error al buscar CUENTAS: "+ sqlE.getMessage());
+            System.out.println("Error al buscar CUENTAS PROPIAS: "+ sqlE.getMessage());
         }
         return null;
+    }
+    
+    public Cuenta[] buscarCuentasAsociadas(String codigoCliente){
+        String buscar = "SELECT * FROM Asociacion WHERE  codigoSolicitante = "+ String.valueOf(codigoCliente)+" OR codigoSolicitado = "+ codigoCliente;
+        
+        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE)){             
+            
+            ResultSet resultado = instrucciones.executeQuery();
+            if(transformador.colocarseAlPrincipio(resultado)){
+                tipoSituacion = 1;
+                return transformador.transformarACuentas(resultado);
+            }else{
+                tipoSituacion=0;//quiere decir que no tiene cuentas asociadas...
+            }            
+        }catch(SQLException sqlE){
+            System.out.println("Error al buscar CUENTAS ASOCIADAS: "+ sqlE.getMessage());
+            tipoSituacion=-1;
+        }
+        return null;               
     }
 
     public Cuenta buscarCuenta(String codigoCuenta){
@@ -108,10 +145,9 @@ public class Buscador {
             System.out.println("Error al buscar la cuenta: "+e.getMessage());
         }
         return null;        
-    }
+    }    
     
-    
-    private Cliente buscarDuenoDeCuenta(String numeroCuenta){
+    public Cliente buscarDuenoDeCuenta(String numeroCuenta){
         String buscar = "SELECT * FROM Cuenta WHERE numeroCuenta = ?";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
@@ -129,7 +165,66 @@ public class Buscador {
         }
         System.out.println("No existe el número de cuenta ingresado");
         return null;            
-    }//YA NO, por la forma de trabajar... pues de lo contrario sería un excelente método xD
+    }       
+
+    /**
+     * esta será útil par hacer los envíos de solicitudes
+     * @param codigoSolicitante
+     * @param numeroCuentaSolicitado
+     * @return
+     */
+    public Asociacion[] buscarAsociaciones(int codigoSolicitante, String numeroCuentaSolicitado){
+        String buscar = "SELECT * FROM Asociacion WHERE codigoSolicitante = ? AND numeroCuentaSolicitado = ?"
+                + " ORDER BY fechaCreacion DESC";
+        
+        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE)){ 
+            int cuentaSolicitada = Integer.parseInt(numeroCuentaSolicitado);
+            
+            instrucciones.setInt(1, codigoSolicitante);
+            instrucciones.setInt(2, cuentaSolicitada);
+            
+            ResultSet resultado = instrucciones.executeQuery();
+            if(transformador.colocarseAlPrincipio(resultado)){
+                tipoSituacion =1;//todo salió bien xD
+                return transformador.transformarAAsociaciones(resultado);
+            }else{//no es necesario por el return, pero para evitar posibles confusiones xD
+                tipoSituacion =0;//es decir que no existe ninguna igual a la solicitada
+            }                   
+        }catch(SQLException | NumberFormatException e){
+            System.out.println("Surgió un error al buscar la ASOCIACIÓN ->"+e.getMessage());
+            tipoSituacion = -1;
+        }        
+        return null;
+    }    
     
-   
+    public Asociacion[] buscarSolicitudes(String tipoSolicitud, String columnaBusqueda, String codigoCliente){
+        String buscar ="SELECT * FROM Asociacion WHERE "+ columnaBusqueda +" = ? AND estado = ? ORDER BY fechaCreacion DESC";
+        
+        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE)){
+            int cliente = Integer.parseInt(codigoCliente);
+            
+            instrucciones.setInt(1, cliente);
+            instrucciones.setString(2, "enEspera");
+            
+            ResultSet resultado = instrucciones.executeQuery();
+            if(transformador.colocarseAlPrincipio(resultado)){
+                tipoSituacion =1;
+                System.out.println("Tiene solicitudes recibidas");
+                return transformador.transformarAAsociaciones(resultado);
+            }else{
+                tipoSituacion=0;
+                System.out.println("No tiene solicitudes recibidas");
+            }
+        }catch(SQLException | NumberFormatException e){
+            System.out.println("Error al buscar las SOLICITUDES "+ tipoSolicitud.toUpperCase()+": "+ e.getMessage());
+            tipoSituacion = -1;
+        }
+        return null;
+    } 
+    
+   public int darTipoSituacion(){
+       return tipoSituacion;
+   }
 }

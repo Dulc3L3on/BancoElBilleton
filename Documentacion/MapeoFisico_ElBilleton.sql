@@ -11,9 +11,10 @@ CREATE TABLE Cajero (codigo int PRIMARY KEY, nombre varchar(150) NOT NULL, DPI v
 CREATE TABLE Cuenta (numeroCuenta int PRIMARY KEY, codigoDueno int NOT NULL, monto int, fechaCreacion varchar(14), estado varchar(12) DEFAULT "activa");
 ALTER TABLE Cuenta ADD FOREIGN KEY (codigoDueno) REFERENCES Cliente (codigo) ON DELETE NO ACTION; 
 
-CREATE TABLE Asociacion (numeroCuentaSolicitante int NOT NULL, numeroCuentaSolicitado int NOT NULL, numeroIntentos int(1), estado varchar(9) DEFAULT "enEspera");
-ALTER TABLE Asociacion ADD FOREIGN KEY (numeroCuentaSolicitante) REFERENCES Cuenta (numeroCuenta) ON DELETE CASCADE;
+CREATE TABLE Asociacion (codigoSolicitado int NOT NULL, numeroCuentaSolicitado int NOT NULL, codigoSolicitante int NOT NULL, numeroIntentos int(1), estado varchar(9) DEFAULT "enEspera");
+ALTER TABLE Asociacion ADD FOREIGN KEY (codigoSolicitado) REFERENCES Cliente (codigo) ON DELETE CASCADE;
 ALTER TABLE Asociacion ADD FOREIGN KEY (numeroCuentaSolicitado) REFERENCES Cuenta (numeroCuenta) ON DELETE CASCADE;
+ALTER TABLE Asociacion ADD FOREIGN KEY (codigoSolicitante) REFERENCES Cliente (codigo) ON DELETE CASCADE;
 
 CREATE TABLE Transaccion (codigo int PRIMARY KEY, numeroCuentaAfectada int  NOT NULL, tipo varchar(8), monto int, fecha varchar(14), hora varchar(14), codigoCajero int NOT NULL);
 ALTER TABLE Transaccion ADD FOREIGN KEY (numeroCuentaAfectada) REFERENCES Cuenta (numeroCuenta) ON DELETE NO ACTION;

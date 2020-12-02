@@ -111,10 +111,10 @@ public class ManejadorDeNavegacion {
             switch(opcionSeleccionada){                                    
                 case "RECIBIDAS":
                     return "Solicitudes_Recibidas.jsp";//esto es con JR... pero creo que tb habrá que crear su propia pag... o ser la misma que a que está en reportes, no la que tiene los btn sino la que está en el frame...
-                case "REDACTADAS":
+                case "ENVIADAS":
                     return "";                   
             }
         }        
         return "Enviar_Asociacion.jsp";//tendŕia que ser la de recibidas la pág default... pero aún no tengo la pág para el JR... ahí lo cb xD
-    }
+    }//recuerda que tb podrías mandar la denominación del servlet como webServlet, puesto que se emplearía el doGet de dicho servlet para hacer las búsquedas que el JSP necesita para mostrar los comp antes de que el user pueda interactuar con él, los cuales serían enviadoas ocmo atrib desde el gestor hacia el JSP con el dispatcher xD... claro si es necesario xD
 }

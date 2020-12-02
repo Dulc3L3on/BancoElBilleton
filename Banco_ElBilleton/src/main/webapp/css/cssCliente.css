@@ -11,7 +11,7 @@ and open the template in the editor.
 
 table{   
     text-align: left;  
-    width: 800px;    
+    width: 1200px;    
     font-family: Poppins;
     font-size: 20px;
 }
@@ -84,11 +84,13 @@ input, select{
 }*//*miro que quedan bonitos con el borde xD*/
 
 .aceptada:hover{
-   background-color: palevioletred; 
+   border-radius: 7px;
+   background-color: #D3EAD2; 
 }
 
 .denegada:hover{
-   background-color: #D3EAD2;
+   border-radius: 7px;
+   background-color: palevioletred;
 }
 
 #subencabezado{

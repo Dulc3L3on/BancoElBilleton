@@ -5,6 +5,7 @@
  */
 package Modelo.Herramientas;
 
+import Modelo.Entidades.Objetos.Asociacion;
 import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
  *
  * @author phily
  */
-public class Transformador {//recuerda para qué habías dicho que serviría esta clase...
+public class Transformador {//recuerda para qué habías dicho que serviría esta clase...    
     
     public boolean colocarseAlPrincipio(ResultSet resultado){
         try{
@@ -157,14 +158,14 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         try{
             resultado.last();
             cuentas = new Cuenta[resultado.getRow()];
-            resultado.first();
+            resultado.first();            
             
             for(int cuentaActual = 0; cuentaActual < cuentas.length; cuentaActual++) {
                cuentas[cuentaActual] = transformarACuenta(resultado);
                resultado.next();
             }            
         }catch(SQLException sqlE){
-            System.out.println("Error al transformar a CUENTAS: "+ sqlE.getMessage());
+            System.out.println("Error al transformar a CUENTAS: "+ sqlE.getMessage());            
         }
         return cuentas;
     }
@@ -178,5 +179,35 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         }
         return null;
     }
+
+    public Asociacion[] transformarAAsociaciones(ResultSet resultado){
+        Asociacion[] asociaciones = null;
+        
+        try{
+            resultado.last();
+            asociaciones = new Asociacion[resultado.getRow()];
+            resultado.first();            
+            
+            for(int cuentaActual = 0; cuentaActual < asociaciones.length; cuentaActual++) {
+               asociaciones[cuentaActual] = transformarAAsociacion(resultado);
+               resultado.next();
+            }            
+        }catch(SQLException sqlE){
+            System.out.println("Error al transformar a ASOCIACIONES: "+ sqlE.getMessage());            
+        }
+        return asociaciones;
+        
+    }
+    
+    public Asociacion transformarAAsociacion(ResultSet resultado){
+        try{
+            return new Asociacion(resultado.getInt(1), resultado.getInt(2), resultado.getInt(3),
+            resultado.getString(4), resultado.getString(5));
+        }catch(SQLException sqlE){
+            System.out.println("Error al transformar a ASOCIACION: "+sqlE.getMessage());
+        }        
+        return null;
+    }
+    
     
 }

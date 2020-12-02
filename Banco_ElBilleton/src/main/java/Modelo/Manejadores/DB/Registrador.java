@@ -5,6 +5,7 @@
  */
 package Modelo.Manejadores.DB;
 
+import Modelo.Entidades.Objetos.Asociacion;
 import Modelo.Entidades.Objetos.Cambio;
 import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Herramientas.ControladorIndices;
@@ -29,6 +30,7 @@ public class Registrador {
     private ListaEnlazada<Cambio> listaCambiosErrados = new ListaEnlazada<>();  
     private ListaEnlazada<ListaEnlazada<Cambio>> listadoDeListados = new ListaEnlazada<>();
     private ControladorIndices controlador = new ControladorIndices();
+    private Exterminador exterminador = new Exterminador();
      
     public void registrarCambioClienteCajero(String tipoUsuarioModificado, int codigoGerente, String tipoCambio, String datoAntiguo, String nuevoDato, int codigoClienteCajeroCambiado){
     String hora = herramientas.darHoraActual();
@@ -98,11 +100,51 @@ public class Registrador {
             return conversor.convertirATransaccion(codigo, numeroDeCuenta, "deposito", montoDeposito, herramientas.darFechaActualString(), hora, codigoCajero);
             
         } catch (SQLException | NumberFormatException e) {
-            System.out.println("Error al REGISTRAR el"+ tipo +":"  + e.getMessage());
+            System.out.println("Error al REGISTRAR el"+ tipo +": "  + e.getMessage());
         }
         return null;        
     }
      
+    public Transaccion[] registrarTransferencia(int codigoCajero, String numeroCuentaSaliente,
+    String numeroCuentaReceptora, String monto){
+        Transaccion transacciones[] = new Transaccion[2];
+        
+        transacciones[0] = registrarTransaccion(codigoCajero, numeroCuentaSaliente, monto, "debito");
+        if(transacciones[0]!=null){
+            transacciones[1] = registrarTransaccion(codigoCajero, numeroCuentaReceptora, monto, "credito");
+            if(transacciones[1]!=null){
+                return transacciones;
+            }else{
+                while(!exterminador.deshacerRegistroTransaccion(transacciones[0].getCodigo())){
+                    //sería bueno que se ejcutara hasta que se deshiciera... para ello tendrías que colocar un while, pero si de verdad no funcionara se trabaría la aplicación y ahí si sucedería algo malísimo...                
+                }    //jaja lo hice xD                
+            }
+        }
+        System.out.println("Error al registrar la TRANSFERENCIA");
+        return null;               
+    }    
+    
+    public Asociacion registrarSolicitud(String codigoSolicitado, int codigoSolicitante, String numeroCuentaSolicitada){
+       String registrar ="INSERT INTO Asociacion (codigoSolicitado, numeroCuentaSolicitado, codigoSolicitante, fechaCreacion) "
+               + "VALUES (?,?,?,?)";
+       
+       try(PreparedStatement instrucciones = conexion.prepareStatement(registrar)){
+           int codigoDelSolicitado = Integer.parseInt(codigoSolicitado);
+           int cuentaSolicitada = Integer.parseInt(numeroCuentaSolicitada);
+           
+           instrucciones.setInt(1, codigoDelSolicitado);           
+           instrucciones.setInt(2, cuentaSolicitada);
+           instrucciones.setInt(3, codigoSolicitante);
+           instrucciones.setString(4, herramientas.darFechaActualString());
+           
+           instrucciones.executeUpdate();                   
+           return conversor.convertirAAsociacion(codigoDelSolicitado, cuentaSolicitada, codigoSolicitante, "enEspera", herramientas.darFechaActualString());
+           
+       }catch (SQLException | NumberFormatException e) {
+            System.out.println("Error al REGISTRAR la ASOCIACIÓN: "  + e.getMessage());
+       }
+       return null;            
+    }      
     
     public ListaEnlazada<ListaEnlazada<Cambio>> darListaDeListados(){
         if(!listaCambiosAgregados.estaVacia()){

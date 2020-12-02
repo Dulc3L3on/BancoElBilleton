@@ -101,4 +101,24 @@ public class Modificador {
         return false;
     }
     
+    public boolean modificarEstadoSolicitud(String reaccion, String codigoSolicitante, String cuentaSolicitada, String fechaCreada){//recuerda, los datos fundamentales para saber de que relación exactamente se está hablando son: el número de cta solicitado y el código del solicitante xD
+        String modificar = "UPDATE Asociacion SET estado = ? WHERE codigoSolicitante = ? AND numeroCuentaSolicitado = ? AND fechaCreacion = ?";
+        
+        try(PreparedStatement instrucciones = conexion.prepareStatement(modificar)){
+            int solicitante = Integer.parseInt(codigoSolicitante);
+            int cuentaSolicitado = Integer.parseInt(cuentaSolicitada);
+            
+            instrucciones.setString(1, reaccion);
+            instrucciones.setInt(2, solicitante);
+            instrucciones.setInt(3, cuentaSolicitado);
+            instrucciones.setString(4, fechaCreada);
+            
+            instrucciones.executeUpdate();
+            return true;            
+        }catch(SQLException | NumberFormatException e){
+            System.out.println("Error al registrar el "+reaccion+" la SOLICITUD");
+        }
+        return false;
+    }
+    
 }

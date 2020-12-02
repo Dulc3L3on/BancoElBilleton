@@ -5,6 +5,7 @@
  */
 package Modelo.Herramientas;
 
+import Modelo.Entidades.Objetos.Asociacion;
 import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Entidades.Usuarios.Cajero;
@@ -49,4 +50,9 @@ public class Conversor {
         return new Transaccion(elCodigo, elNumeroCuenta, elTipo, elMonto, laFecha, laHora, elCodigoCajero);    
     }
     
-}
+    public Asociacion convertirAAsociacion(int codigoSolicitado, int cuentaDelSolicitado, int codigoSolicitante, 
+            String estado, String fechaCreacion){
+        
+        return new Asociacion(codigoSolicitado, cuentaDelSolicitado, codigoSolicitante, estado, fechaCreacion);
+    }    
+}//CREO que me será más útiles con los JR xD... pues en el regisrador solo uso 2 :v xD
