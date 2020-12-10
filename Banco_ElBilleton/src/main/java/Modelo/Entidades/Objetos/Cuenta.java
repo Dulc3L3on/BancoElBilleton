@@ -12,11 +12,11 @@ package Modelo.Entidades.Objetos;
 public class Cuenta{
     private int numeroCuenta;
     private int codigoDueno;    
-    private int monto;
+    private double monto;
     private String fechaCreacion;
     private String estado;
     
-    public Cuenta(int elNumeroCuenta, int elCodigoDueno, int elMonto, String laFechaCreacion, String elEstado){
+    public Cuenta(int elNumeroCuenta, int elCodigoDueno, double elMonto, String laFechaCreacion, String elEstado){
         numeroCuenta = elNumeroCuenta;
         codigoDueno = elCodigoDueno;
         monto = elMonto;
@@ -36,7 +36,7 @@ public class Cuenta{
         return codigoDueno;
     }
     
-    public int getMonto(){
+    public double getMonto(){
         return monto;
     }
     

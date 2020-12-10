@@ -84,20 +84,20 @@ public class Registrador {
         try(PreparedStatement instrucciones = conexion.prepareStatement(registrar)){
             int codigo = controlador.autoincrementarEntidad("codigo", 3);
             int numeroDeCuenta = Integer.parseInt(numeroCuenta);                 
-            int montoDeposito = Integer.parseInt(monto);
+            double montoDeposito = Double.parseDouble(monto);
             String hora = herramientas.darHoraActual();            
                 
             instrucciones.setInt(1, codigo);
             instrucciones.setInt(2, numeroDeCuenta);
             instrucciones.setString(3, tipo);// == deposito [para el otro debes usar debito...]
-            instrucciones.setInt(4, montoDeposito);
+            instrucciones.setDouble(4, montoDeposito);
             instrucciones.setString(5, herramientas.darFechaActualString());
             instrucciones.setString(6, hora);
             instrucciones.setInt(7, codigoCajero);
             
             instrucciones.executeUpdate();            
             
-            return conversor.convertirATransaccion(codigo, numeroDeCuenta, "deposito", montoDeposito, herramientas.darFechaActualString(), hora, codigoCajero);
+            return conversor.convertirATransaccion(codigo, numeroDeCuenta, tipo, montoDeposito, herramientas.darFechaActualString(), hora, codigoCajero);
             
         } catch (SQLException | NumberFormatException e) {
             System.out.println("Error al REGISTRAR el"+ tipo +": "  + e.getMessage());

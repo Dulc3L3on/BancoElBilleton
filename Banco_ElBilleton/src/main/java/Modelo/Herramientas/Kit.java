@@ -8,10 +8,10 @@ package Modelo.Herramientas;
 import Modelo.Entidades.Usuarios.Usuario;
 import java.security.MessageDigest;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import javax.crypto.Cipher;
@@ -35,6 +35,11 @@ public class Kit {
         return dateFormat.format(date);                
     }  
      
+    public int darAnioActual(){
+        Calendar cal= Calendar.getInstance();
+        return cal.get(Calendar.YEAR);            
+    }
+    
      
     public String encriptarContrasenia(String contraseniaReal){    
         String encriptada=null;        
@@ -97,6 +102,18 @@ public class Kit {
         return contrasenia;
     }//hay que hacer que se generen lo más únicas posibles xD   
     
+    /**
+     *Empleado para el listado de usuarios del cual el Gerente puede
+     * escoger el que requiere de modificacion o cuenta nueva; entonces con este método 
+     * se obtiene l aubicación del usario en el listado que se muestra del cual es posible
+     * obtner por medio del código que se encuentra en el valor del 
+     * btn en el cual tb se halla el nombre de un solo usuario del listado existente
+     * o del usuario "buscado" [esto último al ingresar el cod o nombre de un user en cuestión
+     * en el input para búsqueda] el cajero o cliente en cuestión...
+     * @param codigo
+     * @param listadoUsuarios
+     * @return
+     */
     public int buscarUbicacionUsuarioBuscado(String codigo, Usuario[] listadoUsuarios){
         
         try{

@@ -11,6 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/cssGerente.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
+        <link rel="icon" href="img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
+        
         <title>ResultCreation</title>
     </head>
     <body>
@@ -88,8 +90,10 @@
                </table><!--esto debería ser reemplazado por el html del JR...-->                                                                                                  
                 
             <%}else if(request.getAttribute("mostrarMsje").equals("repetido")){%> 
-                <script src="js/sweetRepetido.js"></script>   
+                <input type="text" id="tipoMsje" value="CUIrepetido" hidden>
+                <script src="js/sweetError.js"></script>   
             <%}else{%>    
+                <input type="text" id="tipoMsje" value="erroCreacionUsuario" hidden>
                 <script src="js/sweetError.js"></script>                     
             <%}%>
             

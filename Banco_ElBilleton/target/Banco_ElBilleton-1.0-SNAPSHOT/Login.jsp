@@ -12,6 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/cssUniversal.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
+        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico">
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();%>
         <title>Login</title>
         
@@ -22,7 +23,7 @@
         }%>
          
         <center>
-          
+            <input type="text" id="tipoMsje" value="errorLog" hidden>
             <div id="divLogin">      
                 <form method="POST" action="gestorLogin">             
                   <table cellspacing="25">
@@ -62,7 +63,7 @@
                   </table>                                       
                 </form>
                 <%if(request.getSession().getAttribute("mostrarErrorLog")!=null){%><!--pero debes revisar que no provoque problemas por el hecho de no borrarlo, o de colocar la línea para borrarlo pero no se elimina...-->
-                    <script src="js/sweet.js"></script>                    
+                    <script src="js/sweetError.js"></script>                    
                     <% request.getSession().removeAttribute("mostrarErrorLog");
                 }%>                
             </div>                     

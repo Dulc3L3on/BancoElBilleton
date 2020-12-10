@@ -13,6 +13,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../../css/cssCajero.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
+        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
+        
         <title>Retirement</title>
         <%!Buscador buscador = new Buscador();
            Cliente cliente;
@@ -119,7 +122,13 @@
                         <input type="submit" id="submit" name="retirar" value="RETIRAR">
                     </div>
                 </form>    
-            <%}%>
+          <%}else if(request.getParameter("DPI_Buscado")!=null && cuentas==null){%><!--Creo que este tipo de msjes, deberían mostrarse como texto... [con este tipo me refiero a los que se muestran en la misma página en la que se están ingresando los datos... pero mira su apariencia, si te parece entonces déjalo con el sweet xD-->                
+                <input type="text" id="tipoMsje" value="errorBusquedaCuentas" hidden>
+                <script src="js/sweetError.js"></script>
+          <%}else if(cuentas!=null && cliente==null){%>                
+                <input type="text" id="tipoMsje" value="errorBusquedaDueno" hidden>
+                <script src="js/sweetError.js"></script>
+          <%}%>
             <script>
                 function maximoMonto(){
                     var cuentas = document.getElementById('numeroCuenta');

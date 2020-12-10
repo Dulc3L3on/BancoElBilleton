@@ -5,55 +5,75 @@
  */
 package Modelo.Entidades.Objetos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author phily
  */
-public class Transaccion {
+public class Transaccion implements Serializable{
     private int codigo;
     private int numeroCuentaAfectada;
-    private String TipoTransaccion;
-    private int monto;
+    private String tipoTransaccion;
+    private double monto;
     private String fecha;
     private String hora;
-    private int codigoCajero;
+    private int codigoCajeroACargo;
+    private String nombreCajeroACargo;
+    private double saldo;
     
-    public Transaccion(int elCodigo, int elNumeroCuenta, String elTipo, int elMonto, 
+    public Transaccion(int elCodigo, int elNumeroCuenta, String elTipo, double elMonto, 
             String laFecha, String laHora, int elCodigoCajero){
         codigo = elCodigo;
         numeroCuentaAfectada = elNumeroCuenta;
-        TipoTransaccion = elTipo; 
+        tipoTransaccion = elTipo; 
         monto = elMonto; 
         fecha = laFecha; 
         hora = laHora;
-        codigoCajero = elCodigoCajero;        
+        codigoCajeroACargo = elCodigoCajero;        
     }
     
     public int getCodigo(){
         return codigo;
     }
     
-    public int getNumeroCuenta(){
+    public int getNumeroCuentaAfectada(){
         return numeroCuentaAfectada;
     }
     
     public String getTipoTransaccion(){
-        return TipoTransaccion;
+        return tipoTransaccion;
     }
     
-    public int getMonto(){
+    public double getMonto(){// a ver si no dan problemas estos tipos con el JR, así que tienes que averiguar como colocar los valores en tipo float o double en la DB
         return monto;
     }
     
-    public String getFechaRealizacion(){
+    public String getFecha(){
         return fecha;
     }
     
-    public String getHoraRealizacion(){
+    public String getHora(){
         return hora;
     }
     
-    public int getCodigoCajero(){
-        return codigoCajero;
+    public int getCodigoCajeroACargo(){
+        return codigoCajeroACargo;
     }    
+    
+    public void establecerNombreCajeroACargo(String nombreCajero){
+        nombreCajeroACargo = nombreCajero;
+    }
+    
+    public String getNombreCajeroACargo(){
+        return nombreCajeroACargo;
+    }
+    
+    public void establecerSaldoActual(double elSaldo){
+        saldo = elSaldo;        
+    }
+    
+    public double getSaldo(){
+        return saldo;
+    }
 }

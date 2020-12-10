@@ -27,7 +27,15 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.21</version>
-        </dependency>                   
+        </dependency>   
+        
+        <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.15.0</version>
+        </dependency>       
+                        
     </dependencies>
 
     <build>

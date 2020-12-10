@@ -13,8 +13,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="../css/cssCliente.css">
+        <link rel="stylesheet" href="../css/cssCliente.css">        
         <link rel="stylesheet" href="css/cssCliente.css"><!--esto por el hecho de emplear el get para llenar al obj cliente...-->             
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
+        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
+        
         <title>SendAssociation</title>
         <%String ubicacionGestor = "../gestorEnvioSolicitud";%>
     </head>
@@ -108,19 +111,37 @@
                     </form>            
                <%}else if(request.getParameter("cuentaBuscada")!=null && request.getAttribute("cliente")==null){
                     if((Integer)request.getAttribute("situacionBusqueda")==-1){%>
-                        <!--se muestra el sweet mostrando un msje indicando que algo salió mal en la búsqueda...-->
+                        <!--se muestra el sweet mostrando un msje indicando que algo salió mal en la búsqueda...-->                        
+                        <input type="text" id="tipoMsje" value="errorBusquedaDueno" hidden><!--lo quería pequeño [Es decir con el atrib toast, pero ya tenía un msje de este tipo creado, así que...-->
+                        <script src="js/sweetError.js"></script>            
+                        
                         <%}else if(String.valueOf(request.getAttribute("situacionAnalizada")).equals("aceptada")){%>
-                            <!--se muestra un msje informando que ya posee una asociación con la cuenta ingresada......-->
+                            <!--se muestra un msje informando que ya posee una asociación con la cuenta ingresada......-->                            
+                            <input type="text" id="tipoMsje" value="solicitudAceptada" hidden>
+                            <script src="js/sweetInformativo.js"></script>            
+                            
                     <%}else if(String.valueOf(request.getAttribute("situacionAnalizada")).equals("agotada")){%>
                         <!--ya acabo sus 3 intentos-->
+                        <input type="text" id="tipoMsje" value="intentosAgotados" hidden>
+                        <script src="js/sweetInformativo.js"></script>            
+                        
                     <%}else if(String.valueOf(request.getAttribute("situacionAnalizada")).equals("sinReaccion")){%>
                         <!--ya envió una y aún no le han respondido...-->
+                        <input type="text" id="tipoMsje" value="sinReaccion" hidden>
+                        <script src="js/sweetInformativo.js"></script>     
+                    <%}else if(String.valueOf(request.getAttribute("situacionAnalizada")).equals("cuentaPropia")){%>
+                        <!--pues... no es lógico que envíe una solicitud hacia una de sus propias ctas... pues ya están realcionadas :v xD-->
+                        <input type="text" id="tipoMsje" value="cuentaPropia" hidden>
+                        <script src="js/sweetInformativo.js"></script>     
                     <%}%>                            
                 <%}%>
         <%}else{%>
             <%if(request.getAttribute("mostrarMsje").equals("exitoso")){%>
-                <!--se muestra el msje corresp... auqnue me da duda de si se seguirá mostrando leugo de preionar nuevamente el botón de enviarASo... en la vrs ant no volvía a aprecer, eso quiere decir que como mando a llamar a la página sin ninguna info nuevamente, entonces los request and response regersan a su estado iniicial, si no es así compara la vrs ant con este JSP en especial puesto que basicmanete se hace lo mismo y all+a no dió el problema de aparición del msje cuando no se requetría...-->
+                <input type="text" id="tipoMsje" value="envioExitoso" hidden>
+                <script src="js/sweetInformativo.js"></script>
             <%}else{%>
+                <input type="text" id="tipoMsje" value="errorEnvio" hidden>
+                <script src="js/sweetError.js"></script>            
             <%}%>
         <%}%>
             </center>       

@@ -11,10 +11,15 @@ and open the template in the editor.
 
 table{   
     text-align: left;  
-    width: 1200px;    
+    width: 800px;    
     font-family: Poppins;
     font-size: 20px;
 }
+
+#listadoSolicitudes{    
+    width: 1200px;       
+}
+
 th{
     width: 190px;    
 }
@@ -79,17 +84,19 @@ input, select{
     border: solid;
 }
 
-/*#reaccion{    
-    border: none;
-}*//*miro que quedan bonitos con el borde xD*/
+#reaccion{    
+    width: 85%;
+    height: 85%;
+    font-family: Poppins;
+}
 
 .aceptada:hover{
-   border-radius: 7px;
+   border-radius: 5px;
    background-color: #D3EAD2; 
 }
 
 .denegada:hover{
-   border-radius: 7px;
+   border-radius: 5px;
    background-color: palevioletred;
 }
 

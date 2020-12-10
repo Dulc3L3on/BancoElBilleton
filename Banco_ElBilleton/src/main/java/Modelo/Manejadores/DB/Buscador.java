@@ -99,9 +99,13 @@ public class Buscador {
         
             ResultSet resultado = instrucciones.executeQuery();
             if(transformador.colocarseAlPrincipio(resultado)){
+                tipoSituacion =1;//todo OK xD
                 return transformador.transformarACuentas(resultado);
+            }else{
+                tipoSituacion = 0;//no tiene ninguna :v aunque eso no debería suceder... pues se debería eliminar el usuario del portal... y del sistema... xD o almenos cb el valor del estado del cliente, para evitar este tipo de confusiones o errores [pero ese atrib en la DB aún no existe...]
             }            
         }catch(SQLException sqlE){
+            tipoSituacion =-1;//algo salió mal...
             System.out.println("Error al buscar CUENTAS PROPIAS: "+ sqlE.getMessage());
         }
         return null;
@@ -211,11 +215,11 @@ public class Buscador {
             ResultSet resultado = instrucciones.executeQuery();
             if(transformador.colocarseAlPrincipio(resultado)){
                 tipoSituacion =1;
-                System.out.println("Tiene solicitudes recibidas");
+                System.out.println("Tiene solicitudes "+ tipoSolicitud);
                 return transformador.transformarAAsociaciones(resultado);
             }else{
                 tipoSituacion=0;
-                System.out.println("No tiene solicitudes recibidas");
+                System.out.println("No tiene solicitudes "+tipoSolicitud);//le coloco esto, pues se requiere este método para llenar el listado de las solicitudes respectivas
             }
         }catch(SQLException | NumberFormatException e){
             System.out.println("Error al buscar las SOLICITUDES "+ tipoSolicitud.toUpperCase()+": "+ e.getMessage());

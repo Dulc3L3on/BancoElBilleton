@@ -40,11 +40,13 @@ public class GestorLogin extends HttpServlet{
            tipoUsuario = null;//para que se muestre el error...
         }else{
            System.out.println("Auténtico");
+           request.getSession().setAttribute("msjeBienvenida", "yesxD");
            request.getSession().setAttribute("codigo", request.getParameter("username").trim());//la contraseña no porque el gerente puede modificar la suya en la sesión en cuestión...            
         }
         System.out.println("sesión login-> "+request.getSession());
         System.out.println("codigo-> "+ request.getSession().getAttribute("codigo"));
-        String pagina = navegador.darPaginasPrincipales(tipoUsuario);        
+        
+        String pagina = navegador.darPaginasPrincipales(tipoUsuario);//puesto que de esta manera sabré a qué tipo de usuario le debo mostrar su corresp página... y si es null, pues sabré que  hay error xD [Eso lo puedes observar en el manejador de navegación...]
         response.sendRedirect(pagina); 
     }    
     

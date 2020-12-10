@@ -48,6 +48,16 @@ public class ListaEnlazada <E>{
         }        
     }
     
+    public void anadirContenidoDeLista(ListaEnlazada<E> otraLista){
+        Nodo<E> nodoAuxiliar = otraLista.obtnerPrimerNodo();
+        
+        for (int elementoActual = 0; elementoActual < otraLista.darTamanio(); elementoActual++) {
+            anadirAlFinal(nodoAuxiliar.contenido);           
+
+            nodoAuxiliar = nodoAuxiliar.nodoSiguiente;
+        }                
+    }//y así se añade contenido de otra lista en la actual xD es decir en la lista para la cual se llamó este método xD
+    
     public void eliminarUltimoNodo() {
             if (ultimoNodo!=null) {
                 if (tamanioLista == 1)

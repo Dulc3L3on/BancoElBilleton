@@ -12,8 +12,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-       <link rel="stylesheet" href="css/cssGerente.css"><!--por el hecho de ser solo accedido por la pág del frame dentro del frame xD... simi a R//-->
+        <link rel="stylesheet" href="css/cssGerente.css"><!--por el hecho de ser solo accedido por la pág del frame dentro del frame xD... simi a R//-->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>     
+        <link rel="icon" href="img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
+        
         <title>RECORD</title>
         <%!ListaEnlazada<ListaEnlazada<Cambio>> listadoCambiosGeneral;
            Nodo<ListaEnlazada<Cambio>> nodoDeListados;
@@ -23,9 +25,11 @@
     <body>
         <center>                       
             <%if(request.getAttribute("mostrarError")!= null){%> 
-                <!--El único sweet, que se escogerá enviando una variable a la función xD... si no se puede pues archivos separados xD-->
+                <input type="text" id="tipoMsje" value="erroActualizacionUsuario" hidden>
+                <script src="js/sweetError.js"></script>
+            
             <%}else{%><!--quiere decir que no hubo un error "fatal"-->                
-                <h1>HISTORIAL</h1>                                
+                <h1>HISTORIAL RECIENTE</h1>                                
                 
                 <h3 style="margin-left: 300px;">Fecha: <%=java.time.LocalDate.now()%></h3><br/>                
 
@@ -38,7 +42,7 @@
                         for(int numeroListado=1; numeroListado <= listadoCambiosGeneral.darTamanio(); numeroListado++){
                             listado = nodoDeListados.contenido;%>
                         
-                            <table cellspacing="10px" style="width: 700px">
+                            <table cellspacing="10px">
                                 <%if(numeroListado == 1){%>                                                                                      
                                 <tr>
                                     <th colspan="4">
@@ -55,16 +59,16 @@
                                     </tr>
                                 <%}%>                            
                                     <tr>
-                                        <th>
+                                        <th style="width: 150px;">
                                             <h4>Hora</h4>
                                         </th>
-                                        <th>
+                                        <th style="width:  150px;">
                                             <h4>Tipo</h4>
                                         </th>
-                                        <th>
+                                        <th style="width: 250px;">
                                             <h4>Dato Antiguo</h4>
                                         </th>
-                                        <th>
+                                        <th style="width: 250px;">
                                             <h4>Reemplazo</h4>
                                         </th>
                                     </tr>                                                    
@@ -96,8 +100,7 @@
                  <input type="submit" id="submit" name="sumbmit" value="VER HISTORIAL COMPLETO"> 
               </form>
                  
-             <%}%>                                     
-            
+             <%}%>                                               
          <%}%> 
         </center>
     </body>

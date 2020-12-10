@@ -21,9 +21,9 @@ public class Tramitador {
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(tramitar)){
             int numeroDeCuenta = Integer.parseInt(numeroCuenta);                 
-            int montoDeposito = Integer.parseInt(monto);            
+            double montoDeposito = Double.parseDouble(monto);     
             
-            instrucciones.setInt(1, montoDeposito);//codigo de la transaccion [autoIncre...]       
+            instrucciones.setDouble(1, montoDeposito);//codigo de la transaccion [autoIncre...]       
             instrucciones.setInt(2, numeroDeCuenta);            
             
             instrucciones.executeUpdate();
@@ -39,9 +39,9 @@ public class Tramitador {
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(tramitar)){
             int numeroDeCuenta = Integer.parseInt(numeroCuenta);                 
-            int montoDebito = Integer.parseInt(monto);            
+            double montoDebito = Integer.parseInt(monto);            
             
-            instrucciones.setInt(1, montoDebito);//codigo de la transaccion [autoIncre...]       
+            instrucciones.setDouble(1, montoDebito);//codigo de la transaccion [autoIncre...]       
             instrucciones.setInt(2, numeroDeCuenta);            
             
             instrucciones.executeUpdate();//puesto que en la interfaz se establece el máximo como la cantidad que tiene, entonces no habrá problemas de actualizar a una cantidad negativa xD

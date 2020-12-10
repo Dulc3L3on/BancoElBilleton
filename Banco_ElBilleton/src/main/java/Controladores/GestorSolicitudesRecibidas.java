@@ -31,7 +31,7 @@ public class GestorSolicitudesRecibidas extends HttpServlet{
             
             if(!modificador.modificarEstadoSolicitud(datosInteraccion[1],
                     String.valueOf(solicitudes[Integer.parseInt(datosInteraccion[0])].getCodigoSolicitante()), 
-                    String.valueOf(solicitudes[Integer.parseInt(datosInteraccion[0])].getNumeroCuentaSolicitado()), solicitudes[Integer.parseInt(datosInteraccion[0])].getFechaCreacion())){
+                    String.valueOf(solicitudes[Integer.parseInt(datosInteraccion[0])].getNumeroCuentaSolicitada()), solicitudes[Integer.parseInt(datosInteraccion[0])].getFechaCreacion())){
                 request.setAttribute("mostrarMsjeError", "true");
             }
             request.setAttribute("ubicacionGestor", "gestorSolicitudesRecibidas");

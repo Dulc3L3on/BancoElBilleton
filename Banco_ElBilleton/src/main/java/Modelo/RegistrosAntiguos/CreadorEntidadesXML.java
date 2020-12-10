@@ -129,7 +129,7 @@ public class CreadorEntidadesXML {
             instrucciones.setInt(1,codigoTransaccion);
             instrucciones.setInt(2, cuenta);
             instrucciones.setString(3, tipo);//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
-            instrucciones.setString(4, monto);
+            instrucciones.setString(4, monto);//vamos a dejarlo así, pues tal parece que un int adminte un string... porque me estuvo cargando los datos si darme error al establecer el mosnto con un tipo string...si da error quiere decir que el double no acepta esto...
             instrucciones.setString(5, fecha);
             instrucciones.setString(6, hora);
             instrucciones.setInt(7, cajero_id);                                   
@@ -150,11 +150,11 @@ public class CreadorEntidadesXML {
         try(PreparedStatement instrucciones = conexion.prepareStatement(crear, Statement.RETURN_GENERATED_KEYS)){            
             int cuenta = Integer.parseInt(numeroCuenta);
             int codigo = Integer.parseInt(codigoDueno);
-            int saldo = Integer.parseInt(monto);
+            double saldo = Double.parseDouble(monto);
             
             instrucciones.setInt(1, cuenta);
             instrucciones.setInt(2,codigo);
-            instrucciones.setInt(3, saldo);//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
+            instrucciones.setDouble(3, saldo);//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
             instrucciones.setString(4, fechaCreacion);                 
             
             instrucciones.executeUpdate();

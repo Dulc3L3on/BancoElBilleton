@@ -5,7 +5,6 @@
  */
 package Controladores;
 
-import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Gerente;
 import Modelo.Herramientas.Kit;
 import Modelo.Manejadores.DB.Buscador;

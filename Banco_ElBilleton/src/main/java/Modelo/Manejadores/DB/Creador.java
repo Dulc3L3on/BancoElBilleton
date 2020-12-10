@@ -13,9 +13,7 @@ import Modelo.Herramientas.ControladorIndices;
 import Modelo.Herramientas.Kit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *
@@ -87,7 +85,7 @@ public class Creador {
            
            instrucciones.setInt(1, elNumeroCuenta);
            instrucciones.setInt(2, dueno);
-           instrucciones.setInt(3, saldo);
+           instrucciones.setDouble(3, saldo);
            instrucciones.setString(4, herramientas.darFechaActualString());
            
            instrucciones.executeUpdate();

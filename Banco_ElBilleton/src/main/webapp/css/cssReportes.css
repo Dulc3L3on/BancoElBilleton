@@ -1,0 +1,80 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/12/2020, 16:17:49
+    Author     : phily
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Poppins:wght@200&family=Volkhov&display=swap');
+
+h4{
+  font-family: Volkhov;    
+}
+
+#ContenedorReportes{
+    height: 830px;
+    display: flex;/*permite aplicar el alineado vertical :3*/
+    align-items: center;/*centrar verticalmente*/
+    justify-content: center;     
+}
+
+img{
+    height: 70px;
+    width: 70px;       
+}
+
+input{    
+    width: 200px;           
+}
+
+#back{       
+    display: flex;/*permite aplicar el alineado vertical :3*/
+    align-items: center;/*centrar verticalmente*/    
+    justify-content:flex-end;
+    margin-top: -830px;        
+    height: 830px;
+    position: relative;       
+}
+
+#form{            
+    display: flex;/*permite aplicar el alineado vertical :3*/    
+    align-items: center;
+    justify-content: center;
+    /*margin-left: 1500px;*//*coloca el div del form en una mejor posición pero tb corre el área del back y por ello n opuede darse clieck en cualquier lado para regresar...*/
+    width: 300px;
+    height: 370px;
+    position: relative;
+    border-radius: 7px;
+    border: solid 0.5px;    
+    background-color: #D6DBDF ;
+    box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19); 
+}
+
+#boton{
+    font-family: Poppins;
+    height: 55px;
+    width: 105px;    
+}
+
+#boton:hover{    
+    font-weight: bolder;    
+}
+
+button{
+    height: 200px;
+    width: 200px; 
+    background-color: whitesmoke;    
+    font-family: Inter;     
+    border: none;
+    border-radius: 7px;
+    font-size: 17px;
+    font-weight: bold;    
+    margin: 7px 7px 7px 7px;
+}
+
+button:enabled:hover{
+    box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19); 
+    font-weight: bolder;
+}

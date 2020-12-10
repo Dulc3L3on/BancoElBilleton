@@ -12,6 +12,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../css/cssCliente.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
+        <link rel="icon" href="../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
+        
         <title>Transference</title>
         <%!Buscador buscador = new Buscador();           
            Cuenta cuentasOrigen[] = null;
@@ -155,11 +158,13 @@
                             }
                     </script>                    
                 <%}else{%>
-                    <!--se llama al mismo sweet de abajito xD-->            
+                     <input type="text" id="tipoMsje" value="errorBusquedaCuentas" hidden>
+                     <script src="js/sweetError.js"></script>
                 <%}%>        
             </center> 
         <%}else{%>
-          <!--se muestra el sweet con el msje diciendo que surgió un error al buscar las cuentas... xD o algo así que no delate del todo xD-->
+            <input type="text" id="tipoMsje" value="errorBusquedaCuentas" hidden>
+            <script src="js/sweetError.js"></script>
         <%}%>
     </body>
 </html>

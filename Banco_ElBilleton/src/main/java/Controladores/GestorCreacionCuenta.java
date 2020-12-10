@@ -38,7 +38,7 @@ public class GestorCreacionCuenta extends HttpServlet{
             }
             
             request.getSession().getAttribute("usuarioBuscado");//tienes que invalidarlo... igual el tipo de usuario qu ese usará para que no halla un classCastException...
-            //aunque, este problema lo solucioné colocandole un nombre extra para que no surgiera la excepción, puesto que este "nuevo" corresp al tipo de usuario buscado...
+            //aunque, este problema lo solucioné colocandole un nombre extra para que no surgiera la excepción, puesto que este "nuevo" corresp al tipo de usuario buscado... y además al final de cuentas, se termina perdiendo por el hecho de que cuando cb de opción general [p.ej modificar o crear ] se emplea un response para redirigir así que... xD lo cual no se hizo al redirigir desde el listado por el hecho de tener que mantener los datos del usuario de interés xD
             request.getRequestDispatcher("Trabajadores/Gerente/Creacion_Cuenta.jsp").forward(request, response);
         } catch (ServletException | IOException ex) {
             System.out.println("Error al crear la CUENTA "+ ex.getMessage());

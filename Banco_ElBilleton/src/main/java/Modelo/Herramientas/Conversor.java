@@ -40,12 +40,12 @@ public class Conversor {
         return new Gerente(codigo, datos[0], datos[1], datos[2], datos[3], contrasenia, datos[4]);
     }
     
-    public Cuenta convertirACuenta(int numeroCuenta, int codigoDueno, int monto, String fechaCreacion){
+    public Cuenta convertirACuenta(int numeroCuenta, int codigoDueno, double monto, String fechaCreacion){
         return new Cuenta(numeroCuenta, codigoDueno, monto, fechaCreacion, "activa");
     }
     
     public Transaccion convertirATransaccion(int elCodigo, int elNumeroCuenta, String elTipo, 
-        int elMonto, String laFecha, String laHora, int elCodigoCajero){
+        double elMonto, String laFecha, String laHora, int elCodigoCajero){
         
         return new Transaccion(elCodigo, elNumeroCuenta, elTipo, elMonto, laFecha, laHora, elCodigoCajero);    
     }

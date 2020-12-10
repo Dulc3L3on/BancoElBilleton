@@ -10,7 +10,8 @@ package Modelo.Entidades.Objetos;
  * @author phily
  */
 public class Cambio {
-    private int gerenteACargo;
+    private int codigoGerenteACargo;
+    private String nombreGerenteACargo;
     private String fecha;
     private String hora;
     private String tipo;
@@ -18,7 +19,7 @@ public class Cambio {
     private String datoAntiguo;    
     
     public Cambio(String laFecha, String laHora, int unGerenteACargo, String elTipo, String elDatoAntiguo, String elDatoNuevo){
-        gerenteACargo = unGerenteACargo;
+        codigoGerenteACargo = unGerenteACargo;
         fecha = laFecha; 
         hora = laHora; 
         tipo = elTipo;
@@ -26,8 +27,16 @@ public class Cambio {
         datoAntiguo = elDatoAntiguo;        
     }
     
-    public int getGerenteACargo(){
-        return gerenteACargo;
+    public void establecerNombreGerenteACargo(String elNombre){
+        nombreGerenteACargo = elNombre;
+    }
+    
+    public int getCodigoGerenteACargo(){
+        return codigoGerenteACargo;
+    }
+    
+    public String getNombreGerenteACargo(){
+        return nombreGerenteACargo;
     }
     
     public String getFecha(){

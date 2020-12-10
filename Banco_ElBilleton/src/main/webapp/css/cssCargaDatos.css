@@ -33,6 +33,8 @@ a{
     font-size: 20px;    
     border: solid #2C5364;
     border-radius: 7px;
+    padding: 5px 5px 5px 5px;/*para que no se mire muy juntito el borde y el texto...*/
+    text-decoration: none;
 }
 
 #subencabezado{
@@ -50,6 +52,6 @@ a{
 
 #submit:hover{
     box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19);  
-    text-decoration: none;
+    text-decoration: none;/*por si acaso se colocara a los vínculos por defecto, el subrayado al pasar sobre ello o al presionarlos...*/
     color: black;
 }    

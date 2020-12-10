@@ -25,9 +25,9 @@
          <br/>
         <%if(buscador.darTipoSituacion()==1){%>
             <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->               
-                <form method="POST" action="../gestorSolicitudesRecibidas">                
+                <form method="POST" action="<%=(request.getAttribute("ubicacionGestor")!=null?(String)request.getAttribute("ubicacionGestor"):"../gestorSolicitudesRecibidas")%>">                
                     <%request.getSession().setAttribute("solicitudes", solicitudes);%><!--para que se pueda utilizar la solcitud del arreglo que corresponde al número enviado por medio del btn...-->
-                    <table>
+                    <table id="listadoSolicitudes">
                         <tr>
                             <th colspan="4">
                                 <h3 id="subencabezado">>>SOLICITUDES</h3>

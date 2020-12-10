@@ -10,12 +10,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/cssCajero.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
+        <link rel="icon" href="img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
+        
         <title>JSP Page</title>
         <%!String codigoDueno;
            String numeroCuenta;
            String nombre;
-           int saldoAntiguo;
-           int saldoActual;
+           double saldoAntiguo;
+           double saldoActual;
            String signo;%>
     </head>
     <body>
@@ -23,12 +26,12 @@
          <%if(request.getAttribute("mostrarError")== null){%>
              <%codigoDueno = request.getParameter("codigoDueno");          
                 nombre = request.getParameter("nombre");
-                saldoAntiguo = Integer.parseInt(request.getAttribute("saldoAntiguo").toString());
+                saldoAntiguo = Double.parseDouble(request.getAttribute("saldoAntiguo").toString());
                 if(request.getAttribute("tipo").equals("credito")){
-                    saldoActual = saldoAntiguo + Integer.parseInt(request.getParameter("monto"));
+                    saldoActual = saldoAntiguo + Double.parseDouble(request.getParameter("monto"));
                     signo="+";
                 }else{
-                    saldoActual = saldoAntiguo - Integer.parseInt(request.getParameter("monto"));
+                    saldoActual = saldoAntiguo - Double.parseDouble(request.getParameter("monto"));
                     signo="-";
                 }%><!--no le coloco si es distinto de null, pues solo lo sería si surgió algo malo en cualquiera de los subprocesos para tramitar, si no, NO xd-->                     
                          
@@ -97,9 +100,11 @@
                     </tr>                                                               
                 </table><!--esto debería ser reemplazado por el html del JR...-->                                    
                 <input type="submit" name="sumbit" id="submit" value="DESCARGAR ESTADO DE CUENTA" style="width: 300px; height: 65px;">
-            <%}else{%>             
-                <!--se muestra le suweet de error de transaccion... digo esto porque seguramente para tener más orden, se creará un arch de sweet por entidad o agrupación mayor xD-->      
-            <%}%>    
+       <%}else{%>             
+            <input type="text" id="tipoMsje" value="errorTransaccion" hidden>
+            <script src="js/sweetError.js"></script> 
+            <!--los atributos que no son de sesión, no los elimino, por el hecho de que se debe presionar un btn que redirecciona por meido de un response y no de un dispatcher por lo cual no se mantienen los valores de estor atributos xD-->
+       <%}%>    
         </center><!--recuerda que le debes cambiar la apariencia para que se vea más profesional... yo pensaba hacerlo con 2 col... así como el formulario para la creación del cliente...-->
     </body>
 </html>

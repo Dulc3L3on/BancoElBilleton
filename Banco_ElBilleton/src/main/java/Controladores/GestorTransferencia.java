@@ -45,8 +45,8 @@ public class GestorTransferencia extends HttpServlet{
                 while(!tramitador.deshacerTransferencia(request.getParameter("origen"), request.getParameter("destino"), request.getParameter("monto"))){
                 
                 }//puesto que si falla debo dejar todo como antes de intentar exe la axn...
-                request.setAttribute("mostrarError", "mostrar");
-            }                                     
+                request.setAttribute("mostrarError", "mostrar");//Mmm pero si la página que se mostrará será la del JR en html, no se si se pueda add esto... si la pág se genera como el jrxml para los pdf yo diria que sí se podría agregar... pero aún no existe, sino lo que se podría hacer es redirigir a otra página para indicar esto... pero depende xD O PIENSALO XD          
+            }                                                     
         }     
         try {            
             request.getRequestDispatcher("Cliente/EstadoDeCuenta.jsp").forward(request, response);             

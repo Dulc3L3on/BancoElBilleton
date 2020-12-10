@@ -12,6 +12,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../../css/cssGerente.css">
+        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
+        
         <title>CreateClient</title>
         <%!Buscador buscador = new Buscador();
            Usuario[] usuarios;%>
@@ -25,7 +27,7 @@
                     <%}%>
                 <%}%>            
         </select>
-        <input type="text" id="msjeDPIrepetido" value="El CUI ingresado se encuentra registrado!" style="color: red; font-size: 15px;" hidden>                
+        <input type="text" id="msjeDPIrepetido" value="El CUI ingresado se encuentra registrado!" style="color: red; font-size: 15px; position: relative; margin-right: 15px; margin-top: 165px;" hidden>                
         
         <center>
             <form method="POST" enctype="multipart/form-data" action="../../cargaDPI">
@@ -97,14 +99,14 @@
                      <input type="submit" id="submit" name="submit" value="CREAR CLIENTE"><!--todos los sumbit sin importar de qué entidad sean y qué sea lo que suban tendrán el mismo aspecto...-->                    
                 </div>
             </form>            
-        </center>                  
+        </center>     
     <script>
         function verificarDPIcoincidente(inputDPI){
             var DPIsRegistrados = document.getElementById("DPIsRegistrados");
             
             if(DPISRegistrados!==null){
                 for(int dpiActual =0; dpiActual< DPIsRegistrados.length; dpiActual++){
-                    if(inputDPI.value === DPIsRegistrados.value){
+                    if(inputDPI.value === DPIsRegistrados.value){//no creo qu ede error con el hecho de que tenga valor nulo, porque de todos modos no sería igual...
                         inputDPI.value="";
                         document.getElementById("msjeDPIrepetido").hidden="false";
                         return;

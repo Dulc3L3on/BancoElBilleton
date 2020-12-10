@@ -96,12 +96,12 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         
         try {
             resultado.last();            
-            cajeros = new Cajero[resultado.getRow()];
+            cajeros = new Cajero[resultado.getRow()-1];
             resultado.first();
             resultado.next();//con tal de que no se muestre el cajero de la banca virtual...
             
-            for(int clienteActual =0; clienteActual<cajeros.length; clienteActual++){
-                cajeros[clienteActual] = transformarACajero(resultado);
+            for(int cajeroActual =0; cajeroActual<cajeros.length; cajeroActual++){//le resto 1 por el hecho de que se avanza 1 adelante por la existencia del cajero de la BancaVirtual... aunque no se si debería hacerlo porque en 
+                cajeros[cajeroActual] = transformarACajero(resultado);
                 resultado.next();                
             }
         } catch (SQLException e) {
@@ -112,7 +112,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
      
     private Cajero transformarACajero(ResultSet resultado){
         try {       
-            if(resultado.getInt(1)!=101){//para que no puedan mostrarse los datos del cajero virtual xD
+            if(resultado.getInt(1)!=101){//para evitar que al buscar individualmente, puedan acceder a los datos del cajero de la BancaVirtual... a menos desde este portal xD
             return new Cajero(resultado.getInt(1),resultado.getString(2),
                     resultado.getString(3), resultado.getString(4), resultado.getString(5),
                     resultado.getString(6), resultado.getString(7));
@@ -172,7 +172,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
     
     public Cuenta transformarACuenta(ResultSet resultado){
         try{
-            return new Cuenta(resultado.getInt(1), resultado.getInt(2), resultado.getInt(3),
+            return new Cuenta(resultado.getInt(1), resultado.getInt(2), resultado.getDouble(3),
             resultado.getString(4), resultado.getString(5));
         }catch(SQLException sqlE){
             System.out.println("Error al transformar a CUENTA: "+sqlE.getMessage());

@@ -13,7 +13,7 @@
 <html>
     <head>        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="JS/sweetDecisionCarga.js" languaje="JavaScript"></script>
+        <script src="js/sweetDecisionCarga.js" languaje="JavaScript"></script><!--está de más porque no necesito mostrar ningún sweet... puesto que se cambió la manera en la que se muestra el error... ahora está mejor xD-->
         <link rel="stylesheet" href="css/cssCargaDatos.css">
         <title>OldRecords</title>
         <%!ListaEnlazada<String[]> listaErrores = new ListaEnlazada();
@@ -33,27 +33,11 @@
         
         <center>
             <%if(request.getAttribute("resultados")==null){%>            
-                <form method="POST" enctype="multipart/form-data" action="cargaXML">
-                    <table>
-                        <tr>
-                            <th class="solicitudDatos" colspan="2">
-                                <h1>CARGA DE REGISTROS</h1>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="solicitudDatos" colspan="2">
-                                <h3>Selecciona el archivo XML en el que se <br/>encuentran los datos a cargar en el sistema</h3>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="solicitudDatos">
-                                <input type="file" id="file" name="archXML" accept=".xml" required>
-                            </th>
-                            <th class="solicitudDatos">
-                                <input id="submit" type="submit" name="submit" value="cargar">
-                            </th>
-                        </tr>
-                    </table>             
+                <form method="POST" enctype="multipart/form-data" action="cargaXML">                    
+                    <h1>CARGA DE REGISTROS</h1><br/><br/>
+                    <h3>Selecciona el archivo XML en el que se <br/>encuentran los datos a cargar en el sistema</h3>                            
+                    <input type="file" id="file" name="archXML" accept=".xml" required>                            
+                    <input id="submit" type="submit" name="submit" value="cargar"><!--deberían aparecer a la par xD, puesto que no coloqué un salto de línea... esto lo hice con tal de que la tabla no salga fea por los tamaños que le di a las columnas d ela tabla, puesto que con ellas mostraría los errores...-->                    
                 </form>        
                          
             <%}else{
@@ -217,8 +201,7 @@
                        </form>
                        
                     <%}else{%>
-                        <h4>PROCESO EXITOSO!</h4>
-                        <!--aquí se estalecen TODAS las entidades cargadas en autoincrementable...-->                                                 
+                        <h4>PROCESO EXITOSO!</h4>                        
                         <a id="submit" href="Login.jsp">ACEPTAR</a>
                     <%}%>    
             <%}//fin del else resultados == null%>
