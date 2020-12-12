@@ -4,6 +4,7 @@ Modelo/Herramientas/Kit.class
 Controladores/GestorDeposito.class
 Modelo/Herramientas/ControladorIndices.class
 Modelo/Entidades/Usuarios/Cajero.class
+Modelo/Manejadores/DB/Conecction.class
 Modelo/Manejadores/DB/Creador.class
 Modelo/Manejadores/DB/Modificador.class
 Controladores/GestorRecopilacionDatosPersonales.class
@@ -23,6 +24,7 @@ Controladores/GestorSolicitudesRecibidas.class
 Modelo/Entidades/Usuarios/Usuario.class
 Modelo/Entidades/Usuarios/Trabajador.class
 Controladores/GestorRetiro.class
+Modelo/Manejadores/DB/BuscadorParaReportesTrabajador.class
 Modelo/Manejadores/DB/Exterminador.class
 Modelo/Herramientas/TransformadorParaReportes.class
 Controladores/GestorReportesAsociaciones.class
@@ -37,6 +39,7 @@ Controladores/GestorModificacionCliente.class
 Modelo/Manejadores/DB/Registrador.class
 Modelo/Manejadores/DB/BuscadorParaReportesCliente.class
 Modelo/Entidades/Usuarios/Gerente.class
+Controladores/GestorParametrosCajero.class
 Modelo/Manejadores/ManejadorXML.class
 Modelo/Manejadores/DB/BuscadorExistencia.class
 Modelo/Herramientas/GuardiaSeguridad.class

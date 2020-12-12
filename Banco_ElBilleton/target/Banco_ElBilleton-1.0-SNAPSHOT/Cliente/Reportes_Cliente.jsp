@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../css/cssReportes.css">
-        <link rel="stylesheet" href="css/cssReportes.css">
+        <link rel="stylesheet" href="css/cssReportes.css"><!--creo que no es necesario pues al hacer el "regresón" xD el favicón se seguía mostrando, sin importar que el regreso fuese por JS o por el response del servlet por falta de datos...-->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
         <link rel="icon" href="../img/Logos/Favicon_Banco_ElBilleton.ico">
         <%!Cuenta[] cuentas = null;
@@ -77,8 +77,7 @@
                   <%}else{
                         request.getRequestDispatcher("../gestorParametrosCliente").forward(request, response);
                     }            
-            }%>
-        
+            }%>        
             
             <script>
                 function cancelarEnvio(){               
@@ -103,4 +102,8 @@
 
 <!--REPORTES COMPLETADOS
         1. ultimas15Grandes xD
-        -->
+        2. estado de cta (= todas las transacciones de una cuenta en cuestión xD)
+        3. cuenta con más dinero
+        4. historial solicitudes recibidas
+        5. historial solicitudes enviadas xD... es decir todos xD
+-->

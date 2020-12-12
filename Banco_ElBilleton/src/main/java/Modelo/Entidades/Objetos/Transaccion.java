@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class Transaccion implements Serializable{
     private int codigo;
     private int numeroCuentaAfectada;
+    private String nombreDuenoCuenta;
     private String tipoTransaccion;
     private double monto;
     private String fecha;
@@ -41,13 +42,35 @@ public class Transaccion implements Serializable{
         return numeroCuentaAfectada;
     }
     
+    public void establecerDuenoCuentaAfectada(String nombreDueno){
+        nombreDuenoCuenta = nombreDueno;
+    }
+    
+    public String getNombreDuenoCuenta(){
+        return nombreDuenoCuenta;
+    }
+    
     public String getTipoTransaccion(){
         return tipoTransaccion;
     }
     
     public double getMonto(){// a ver si no dan problemas estos tipos con el JR, así que tienes que averiguar como colocar los valores en tipo float o double en la DB
         return monto;
+    }//por la forma de trabajar con las transcciones con el cajero, esta forma será empleada para obtener el monto en genearal, es decir en el caso en el que no nos importe el tipo, sino solo los datos que se registraron en la transacción...
+
+    public double getDeposito(){
+        if(tipoTransaccion.equalsIgnoreCase("credito")){
+            return monto;
+        }                
+        return 0;
     }
+    
+    public double getDebito(){
+        if(tipoTransaccion.equalsIgnoreCase("debito")){
+            return monto;
+        }                
+        return 0;
+    }//Estos métodos serán empleados para la ocasión en la que las mismas cantidades describan que tipo de transacción fue, sin necesidad de plasmar el tipo, esto por el tipo de reporte requerido por el cajero...
     
     public String getFecha(){
         return fecha;

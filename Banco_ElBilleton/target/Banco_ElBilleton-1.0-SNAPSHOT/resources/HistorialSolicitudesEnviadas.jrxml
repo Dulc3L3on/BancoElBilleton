@@ -173,7 +173,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField>
 				<reportElement x="1" y="1" width="89" height="20" forecolor="#575656" uuid="950f1a33-2001-44fb-93e8-a4bdbca38706">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9bae2651-c0cd-40ea-9303-5b6f3149fc67"/>

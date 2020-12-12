@@ -30,7 +30,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="165" splitType="Stretch">
 			<rectangle>
 				<reportElement mode="Opaque" x="1" y="9" width="582" height="60" forecolor="#B0C7D1" backcolor="#96B2B5" uuid="ee0b9d6a-19b4-4ee5-ab2c-64b68bee6fb6"/>
 			</rectangle>
@@ -57,60 +57,56 @@
 				</textElement>
 				<text><![CDATA[-Banco "El Billetón"-]]></text>
 			</staticText>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="77" splitType="Stretch">
 			<staticText>
-				<reportElement x="1" y="1" width="60" height="20" forecolor="#000000" uuid="aef7d59c-a14d-4d71-bda5-449bc7a5f7fb"/>
+				<reportElement x="2" y="82" width="60" height="20" forecolor="#000000" uuid="b7dbedea-89b3-4ae9-a6c9-a076b19b76ae"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Manjari Regular" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="21" width="60" height="20" forecolor="#000000" uuid="3e96f410-634e-4ccf-a4a4-608002bd6594"/>
+				<reportElement x="2" y="102" width="60" height="20" forecolor="#000000" uuid="aca4b3ab-c5b1-4c94-8dbb-c3dec4e4360a"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Manjari Regular" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Código:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="41" width="60" height="20" forecolor="#000000" uuid="08492104-3ee2-49d8-be08-47a6dd790236"/>
+				<reportElement x="2" y="122" width="60" height="20" forecolor="#000000" uuid="b903d938-56e2-48cb-946d-c6dc73b96539"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Manjari Regular" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CUI:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="71" y="123" width="291" height="20" forecolor="#575656" uuid="eddda873-bbfc-4e94-a88a-0dac85da3ca0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{DPI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="71" y="102" width="290" height="21" forecolor="#575656" uuid="a7e6084c-74b4-409c-ad25-dba5519ffd45"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{codigoCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="71" y="82" width="390" height="20" forecolor="#575656" uuid="bb0d026d-8ae7-4f4f-ad94-d32ff45febc1"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="510" y="41" width="110" height="20" forecolor="#000000" uuid="4b9d00f6-acb5-4024-93b3-c9206556523a"/>
+				<reportElement x="512" y="122" width="110" height="20" forecolor="#000000" uuid="8cd60edb-1073-411c-ab62-d110433f75ec"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Manjari Regular" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Número de Cuenta:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="70" y="1" width="390" height="20" forecolor="#575656" uuid="8a81ce67-5fdd-4981-92f7-e2437f97ae3b"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="70" y="21" width="290" height="21" forecolor="#575656" uuid="9dc853d2-e833-4112-b66d-ffc1e5b2f25e"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{codigoCliente}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="70" y="42" width="291" height="20" forecolor="#575656" uuid="ef875f25-1d86-4d81-8c98-8067d0b67e69"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{DPI}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="630" y="42" width="110" height="20" forecolor="#575656" uuid="e9fd3dd3-1d77-4f82-8c94-b57bf87bd7db"/>
+				<reportElement x="632" y="123" width="110" height="20" forecolor="#575656" uuid="1aa279b4-5bcc-4c9d-8b94-a33e0d8b4987"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{numeroCuentaAfectada}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="43" splitType="Stretch">
 			<staticText>
@@ -234,7 +230,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<textField>
 				<reportElement x="1" y="2" width="80" height="20" forecolor="#575656" uuid="b15f2c83-e7c3-4f0c-9244-3a22e4e44d5a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="397b4521-ab08-4c5e-a8d2-23bd749007e7"/>
@@ -375,7 +371,7 @@
 				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="91" y="30" width="552" height="12" uuid="5ad9f221-2c27-4b41-ab35-172ad0938de1"/>
+				<reportElement x="175" y="30" width="552" height="12" uuid="5ad9f221-2c27-4b41-ab35-172ad0938de1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7.5" isItalic="true"/>
 				</textElement>

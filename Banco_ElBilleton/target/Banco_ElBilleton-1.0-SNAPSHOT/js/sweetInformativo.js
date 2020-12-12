@@ -10,8 +10,7 @@ switch(document.getElementById("tipoMsje").value){
          Swal.fire({
             title:'Creación Exitosa',            
             text: 'La cuenta ha sido agregada\n\
-                   de forma exitosa al cliente :)',
-            backdrop: true,
+                   de forma exitosa al cliente :)',            
             position: 'center',
             icon: 'sucess',
             timer: 2100
@@ -33,8 +32,7 @@ switch(document.getElementById("tipoMsje").value){
     case "envioExitoso":    
         Swal.fire({
             title:'Envío exitoso',            
-            text: 'la solicitud se ha enviado correctamente',
-            backdrop: true,
+            text: 'la solicitud se ha enviado correctamente',            
             position: 'center',
             icon: 'sucess',
             timer: 1500
@@ -44,9 +42,9 @@ switch(document.getElementById("tipoMsje").value){
     case "solicitudAceptada":
           Swal.fire({
             toast: true,
-            text: 'Ya existe una asociación concretada\n\
-                   con el número de cuenta ingresado',
             backdrop: true,
+            text: 'Ya existe una asociación concretada\n\
+                   con el número de cuenta ingresado',                                    
             position: 'center',
             icon: 'info'            
         })
@@ -55,10 +53,10 @@ switch(document.getElementById("tipoMsje").value){
     case "intentosAgotados":
           Swal.fire({
             toast: true,
+            backdrop: true,
             title: 'Intentos de envío Agotados',
             text: 'No esposible enviar una solicitud\n\
-                   más al número de cuenta ingresado',
-            backdrop: true,
+                   más al número de cuenta ingresado',            
             position: 'center',
             icon: 'error'
         })
@@ -67,10 +65,10 @@ switch(document.getElementById("tipoMsje").value){
     case "sinReaccion":
           Swal.fire({            
             toast: true,
+            backdrop: true,
             text: 'Una solicitud enviada con anterioridad\n\
                    a la misma cuenta aún no ha sido respondida\n\
-                   por favor espera la respuesta...',
-            backdrop: true,
+                   por favor espera la respuesta...',            
             position: 'center',
             icon: 'info'
         })
@@ -79,9 +77,9 @@ switch(document.getElementById("tipoMsje").value){
     case "cuentaPropia":
           Swal.fire({            
             toast: true,
-            text: 'Tus cuentas poseen una asociación\n\
-                   entre sí desde que son creadas...',
             backdrop: true,
+            text: 'Tus cuentas poseen una asociación\n\
+                   entre sí desde que son creadas...',            
             position: 'center',
             icon: 'warning'
         })
@@ -91,13 +89,23 @@ switch(document.getElementById("tipoMsje").value){
         Swal.fire({
             title:'No existen registros de transacciones\n\
                    para el intervalo de tiempo especificado',
-            toast: true,
-            backdrop: true,
+            toast: true,            
             position: 'bottom-end',
             icon: 'warning', 
             timer: 1700
         })
     break;  
+    
+    case "ningunaTransaccionAtendida":
+        Swal.fire({
+            title:'No existen registros de transacciones\n\
+                   atendidas para el rango de tiempo especificado',
+            toast: true,            
+            position: 'bottom-end',
+            icon: 'warning', 
+            timer: 1700
+        })
+    break; 
     
    
 }

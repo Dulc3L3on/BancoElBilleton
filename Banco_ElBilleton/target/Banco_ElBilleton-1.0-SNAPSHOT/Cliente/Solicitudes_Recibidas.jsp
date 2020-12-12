@@ -52,7 +52,7 @@
                                     </th>               
                                     <th>
                                         <center>
-                                            <h5><%=solicitudes[solicitudActual].getNumeroCuentaSolicitado()%></h5>
+                                            <h5><%=solicitudes[solicitudActual].getNumeroCuentaSolicitada()%></h5>
                                         </center>        
                                     </th>
                                     <th>

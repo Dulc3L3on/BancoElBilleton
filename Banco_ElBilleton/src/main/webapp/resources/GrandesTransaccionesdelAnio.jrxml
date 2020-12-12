@@ -28,7 +28,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="81" splitType="Stretch">
+		<band height="159" splitType="Stretch">
 			<rectangle>
 				<reportElement mode="Opaque" x="0" y="9" width="600" height="60" forecolor="#B0C7D1" backcolor="#96B2B5" uuid="42084ab5-5d2b-4a9a-93e8-75b8af51563f"/>
 			</rectangle>
@@ -55,47 +55,43 @@
 				<reportElement x="0" y="2" width="51" height="74" uuid="13e4d3d4-33cb-430e-a239-7fb85ee2259a"/>
 				<imageExpression><![CDATA["/home/phily/Documentos/Carpeta_estudios/CuartoSemestre/IPC2/LabIPC2/Proyectos/BancoElBilleton/BancoElBilleton/Banco_ElBilleton/src/main/webapp/img/Logos/MedioLogo.png"]]></imageExpression>
 			</image>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="70" splitType="Stretch">
-			<textField>
-				<reportElement x="70" y="0" width="360" height="20" forecolor="#575656" uuid="a176807f-00c3-44fb-a507-35ea71ef459f"/>
-				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="70" y="21" width="220" height="20" forecolor="#575656" uuid="7bc12eb6-14af-4539-a0d1-27ee2fda6c15"/>
-				<textFieldExpression><![CDATA[$P{codigoCliente}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="60" height="20" forecolor="#080707" uuid="0b0d9572-1709-48e8-86ad-011e8a1a8730"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Manjari Regular" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Nombre:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="21" width="60" height="20" forecolor="#080707" uuid="26b7b785-f1a3-4170-8e44-99bd250d4663"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Manjari Regular" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Código:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="70" y="42" width="220" height="20" forecolor="#575656" uuid="5ff43c81-83c9-489a-8c68-1a214bbc7216"/>
-				<textFieldExpression><![CDATA[$P{DPI}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="42" width="60" height="20" forecolor="#080707" uuid="1f7a95d2-5280-405b-8a53-8766b44f5055"/>
+				<reportElement x="3" y="123" width="60" height="20" forecolor="#080707" uuid="ab12a489-6248-4cdf-802a-97061f40bf71"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Manjari Regular" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CUI:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="3" y="102" width="60" height="20" forecolor="#080707" uuid="a054d290-6bf7-432f-a9e7-96536eb9f3cc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="81" width="60" height="20" forecolor="#080707" uuid="a7cc135c-c493-4470-b681-27a37517fb2d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="73" y="81" width="360" height="20" forecolor="#575656" uuid="196c0a3e-9bac-477d-873a-3e405b5057c8"/>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="102" width="220" height="20" forecolor="#575656" uuid="122775be-e6a0-416b-90a0-7830b2301e3b"/>
+				<textFieldExpression><![CDATA[$P{codigoCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="123" width="220" height="20" forecolor="#575656" uuid="2d8d7fc7-0821-4fbe-b7f8-89bf01ae8d5a"/>
+				<textFieldExpression><![CDATA[$P{DPI}]]></textFieldExpression>
+			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
-		<band height="47" splitType="Stretch">
+		<band height="46" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="14" width="80" height="20" uuid="09c853f1-1ba5-45ca-ac73-fc7a39fdcec7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="abd0fa01-fe58-4b64-a128-dd9301a4a750"/>
@@ -217,7 +213,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="135" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="80" height="20" forecolor="#575656" uuid="2b99b2fb-cc76-4cb0-bf94-163054390c93">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="abd0fa01-fe58-4b64-a128-dd9301a4a750"/>
@@ -326,7 +322,7 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="45" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<rectangle>
 				<reportElement mode="Opaque" x="160" y="5" width="591" height="20" forecolor="#B0C7D1" backcolor="#96B2B5" uuid="bbcf92e4-385b-442a-a975-6d6b3b492646"/>
 			</rectangle>
@@ -341,7 +337,7 @@
 				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="251" y="30" width="250" height="10" uuid="ded6f9bf-9a1f-45b1-a51b-fed611c97f09"/>
+				<reportElement x="330" y="30" width="250" height="10" uuid="ded6f9bf-9a1f-45b1-a51b-fed611c97f09"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7.5" isItalic="true"/>
 				</textElement>

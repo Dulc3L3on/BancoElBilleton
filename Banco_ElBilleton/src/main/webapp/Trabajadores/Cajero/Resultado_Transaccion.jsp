@@ -89,7 +89,7 @@
                             <h4><strong>No. Cuenta</strong></h4>
                         </th>
                         <th>
-                            <h5>${transaccion.getNumeroCuenta()}</h5>
+                            <h5>${transaccion.getNumeroCuentaAfectada()}</h5>
                         </th>   
                          <th>
                             <h4><strong>Saldo Actual Q.</strong></h4>
