@@ -27,7 +27,7 @@ public class CreadorEntidadesXML {
     private Verificador verificador = new Verificador();
     
      public boolean crearCliente(String codigo, String nombre, String CUI, String direccion, String sexo, String password, String birth, String pathDPI){
-        String crear = "INSERT INTO Cliente (codigo, nombre, DPI, direccion, sexo, password, birth, pathDPI) VALUES(?,?,?,?,?,?,?,?) "
+        String crear = "INSERT INTO Cliente (codigo, nombre, DPI, direccion, sexo, password, birth, pathDPI, fechaIncorporacion) VALUES(?,?,?,?,?,?,?,?,?) "
                      + "ON DUPLICATE KEY UPDATE nombre = Cliente.nombre";//xD ya que no hay algo como no hagas nada y deja lo de antes...xD
         String resultadoVerificacionDatos = verificador.verificarDatosCompletosUsuario(codigo, CUI, nombre, sexo, null, pathDPI);                       
         
@@ -43,6 +43,7 @@ public class CreadorEntidadesXML {
                 instrucciones.setString(6, herramienta.encriptarContrasenia(password));
                 instrucciones.setString(7, birth);            
                 instrucciones.setString(8, pathDPI);            
+                instrucciones.setString(9, "???");
             
                 instrucciones.executeUpdate();
                 controlador.hallarMayor(codigoCliente, 0);
@@ -58,7 +59,7 @@ public class CreadorEntidadesXML {
     }
      
      public boolean crearCajero(String codigo, String nombre, String CUI, String direccion, String sexo, String password, String turno){
-        String crear = "INSERT INTO Cajero (codigo, nombre, DPI, direccion, sexo, password, turno) VALUES(?,?,?,?,?,?,?) "
+        String crear = "INSERT INTO Cajero (codigo, nombre, DPI, direccion, sexo, password, turno, fechaIncorporacion) VALUES(?,?,?,?,?,?,?,?) "
                 + "ON DUPLICATE KEY UPDATE nombre = Cajero.nombre";        
         String resultadoVerificacionDatos = verificador.verificarDatosCompletosUsuario(codigo, CUI, nombre, sexo, turno, null);        
         
@@ -72,7 +73,8 @@ public class CreadorEntidadesXML {
                 instrucciones.setString(4, direccion);
                 instrucciones.setString(5, sexo.toLowerCase());
                 instrucciones.setString(6, herramienta.encriptarContrasenia(password));
-                instrucciones.setString(7, turno.toLowerCase());           
+                instrucciones.setString(7, turno.toLowerCase());    
+                instrucciones.setString(8, "???");
             
                 instrucciones.executeUpdate();
                 controlador.hallarMayor(codigoCajero, 2);
@@ -88,7 +90,7 @@ public class CreadorEntidadesXML {
     } 
      
     public boolean crearGerente(String codigo, String nombre, String CUI, String direccion, String sexo, String password, String turno){
-        String crear = "INSERT INTO Gerente (codigo, nombre, DPI, direccion, sexo, password, turno) VALUES(?,?,?,?,?,?,?) "
+        String crear = "INSERT INTO Gerente (codigo, nombre, DPI, direccion, sexo, password, turno, fechaIncorporacion) VALUES(?,?,?,?,?,?,?,?) "
                + "ON DUPLICATE KEY UPDATE nombre = Gerente.nombre"; 
         String resultadoVerificacionDatos = verificador.verificarDatosCompletosUsuario(codigo, CUI, nombre, sexo, turno, null);        
         
@@ -103,7 +105,8 @@ public class CreadorEntidadesXML {
                 instrucciones.setString(5, sexo.toLowerCase());
                 instrucciones.setString(6, herramienta.encriptarContrasenia(password));
                 instrucciones.setString(7, turno.toLowerCase());                        
-            
+                instrucciones.setString(8, "???");//como es de tipo String el campo, entones no me dará problemas... solo recuerda que si llegases a mostrar este dato en el perfil no podrías emplear el input date porque solo adminte números.... [creo que no se puede manipular xD, entonces así creo que tendrías que usar css para dar apariencia de date o solamente usar el input text sin cble la apariencia xD]
+                
                 instrucciones.executeUpdate();            
                 controlador.hallarMayor(codigoGerente, 1);
                 return true;
@@ -128,7 +131,7 @@ public class CreadorEntidadesXML {
             
             instrucciones.setInt(1,codigoTransaccion);
             instrucciones.setInt(2, cuenta);
-            instrucciones.setString(3, tipo);//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
+            instrucciones.setString(3, tipo.toLowerCase());//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
             instrucciones.setString(4, monto);//vamos a dejarlo así, pues tal parece que un int adminte un string... porque me estuvo cargando los datos si darme error al establecer el mosnto con un tipo string...si da error quiere decir que el double no acepta esto...
             instrucciones.setString(5, fecha);
             instrucciones.setString(6, hora);
@@ -173,3 +176,8 @@ public class CreadorEntidadesXML {
         verificador.limpiarListadoCodigos();
     }
 }
+
+
+//NOTA: lo que podías hacer para saber si la fecha [tb funcioanría con las horsa xD] están mal escritas
+//Es intentar convertir el string que recibiste del XML y si el método del Kit da error, entonces
+//es un hecho que debes agregarlo al listado de errados... xD YEI XD

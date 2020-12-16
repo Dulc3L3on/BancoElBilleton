@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CajeroMuyEficiente" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="79bc281d-809a-4df4-9a7e-41e8899f9bbc">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="horaActual" class="java.lang.String"/>
+	<parameter name="fechaInicial" class="java.lang.String"/>
+	<parameter name="fechaFinal" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="DPI" class="java.lang.String"/>
+	<field name="fechaIncorporacion" class="java.lang.String"/>
+	<field name="numeroTransaccionesTrabajadas" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="129" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="9" width="560" height="60" forecolor="#B0C7D1" backcolor="#7DA4BD" uuid="2fc091f7-db96-4db1-82a0-9462bc821fdb"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="9" width="549" height="50" forecolor="#2E3436" backcolor="#8DB0C4" uuid="4dbdea64-bd91-49b2-9cc7-3c0d6e8da083">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="URW Gothic L" size="27" isBold="true"/>
+					<paragraph lineSpacingSize="2.0"/>
+				</textElement>
+				<text><![CDATA[    Cajero Más Eficiente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="50" width="159" height="21" uuid="c261417f-1d69-4d4c-acde-ad5922ab4302">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="AnjaliOldLipi" size="15"/>
+				</textElement>
+				<text><![CDATA[-Banco "El Billetón"-]]></text>
+			</staticText>
+			<image>
+				<reportElement x="1" y="2" width="51" height="74" uuid="579382f0-ae08-454f-8482-14400127f70c"/>
+				<imageExpression><![CDATA["/home/phily/Documentos/Carpeta_estudios/CuartoSemestre/IPC2/LabIPC2/Proyectos/BancoElBilleton/BancoElBilleton/Banco_ElBilleton/src/main/webapp/img/Logos/MedioLogo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Transparent" x="40" y="90" width="90" height="20" backcolor="#FFFFFF" uuid="e4c7e660-195b-4317-8a4f-f4ec39e8c2c3">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="284" y="90" width="90" height="20" backcolor="#FFFFFF" uuid="6a088a89-7ca7-4986-beda-b8126bdc7469">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Final:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="135" y="90" width="145" height="20" forecolor="#575656" uuid="56cfb427-2b0b-4c97-8716-977faead303a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaInicial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="377" y="90" width="123" height="20" forecolor="#575656" uuid="d4d8f1c1-6aab-4acc-ad88-dd9788451c54"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="170" y="20" width="330" height="20" forecolor="#575656" backcolor="#EDF4FA" uuid="03f5315d-275a-4535-8562-124cb927103b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="40" y="20" width="130" height="20" backcolor="#FFFFFF" uuid="da0cbd82-8c00-45b2-bbeb-dfb1a6b37ca8">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="170" y="50" width="330" height="20" forecolor="#575656" backcolor="#EDF4FA" uuid="a4d0c019-cf85-492c-9b78-cc364a5a4d68">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="40" y="50" width="130" height="20" backcolor="#FFFFFF" uuid="f9c40525-9024-4536-aedd-125293b11c48">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="170" y="80" width="330" height="20" forecolor="#575656" backcolor="#EDF4FA" uuid="065a0b2f-48b9-4174-8336-7522ba1082ee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DPI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="40" y="80" width="130" height="20" backcolor="#FFFFFF" uuid="a84f7795-13ba-43b0-819e-c80b8475c29a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUI:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="170" y="110" width="330" height="20" forecolor="#575656" backcolor="#EDF4FA" uuid="364ad133-a6dc-47a8-9658-1f4e77cfcbdd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fechaIncorporacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="40" y="110" width="130" height="20" backcolor="#FFFFFF" uuid="92f869c6-7d74-48ca-b227-7c94251651cb">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Incorporación:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="301" y="150" width="150" height="20" forecolor="#575656" uuid="82fb0ce9-f0fa-4215-ae77-312f2ab7da7d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numeroTransaccionesTrabajadas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="121" y="150" width="160" height="20" uuid="9743ea61-ced5-4fb9-8f85-efc0611a631a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Manjari Regular" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TransaccionesTrabajadas:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="37" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="59" y="10" width="511" height="20" forecolor="#B0C7D1" backcolor="#7DA4BD" uuid="d0c00b76-5d5a-431d-a699-1420f6517306"/>
+			</rectangle>
+			<textField evaluationTime="Report">
+				<reportElement x="150" y="13" width="60" height="15" uuid="7bede2fb-573b-4ce2-a096-a6f15ffac62c"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="13" width="80" height="15" uuid="100f103e-3c1f-4154-8fdf-cce96bdfe016"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="357" y="13" width="100" height="14" uuid="538d7fd3-1c18-49f2-8c22-2c25c26c55ab"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="14" width="100" height="12" uuid="c59ee783-0c9f-4948-b4ab-273d9dc08856"/>
+				<textFieldExpression><![CDATA[$P{horaActual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

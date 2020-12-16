@@ -16,9 +16,10 @@ public class Usuario {
     String direccion;
     String sexo;
     String password;
+    String fechaIncorporacion;
     
     public Usuario(int elCodigo, String elNombre, String elDPI, String laDireccion,
-    String elGenero, String elPassword){
+    String elGenero, String elPassword, String laFechaIncorporacion){
     
        codigo =elCodigo;
        nombre = elNombre;
@@ -26,6 +27,7 @@ public class Usuario {
        direccion = laDireccion;
        sexo = elGenero;
        password = elPassword;
+       fechaIncorporacion = laFechaIncorporacion;
     }
     
     //los coloco así por el hecho de que JR no reconoce los métodos a menos que tengan la palabra get y el nombre del atributo implicado...
@@ -52,4 +54,8 @@ public class Usuario {
     public String getPassword(){
         return password;
     }    
+    
+    public String getFechaIncorporacion(){
+        return fechaIncorporacion;
+    }
 }

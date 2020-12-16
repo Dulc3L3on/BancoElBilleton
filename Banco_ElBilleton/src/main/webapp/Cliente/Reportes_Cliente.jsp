@@ -27,7 +27,7 @@
                 <form action="Reportes_Cliente.jsp" method="POST">
                     <center><!--asumo que por medio del nombre podré mandar a la clase que se encarga de traer los reportes [o clases, puesto que algunos requieren de tiepo s de obj que no tienen relación, si es así necesitaría 1 por cada grupo general... bueno, ya veremos xD] qué tipo de reporte es el que quiero..-->
                         <button type ="submit" name="reporte" value="Personales_GrandesTransaccionesdelAnio" <%=(buscadorExistencia.poseeCuentas((String) request.getSession().getAttribute("codigo")))?"":"disabled"%> ><img  src="../img/iconos_Billeton/Transaccion.png"><br/>Últimas 15<br/>Transacciones Mayores</button><!--Es Historial y Transaccion, pero ya hay muchos íconos de historial xD-->                     
-                        <button type ="submit" name="reporte" value="PersonalesFechasCuenta_EstadoDeCuenta" <%=(buscadorExistencia.poseeCuentas((String) request.getSession().getAttribute("codigo")))?"":"disabled"%>><img  src="../img/iconos_Billeton/Historial.png"><br/>Historial<br/>Transacciones<br/></button>               
+                        <button type ="submit" name="reporte" value="PersonalesFechasCuenta_EstadoDeCuenta" <%=(buscadorExistencia.poseeCuentas((String) request.getSession().getAttribute("codigo")))?"":"disabled"%>><img  src="../img/iconos_Billeton/Historial.png"><br/>Estado de<br/>Cuenta<br/></button>               
                         <button type ="submit" name="reporte" value="PersonalesCuenta_CuentaMasDinero" <%=(buscadorExistencia.poseeCuentas((String) request.getSession().getAttribute("codigo")))?"":"disabled"%>><img  src="../img/iconos_Billeton/Dinero.png"><br/>Cuenta con<br/>Más Dinero y<br/>sus Transacciones</button></br>
                         <button type ="submit" name="reporte" value="Personales_HistorialSolicitudesRecibidas" <%=(buscadorExistencia.existenSolicitudes("recibidas","codigoSolicitado",(String) request.getSession().getAttribute("codigo")))?"":"disabled"%>><img  src="../img/iconos_Billeton/Historial.png"><br/>Historial<br/>Solicitudes Recibidas</button>
                         <button type ="submit" name="reporte" value="Personales_HistorialSolicitudesEnviadas" <%=(buscadorExistencia.existenSolicitudes("enviadas","codigoSolicitante",(String) request.getSession().getAttribute("codigo")))?"":"disabled"%>><img  src="../img/iconos_Billeton/Historial.png"><br/>Historial<br/>Solicitudes Enviadas</button>
@@ -93,7 +93,7 @@
             <!--<h2>SIN DATOS</h2>
             <h4>No hay Registros de Transacciones realizadas
                 Para el intervalo de tiempo especificado</h4>-->
-            <script src="js/sweetInformativo.js"></script>
+            <script src="../js/sweetInformativo.js"></script>
             <%request.getSession().removeAttribute("sinDatos");
          }%><!--queda mejor así xD, solo hay que solucionar el problema de los sweet de no mostrarse cuando no es la primer opción...-->
     </body>

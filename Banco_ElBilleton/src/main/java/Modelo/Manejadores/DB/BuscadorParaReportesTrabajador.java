@@ -24,6 +24,7 @@ public class BuscadorParaReportesTrabajador {
     private TransformadorParaReportes transformadorParaReportes = new TransformadorParaReportes();
     private Buscador buscador = new Buscador();
     private int tipoSituacion;
+    private int numeroClientes;
     
     public List<Transaccion> buscarTransaccionesAtendidas(String codigoCajero, String fechaInicial, String fechaFinal){
         List<Transaccion> transaccionesAtendidas = new LinkedList<>();
@@ -49,26 +50,48 @@ public class BuscadorParaReportesTrabajador {
             System.out.println("Error al buscar las transacciones TRABAJADAS -> "+ e.getMessage());
         }        
         return transaccionesAtendidas;
-    }
+    }        
     
-    public void buscarDuenoDeCuenta(List<Transaccion> transaccionesAtendidas){
-        Usuario duenoDeCuenta = null;
+    public List<Usuario> buscarUsuariosNoGerentes(){        
+        List<Usuario> listadoUsuarios =  new LinkedList<>();
         
-        if(transaccionesAtendidas!=null){//aunque, esto jamás pasaría porque el método que las halla solo es capaz de devolver una lista llena o vacía, mas no nula...
-        for (int transaccionActual = 0; transaccionActual < transaccionesAtendidas.size(); transaccionActual++) {
-                duenoDeCuenta = buscador.buscarDuenoDeCuenta(String.valueOf(transaccionesAtendidas.get(transaccionActual).getNumeroCuentaAfectada()));
+        for (int usuarioBuscado = 0; usuarioBuscado < 2; usuarioBuscado++) {//también hubiera podido hacer un método que buscara todos los usuarios que no fueran gerentes pero no tengo una tabla para todos los usuarios sino una para cada tipo de usuarios...
+            Usuario[] usuarios = buscador.buscarUsuarios((usuarioBuscado==0)?"Cliente":"Cajero", "nombre");            
             
-                if(duenoDeCuenta!=null){
-                    transaccionesAtendidas.get(transaccionActual).establecerDuenoCuentaAfectada(duenoDeCuenta.getNombre());
-                }else{
-                    transaccionesAtendidas.get(transaccionActual).establecerDuenoCuentaAfectada("???");//con tal que sepan que surgió un error, posiblemente ya no exista el gerente... pero no tendría que eliminarse los cambios realizados por el gerente que ya no es trabajador, para evitar este problema... y eso fue lo que se hizo xD, por el hecho de haber establecido el NO ACTION al borrar xD
-                }                
-            }
-        }               
-    }//Para el caso del cajero, no es necesario hacer la búsqueda del nombre del cajero a cargo, puesto que el listado es del cajero que atendió las transacciones, así que... :v xD
+            if(usuarios!=null){
+                numeroClientes = (usuarioBuscado == 1)?usuarios.length:numeroClientes;//con tal de no poner un if y agrandar más la cosa xD
+                for (int usuarioActual = 0; usuarioActual < usuarios.length; usuarioActual++) {            
+                    listadoUsuarios.add(usuarios[usuarioActual]);
+                }                             
+            }        
+        }                    
+        return listadoUsuarios;
+    }//the end xD
+     
+    public double buscarLimiteMinimoReportesTransacciones(String columnaBusqueda){
+        String buscar = "SELECT "+columnaBusqueda+" FROM Setting";//lo que hicieron para evitar las query inyection es, permitir el ingreso de datos directamente por medio de la varibable al string que se introduce al prepared statement [o solamente statement xD creo xD] correspondientes a nombres de columnas es decir que todoa quello que se ingrese directametne en el string "query" nombres o valores de columnas y no directamente las especificaciones de lo que se quiere obtener
+            
+        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE)){
+        
+            ResultSet resultado = instrucciones.executeQuery();
+            if(resultado.first()){
+                return resultado.getDouble(1);
+            }else{
+                return 0;
+            }            
+        }catch(SQLException sqlE){
+            System.out.println("Error al buscar el "+columnaBusqueda);
+        }
+        return -1;
+    }       
     
     public int darTipoSituacion(){
         return tipoSituacion;
+    }
+    
+    public int darNumeroDeClientes(){
+        return numeroClientes;
     }
     
 }

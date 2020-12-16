@@ -5,17 +5,22 @@
  */
 package Modelo.Entidades.Usuarios;
 
+import java.io.Serializable;
+
 /**
  *
  * @author phily
  */
-public class Cliente extends Usuario{
-    String birth;
-    String pathDPI;
- 
+public class Cliente extends Usuario implements Serializable{
+    private String birth;
+    private String pathDPI;
+    private double saldoTotalCuentas;
+    private double totalDebitos;
+    private double totalCreditos;
+    
     public Cliente(int elCodigo, String elNombre, String elDPI, String laDireccion,
-            String elGenero, String elPassword, String elBirth, String elPathDPI) {
-        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword);
+            String elGenero, String elPassword, String fechaIncorporacion, String elBirth, String elPathDPI) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, fechaIncorporacion);
         
         birth = elBirth;
         pathDPI = elPathDPI;
@@ -27,6 +32,30 @@ public class Cliente extends Usuario{
     
     public String getPathDPI(){
         return pathDPI;
+    }
+    
+    public void establecerSaldoTodasCuentas(double elTotal){
+        saldoTotalCuentas = elTotal;    
+    }
+    
+    public double getSaldoTodasLasCuentas(){
+        return saldoTotalCuentas;
+    }
+    
+    public void establecerTotalDebitos(double elTotalDebitos){
+        totalDebitos = elTotalDebitos;
+    }
+    
+    public double getTotalDebitos(){
+        return totalDebitos;
+    }
+    
+    public void establecerTotalCreditos(double elTotalCreditos){
+        totalCreditos = elTotalCreditos;
+    }
+    
+    public double getTotalCreditos(){
+        return totalCreditos;
     }
     
 }

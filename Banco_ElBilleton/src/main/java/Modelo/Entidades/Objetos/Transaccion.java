@@ -5,6 +5,7 @@
  */
 package Modelo.Entidades.Objetos;
 
+import Modelo.Entidades.Usuarios.Cliente;
 import java.io.Serializable;
 
 /**
@@ -14,7 +15,7 @@ import java.io.Serializable;
 public class Transaccion implements Serializable{
     private int codigo;
     private int numeroCuentaAfectada;
-    private String nombreDuenoCuenta;
+    private Cliente cliente;
     private String tipoTransaccion;
     private double monto;
     private String fecha;
@@ -42,12 +43,22 @@ public class Transaccion implements Serializable{
         return numeroCuentaAfectada;
     }
     
-    public void establecerDuenoCuentaAfectada(String nombreDueno){
-        nombreDuenoCuenta = nombreDueno;
+    public void establecerClienteDuenoDeCuenta(Cliente dueno){
+        cliente = dueno;
+    }
+  
+    public String getNombreDuenoCuenta(){
+        if(cliente!=null){
+            return cliente.getNombre();
+        }
+        return "???";
     }
     
-    public String getNombreDuenoCuenta(){
-        return nombreDuenoCuenta;
+    public int getCodigoDuenoCuenta(){
+        if(cliente!=null){
+            return cliente.getCodigo();
+        }
+        return -1;
     }
     
     public String getTipoTransaccion(){

@@ -5,6 +5,7 @@
  */
 package Controladores;
 
+import Modelo.Entidades.Objetos.Cambio;
 import Modelo.Entidades.Objetos.Transaccion;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  *
  * @author phily
  */
-@WebServlet("/gestorReportesTransacciones")
+@WebServlet("/gestorReportesTransaccionesYCambios")
 public class GestorReportesTransacciones extends HttpServlet{
  
     @Override
@@ -44,7 +45,15 @@ public class GestorReportesTransacciones extends HttpServlet{
             System.out.println("path para exportacion: "+request.getServletContext().getRealPath("../../src/main/webbapp/resources/"+(String) request.getSession().getAttribute("nombreArchivo")+".jrxml\n"));//los ../ solo funcionana cuando se esté en HTML XD
             File file = new File(request.getServletContext().getRealPath("/resources/"+(String) request.getSession().getAttribute("nombreArchivo")+".jrxml"));
             JasperReport jasperReports = JasperCompileManager.compileReport(file.getAbsolutePath());
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource((List<Transaccion>)request.getSession().getAttribute("listado"));
+            List<Object> listadoGenerico =(List<Object>) request.getSession().getAttribute("listado");//no estoy segura si esa conversión no dará error, puesto que estoy convirtiendo algo específico a algo muy general...
+            JRBeanCollectionDataSource dataSource = null;
+            
+            if(listadoGenerico.get(0) instanceof Transaccion){
+                dataSource = new JRBeanCollectionDataSource((List<Transaccion>)request.getSession().getAttribute("listado"));
+            }
+            else if(listadoGenerico.get(0) instanceof Cambio){
+               dataSource = new JRBeanCollectionDataSource((List<Cambio>)request.getSession().getAttribute("listado"));
+            }                          
             
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReports, (Map<String, Object>)request.getSession().getAttribute("parametros"), dataSource);
             JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());

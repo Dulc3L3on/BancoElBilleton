@@ -121,4 +121,20 @@ public class Modificador {
         return false;
     }
     
+    public boolean modificarLimiteMenor(String tipoLimite, String nuevoLimite){
+        String modificar = "UPDATE Setting SET "+ tipoLimite +" = ?";
+     
+        try(PreparedStatement instrucciones = conexion.prepareStatement(modificar)){
+            double menorLimite = Double.parseDouble(nuevoLimite);
+            
+            instrucciones.setDouble(1, menorLimite);
+            
+            instrucciones.executeUpdate();
+            return true;
+        }catch(NumberFormatException | SQLException e){
+            System.out.println("Error al modificar el "+tipoLimite +" -> "+e.getMessage());
+        }
+        return false;//Recuerda que lo que se salta Java al existir una excepción en un try-catch es el cuerpo del try no lo que está fuera de él xD
+    }
+    
 }

@@ -45,8 +45,7 @@
                     </div>                
                 </div>                
                 </center>                
-            <%}else{%>
-                
+            <%}else{%>                
                 <%request.getRequestDispatcher("../../gestorParametrosCajero").forward(request, response);
               }%>
         <%}%>

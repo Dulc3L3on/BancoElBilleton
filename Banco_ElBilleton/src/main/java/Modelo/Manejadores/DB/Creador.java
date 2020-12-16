@@ -26,8 +26,9 @@ public class Creador {
     private ControladorIndices controlador = new ControladorIndices();
     
    public Cliente crearCliente(String datosUsuario[], String path){
-        String crear = "INSERT INTO Cliente (codigo, nombre, DPI, pathDPI, direccion, sexo, password, birth) VALUES(?,?,?,?,?,?,?,?)";
+        String crear = "INSERT INTO Cliente (codigo, nombre, DPI, pathDPI, direccion, sexo, password, birth, fechaIncorporacion) VALUES(?,?,?,?,?,?,?,?,?)";
         String contrasenia = herramientas.generarContraseniaAleatoria();//Aquí el método para generarlas aleatoriamente xD
+        String fechaActual = herramientas.darFechaActualString();
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(crear)){            
             int codigo = controlador.autoincrementarEntidad("codigo", 0);
@@ -40,10 +41,11 @@ public class Creador {
             instrucciones.setString(6, datosUsuario[2]);
             instrucciones.setString(7, herramientas.encriptarContrasenia(contrasenia));
             instrucciones.setString(8, datosUsuario[3]);            
+            instrucciones.setString(9, fechaActual);
             
             instrucciones.executeUpdate();
             
-            return conversor.convertirACliente(datosUsuario, codigo, contrasenia, path);//recuerda que no usaste el returnGeneratedKeys por el hecho de que no es autoIncre... sino obliAutoIncre xD jajaja
+            return conversor.convertirACliente(datosUsuario, codigo, contrasenia, fechaActual, path);//recuerda que no usaste el returnGeneratedKeys por el hecho de que no es autoIncre... sino obliAutoIncre xD jajaja
             
         }catch(SQLException sqlE){
             System.out.println("Error al crear el cliente: "+ sqlE.getMessage());           
@@ -52,11 +54,12 @@ public class Creador {
     }//puesto que estoy haciendo referencia a los nombres de las columnas, no es necesario que estén en orden... pero es lo preferible... por ello debes crear y ver si se guarda correctamente para que después no tengas esta duda xD y luego pasarlo al vardadero orden solo para facilitarle el trabajao a MYSQL xD
     
    public Trabajador crearTrabajador(String tipoTrabajador, String[] datosTrabajador){
-       String crear = "INSERT INTO "+ tipoTrabajador + "(codigo, nombre, DPI, direccion, sexo, password, turno) VALUES (?,?,?,?,?,?,?)";
+       String crear = "INSERT INTO "+ tipoTrabajador + "(codigo, nombre, DPI, direccion, sexo, password, turno, fechaIncorporacion) VALUES (?,?,?,?,?,?,?,?)";
        String contrasenia = herramientas.generarContraseniaAleatoria();
        
        try(PreparedStatement instrucciones = conexion.prepareStatement(crear)){
            int codigo = controlador.autoincrementarEntidad("codigo", (tipoTrabajador.equalsIgnoreCase("CAJERO"))?2:1);
+           String fechaActual = herramientas.darFechaActualString();
            
            instrucciones.setInt(1, codigo);
            instrucciones.setString(2,datosTrabajador[0]);
@@ -65,10 +68,11 @@ public class Creador {
            instrucciones.setString(5, datosTrabajador[3]);
            instrucciones.setString(6, herramientas.encriptarContrasenia(contrasenia));
            instrucciones.setString(7, datosTrabajador[4]); 
+           instrucciones.setString(8, fechaActual);          
            
            instrucciones.executeUpdate();
            
-           return conversor.convertirATrabajador(tipoTrabajador, datosTrabajador, codigo, contrasenia);
+           return conversor.convertirATrabajador(tipoTrabajador, datosTrabajador, codigo, contrasenia, fechaActual);
        }catch(SQLException sqlE){
            System.out.println("Error al crear al "+ tipoTrabajador+ ": "+ sqlE.getMessage());
        }

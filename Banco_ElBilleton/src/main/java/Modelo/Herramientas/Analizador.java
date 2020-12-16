@@ -8,7 +8,14 @@ package Modelo.Herramientas;
 import Modelo.Entidades.Objetos.Asociacion;
 import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Objetos.Transaccion;
+import Modelo.Entidades.Usuarios.Cliente;
+import Modelo.Manejadores.DB.Buscador;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,6 +24,7 @@ import java.util.List;
 public class Analizador {
     private int intentos =0;//no es necesario reiniciarlo en el método puesto que cad vez que se busca se está pasando una nueva instancia de este analizador y por lo tanto todo vuelve como al principio...
     private String tipoSituacion;       
+    private Buscador buscador = new Buscador();
     
     public boolean analizarSituacionSolicitudes(Cuenta[] cuentasDeDueno, Asociacion[] asociaciones, String numeroCuenta, int situacionBuscador){                       
         if(situacionBuscador>-1){
@@ -91,6 +99,29 @@ public class Analizador {
             }                        
         }        
         return listadoTransacciones;
+    }
+    
+    public List<Cliente> hallarClientesConCuentasAbandonadas(ResultSet resultado){
+        List<Cliente> listadoClientes = new LinkedList<>();
+        
+        try {
+            Cliente[] clientes = (Cliente[])buscador.buscarUsuarios("Cliente", "orden");
+            resultado.last();
+            int clientesActivos = resultado.getRow();
+            int clientesExcluidos=0;
+            
+            for (int clienteActual = 0; clienteActual < clientes.length; clienteActual++) {                
+                if(clientesExcluidos < clientesActivos && resultado.getInt(1) == clientes[clienteActual].getCodigo()){//Hasta donde yo recuerdo al tener un && si la primer condición resulta ser falsa, entonces ya no revisa la otra...
+                    resultado.next();
+                    clientesExcluidos++;
+                }else{
+                    listadoClientes.add(clientes[clienteActual]);
+                }                                       
+            }                    
+        } catch (SQLException | NullPointerException e) {
+                System.out.println("Error al analizar a los clientes con Cuentas ABANDONADAS -> "+e.getMessage());
+        }
+        return listadoClientes;    
     }
     
 }

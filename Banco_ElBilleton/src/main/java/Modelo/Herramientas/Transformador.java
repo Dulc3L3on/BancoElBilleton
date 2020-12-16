@@ -68,11 +68,11 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         return clientes;        
     }
     
-    private Cliente transformarACliente(ResultSet resultado){
+    public Cliente transformarACliente(ResultSet resultado){
         try {                        
             return new Cliente(resultado.getInt(1),resultado.getString(2),
                     resultado.getString(3), resultado.getString(4), resultado.getString(5),
-                    resultado.getString(6), resultado.getString(7), resultado.getString(8));
+                    resultado.getString(6), resultado.getString(9), resultado.getString(7), resultado.getString(8));
         } catch (SQLException ex) {
             System.out.println("Error al transformar a CLIENTE: "+ ex.getMessage());
         }        
@@ -115,7 +115,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
             if(resultado.getInt(1)!=101){//para evitar que al buscar individualmente, puedan acceder a los datos del cajero de la BancaVirtual... a menos desde este portal xD
             return new Cajero(resultado.getInt(1),resultado.getString(2),
                     resultado.getString(3), resultado.getString(4), resultado.getString(5),
-                    resultado.getString(6), resultado.getString(7));
+                    resultado.getString(6), resultado.getString(8), resultado.getString(7));
             }            
         } catch (SQLException e) {
             System.out.println("Error al transformar a CAJERO: "+ e.getMessage());
@@ -145,7 +145,7 @@ public class Transformador {//recuerda para qué habías dicho que serviría est
         try {                        
             return new Gerente(resultado.getInt(1),resultado.getString(2),
                     resultado.getString(3), resultado.getString(4), resultado.getString(5),
-                    resultado.getString(6), resultado.getString(7));
+                    resultado.getString(6), resultado.getString(8), resultado.getString(7));
         } catch (SQLException e) {
             System.out.println("Error al transformar a GERENTE: "+ e.getMessage());
         }        

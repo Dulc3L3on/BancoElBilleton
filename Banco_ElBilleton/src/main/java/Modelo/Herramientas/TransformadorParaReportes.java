@@ -5,7 +5,9 @@
  */
 package Modelo.Herramientas;
 
+import Modelo.Entidades.Objetos.Cambio;
 import Modelo.Entidades.Objetos.Transaccion;
+import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Manejadores.DB.ManejadorDB;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +20,8 @@ import java.util.List;
  * @author phily
  */
 public class TransformadorParaReportes {
-    Connection conexion = ManejadorDB.darConexion();
+    private Connection conexion = ManejadorDB.darConexion();
+    private Transformador transformador = new Transformador();
     
     public boolean colocarseAlPrincipio(ResultSet resultado){
         try{
@@ -32,12 +35,16 @@ public class TransformadorParaReportes {
     public List<Transaccion> transformarATransacciones(ResultSet resultado){
         List<Transaccion> listaTransacciones = new LinkedList<>();
         
-        try{            
+        try{    
             if(resultado.first()){
-                do{
-                    listaTransacciones.add(transformarATransaccion(resultado));                               
-                }while(resultado.next());                
-            }                                              
+                do{                    
+                    Transaccion transaccion = transformarATransaccion(resultado);
+                   
+                   if(transaccion!=null){
+                        listaTransacciones.add(transaccion);
+                    }//no hay que agregar si != null entonces agergarlo al listado???                             
+                }while(resultado.next());                            
+            }            
         }catch(SQLException sqlE){
             System.out.println("Error al transformar a TRANSACCIONES -> "+ sqlE.getMessage());
         }
@@ -55,4 +62,49 @@ public class TransformadorParaReportes {
         }        
          return null;               
     }
+    
+    public List<Cambio> transformarACambios(ResultSet resultado, String tipoUsuario){
+        List<Cambio> listaCambios = new LinkedList<>();
+        
+        try{            
+           do{
+                Cambio cambio = transformarACambio(resultado, tipoUsuario);
+                if(cambio!=null){
+                    listaCambios.add(cambio);  
+                }                    
+            }while(resultado.next());                  
+        }catch(SQLException sqlE){
+            System.out.println("Error al transformar a CAMBIOS -> "+ sqlE.getMessage());
+        }
+        return listaCambios;    
+    }
+    
+    public Cambio transformarACambio(ResultSet resultado, String tipoUsuario){
+        try{
+            Cambio cambio = new Cambio(resultado.getString(1), resultado.getString(2), resultado.getInt(3), resultado.getString(4), resultado.getString(6), resultado.getString(7));                       
+            cambio.establecerCodigoUsuarioCambiado((tipoUsuario.equalsIgnoreCase("Gerente"))?resultado.getInt(3):resultado.getInt(5));
+            return cambio;
+        }catch(SQLException e){
+            System.out.println("Error al transformar a CAMBIO -> "+ e.getMessage());
+        }//
+        return null;
+    }
+    
+    public List<Cliente> transformarAListadoClientesAdinerados(ResultSet resultado){
+        List<Cliente> listadoClientes = new LinkedList<>();
+        
+        try {             
+            do{//PUESTO que ya se revisó que posea como mínimo un registro para emplear este método..
+                Cliente cliente = transformador.transformarACliente(resultado);
+                    
+                if(cliente!=null){
+                    cliente.establecerSaldoTodasCuentas(resultado.getDouble(10));
+                    listadoClientes.add(cliente);
+                }                                        
+            }while(resultado.next());//no bastaba cn colocar solo un while??? puesto que la primera ve que se exe el .next colocaría en el primer registro y si devolvía false es porque no hay registro alguno...                
+        } catch (SQLException e) {
+            System.out.println("Error al transformar a CLIENTES");
+        }
+        return listadoClientes; 
+    }      
 }

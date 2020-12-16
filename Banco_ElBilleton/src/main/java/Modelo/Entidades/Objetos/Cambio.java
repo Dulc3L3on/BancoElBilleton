@@ -5,16 +5,19 @@
  */
 package Modelo.Entidades.Objetos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author phily
  */
-public class Cambio {
+public class Cambio implements Serializable{
     private int codigoGerenteACargo;
     private String nombreGerenteACargo;
     private String fecha;
     private String hora;
     private String tipo;
+    private int codigoUsuarioCambiado;
     private String datoNuevo;
     private String datoAntiguo;    
     
@@ -25,7 +28,7 @@ public class Cambio {
         tipo = elTipo;
         datoNuevo = elDatoNuevo;        
         datoAntiguo = elDatoAntiguo;        
-    }
+    }      
     
     public void establecerNombreGerenteACargo(String elNombre){
         nombreGerenteACargo = elNombre;
@@ -37,7 +40,7 @@ public class Cambio {
     
     public String getNombreGerenteACargo(){
         return nombreGerenteACargo;
-    }
+    }    
     
     public String getFecha(){
         return fecha;
@@ -49,6 +52,14 @@ public class Cambio {
     
     public String getTipo(){
         return tipo;
+    }
+    
+    public void establecerCodigoUsuarioCambiado(int codigoUsuario){
+       codigoUsuarioCambiado = codigoUsuario;
+    }
+    
+    public int getCodigoUsuarioCambiado(){
+        return codigoUsuarioCambiado;
     }
     
     public String getDatoNuevo(){

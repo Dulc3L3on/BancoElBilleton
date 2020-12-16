@@ -18,8 +18,8 @@ public class Gerente extends Trabajador{
     Kit herramienta = new Kit();
     Registrador registrador = new Registrador();
     
-    public Gerente(int elCodigo, String elNombre, String elDPI, String laDireccion, String elGenero, String elPassword, String elTurno) {
-        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, elTurno);
+    public Gerente(int elCodigo, String elNombre, String elDPI, String laDireccion, String elGenero, String elPassword, String laFechaIncorporacion, String elTurno) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, laFechaIncorporacion, elTurno);
     }
     
     public void hallarCambiosCajero(Cajero cajeroAntiguo, String datosNuevos[]){
@@ -45,8 +45,8 @@ public class Gerente extends Trabajador{
         if(!clienteAntiguo.nombre.equals(datosNuevos[4])){
             registrador.registrarCambioClienteCajero("Cliente", codigo, "nombre", clienteAntiguo.nombre, datosNuevos[4], clienteAntiguo.codigo);
         }
-        if(!clienteAntiguo.pathDPI.equals(datosNuevos[5])){
-            registrador.registrarCambioClienteCajero("Cliente", codigo, "archivo DPI", clienteAntiguo.pathDPI, datosNuevos[5], clienteAntiguo.codigo);
+        if(!clienteAntiguo.getPathDPI().equals(datosNuevos[5])){
+            registrador.registrarCambioClienteCajero("Cliente", codigo, "archivo DPI", clienteAntiguo.getPathDPI(), datosNuevos[5], clienteAntiguo.codigo);
         }
         if(!clienteAntiguo.direccion.equals(datosNuevos[6])){
             registrador.registrarCambioClienteCajero("Cliente", codigo, "direccion", clienteAntiguo.direccion, datosNuevos[6], clienteAntiguo.codigo);

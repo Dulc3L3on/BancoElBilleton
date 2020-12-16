@@ -5,12 +5,12 @@
  */
 package Controladores;
 
-
 import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Herramientas.Kit;
 import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.BuscadorParaReportesTrabajador;
+import Modelo.Manejadores.DB.BuscadorPersonaEncargada;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GestorParametrosCajero extends HttpServlet{
     private Buscador buscador = new Buscador();
     private BuscadorParaReportesTrabajador buscadorParaReportes = new BuscadorParaReportesTrabajador();
+    private BuscadorPersonaEncargada buscadorPersonaEncargada = new BuscadorPersonaEncargada();
     private Kit herramientas = new Kit();
    
     @Override
@@ -43,7 +44,7 @@ public class GestorParametrosCajero extends HttpServlet{
         }
         
         request.getSession().setAttribute("parametros", mapa);                
-        establecerListadoDeTransacciones(request, response);                       
+        establecerListadoDeTransacciones(datosBoton[1], request, response);                       
     }
     
     
@@ -68,18 +69,23 @@ public class GestorParametrosCajero extends HttpServlet{
         
     }
     
-    private void establecerListadoDeTransacciones(HttpServletRequest request, HttpServletResponse response){
+    private void establecerListadoDeTransacciones(String tipoListado, HttpServletRequest request, HttpServletResponse response){
         try{
             List<Transaccion> transaccionesAtendidas = buscadorParaReportes.buscarTransaccionesAtendidas((String) request.getSession().getAttribute("codigo"), request.getParameter("fechaInicial"), request.getParameter("fechaFinal"));
             
             if(buscadorParaReportes.darTipoSituacion()==1){
-                buscadorParaReportes.buscarDuenoDeCuenta(transaccionesAtendidas);
+                buscadorPersonaEncargada.buscarDuenoDeCuenta(transaccionesAtendidas);
                 
                 request.getSession().setAttribute("listado", transaccionesAtendidas);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD                        
                 response.sendRedirect((request.getParameter("reporte").contains("Intervalo"))?"gestorReportesTransacciones":"../../gestorReportesTransacciones");
             }else{
                 request.getSession().setAttribute("sinDatos",true);
-                response.sendRedirect("Reportes_Cajero.jsp");
+                if(tipoListado.contains("Intervalo")){
+                    response.sendRedirect("Trabajadores/Cajero/Reportes_Cajero.jsp");//supongo, puesto que con el gerente fue necesario, al igual que ocn el CLiente, ya que aquí se hace una redirección con el response a partir de una redirección previa para mostrar el form...
+                }else{
+                    response.sendRedirect("Reportes_Cajero.jsp");
+                }
+                
             }                        
         }catch(IOException e){
             System.out.println("Error al establecer el listado de TRANSACCIONES ATENDIDAS -> "+e.getMessage());

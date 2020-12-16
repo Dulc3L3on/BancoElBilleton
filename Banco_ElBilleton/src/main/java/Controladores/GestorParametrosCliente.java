@@ -11,6 +11,7 @@ import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Herramientas.Kit;
 import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.BuscadorParaReportesCliente;
+import Modelo.Manejadores.DB.BuscadorPersonaEncargada;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GestorParametrosCliente extends HttpServlet{
     private Buscador buscador = new Buscador();
     private BuscadorParaReportesCliente buscadorParaReportes = new BuscadorParaReportesCliente();
+    private BuscadorPersonaEncargada buscadorPersonaEncargada = new BuscadorPersonaEncargada();
     private Kit herramientas = new Kit();
     private int numeroCuentaMayor;
     
@@ -38,9 +40,7 @@ public class GestorParametrosCliente extends HttpServlet{
         request.getSession().setAttribute("nombreArchivo", datosBoton[1]);
         
         establecerParametros(request.getParameter("reporte"), request);        
-        establecerListados(request.getParameter("reporte") ,request, response);        
-        
-        
+        establecerListados(request.getParameter("reporte") ,request, response);                        
     }
     
     private void establecerParametros(String tipoParametros, HttpServletRequest request){
@@ -103,8 +103,7 @@ public class GestorParametrosCliente extends HttpServlet{
             default://puesto que este método ya posee la condición para hacer bien la separación xD
                 establecerListadoSolicitudes(request, response);
             break;            
-        }
-    
+        }    
     }
     
     private void establecerListadoUltimas15Transacciones(HttpServletRequest request, HttpServletResponse response){       
@@ -112,10 +111,10 @@ public class GestorParametrosCliente extends HttpServlet{
             List<Transaccion> ultimas15Transacciones = buscadorParaReportes.buscarUltimas15Transacciones((String) request.getSession().getAttribute("codigo"));
             
             if(ultimas15Transacciones!=null && !ultimas15Transacciones.isEmpty()){
-                ultimas15Transacciones = buscadorParaReportes.buscarNombreCajeroACargo(ultimas15Transacciones);//NO es necesario que este método devuelva algo por el hecho de ser un cb por referencia y NO por valor... xD
+                ultimas15Transacciones = buscadorPersonaEncargada.buscarNombreCajeroACargo(ultimas15Transacciones);//NO es necesario que este método devuelva algo por el hecho de ser un cb por referencia y NO por valor... xD
             
                 request.getSession().setAttribute("listado", ultimas15Transacciones);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD        
-                response.sendRedirect("../gestorReportesTransacciones");
+                response.sendRedirect("../gestorReportesTransaccionesYCambios");
             }else{
                 request.getSession().setAttribute("sinDatos",true);
                 response.sendRedirect("Reportes_Cliente.jsp");
@@ -129,15 +128,15 @@ public class GestorParametrosCliente extends HttpServlet{
         try {
             List<Transaccion> todasLasTransaccionesDeCuenta = buscadorParaReportes.buscarTodasLasTransacciones(request.getParameter("numeroCuenta"), request.getParameter("fechaInicial"), request.getParameter("fechaFinal"));
             if(buscadorParaReportes.darTipoSituacion()==1){
-                todasLasTransaccionesDeCuenta = buscadorParaReportes.buscarNombreCajeroACargo(todasLasTransaccionesDeCuenta);
+                todasLasTransaccionesDeCuenta = buscadorPersonaEncargada.buscarNombreCajeroACargo(todasLasTransaccionesDeCuenta);
             
                 request.getSession().setAttribute("listado", todasLasTransaccionesDeCuenta);
-                response.sendRedirect("gestorReportesTransacciones");
+                response.sendRedirect("gestorReportesTransaccionesYCambios");
             }else{
                 request.getSession().setAttribute("sinDatos",true);
                 response.sendRedirect("Cliente/Reportes_Cliente.jsp");
             }
-            
+             
         } catch (IOException e) {
             System.out.println("Error al establecer el listado del ESTADO DE CUENTA -> "+ e.getMessage());
         }
@@ -148,11 +147,11 @@ public class GestorParametrosCliente extends HttpServlet{
             int cuentaConMasDinero = buscadorParaReportes.buscarCuentaConMasDinero((String) request.getSession().getAttribute("codigo"));
             List<Transaccion> listadoTransacciones = new LinkedList<>();
             
-            if(cuentaConMasDinero==-1){
+            if(cuentaConMasDinero!=-1){//par mi que debería ser !=-1 puesto que cuando es así todo salió bien... pero ya lo había modificado y terminé dejándolo así, no se por qué :v
                 listadoTransacciones = buscadorParaReportes.buscarTransaccionesDeCuenta(cuentaConMasDinero, request.getParameter("fechaInicial"), request.getParameter("fechaFinal"));
-                listadoTransacciones = buscadorParaReportes.buscarNombreCajeroACargo(listadoTransacciones);
+                listadoTransacciones = buscadorPersonaEncargada.buscarNombreCajeroACargo(listadoTransacciones);
                 request.getSession().setAttribute("listado", listadoTransacciones);
-                response.sendRedirect("gestorReportesTransacciones");
+                response.sendRedirect("gestorReportesTransaccionesYCambios");
             }else{
                 request.getSession().setAttribute("sinDatos",true);
                 response.sendRedirect("Cliente/Reportes_Cliente.jsp");
@@ -172,9 +171,14 @@ public class GestorParametrosCliente extends HttpServlet{
                 solicitudes = buscador.buscarSolicitudes("recibidas", "codigoSolicitante", (String)request.getSession().getAttribute("codigo"));
             }
             
-            List<Asociacion> listadoSolicitudes = buscadorParaReportes.buscarNombrePersonaInvolucrada((request.getParameter("reporte").contains("Recibidas"))?"solicitado":"solicitante", solicitudes);
-            request.getSession().setAttribute("listado", listadoSolicitudes);                    
-            response.sendRedirect("../gestorReportesAsociaciones");
+            if(buscador.darTipoSituacion()==1){
+                List<Asociacion> listadoSolicitudes = buscadorPersonaEncargada.buscarNombrePersonaInvolucrada((request.getParameter("reporte").contains("Recibidas"))?"solicitado":"solicitante", solicitudes);
+                request.getSession().setAttribute("listado", listadoSolicitudes);                    
+                response.sendRedirect("../gestorReportesAsociaciones");
+            }else{
+                request.getSession().setAttribute("sinDatos",true);
+                response.sendRedirect("Reportes_Cliente.jsp");
+            }//aunque, pensando bien, es redundante puesto que deshabilito el btn si es que no existen el tipo de solicitudes que el reporte en cuestión muestra...
         } catch (IOException e) {
             System.out.println("Error al establecer el listado de SOLICITUDES -> "+ e.getMessage());
         }

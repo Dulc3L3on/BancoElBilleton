@@ -7,6 +7,7 @@ package Modelo.Herramientas;
 
 import Modelo.Entidades.Usuarios.Usuario;
 import Modelo.Manejadores.DB.Buscador;
+import Modelo.Manejadores.DB.BuscadorExistencia;
 import Modelo.Manejadores.DB.ManejadorDB;
 import java.sql.Connection;
 
@@ -16,20 +17,20 @@ import java.sql.Connection;
  */
 public class GuardiaSeguridad {
     Buscador buscador = new Buscador();
+    BuscadorExistencia buscadorExistencia = new BuscadorExistencia();
     Connection conexion = ManejadorDB.darConexion();
     Usuario usuario;
     Kit herramienta = new Kit();
     
     public boolean estanTodasLlenas(){
         for(int entidadActual =0; entidadActual<5; entidadActual++){
-            if(!buscador.esTablaLlena(entidadActual)){
+            if(!buscadorExistencia.esTablaLlena(entidadActual)){
                 return false;
             }
         }        
         return true;
     }
-    
-    
+        
     public boolean esDPIunico(String DPIingresado){
         String tipoUsuario[] ={"Gerente", "Cajero", "Cliente"};
         

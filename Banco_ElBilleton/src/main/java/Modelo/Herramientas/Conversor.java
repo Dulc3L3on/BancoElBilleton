@@ -18,26 +18,27 @@ import Modelo.Entidades.Usuarios.Trabajador;
  * @author phily
  */
 public class Conversor {
-    public Cliente convertirACliente(String datos[], int codigo, String contrasenia, String path){//al parecer el path lo recibiraás después... porque debes pensar como llamarás al otro servlet... en el que se encarga de la ... O podrías hacerlo con un dopost o un método más en este mismo servlet... pero eso implicaría tener otro para la carga de datos...
-        return new Cliente(codigo, datos[0], datos[1], datos[4], datos[2], contrasenia, datos[3], path);
+    public Cliente convertirACliente(String datos[], int codigo, String contrasenia, String fechaIncorporacion, String path){//al parecer el path lo recibiraás después... porque debes pensar como llamarás al otro servlet... en el que se encarga de la ... O podrías hacerlo con un dopost o un método más en este mismo servlet... pero eso implicaría tener otro para la carga de datos...
+        return new Cliente(codigo, datos[0], datos[1], datos[4], datos[2], contrasenia, fechaIncorporacion, datos[3], path);
     }
     
-    public Trabajador convertirATrabajador(String tipoTrabajador, String datos[], int codigo, String contrasenia){
+    public Trabajador convertirATrabajador(String tipoTrabajador, String datos[], int codigo, String contrasenia,
+      String fechaIncorporacion){
         switch(tipoTrabajador){
             case "Cajero":
-                return convertirACajero(datos, codigo, contrasenia);//Se convierte implícitamente a trabajador xD
+                return convertirACajero(datos, codigo, contrasenia, fechaIncorporacion);//Se convierte implícitamente a trabajador xD
             case "Gerente":
-                return convertirAGerente(datos, codigo, contrasenia);
+                return convertirAGerente(datos, codigo, contrasenia, fechaIncorporacion);
         }
         return null;//como YO soy quien le mada el tipo xD NO PROBLEM! XD jajaja
     }
     
-    private Cajero convertirACajero(String datos[], int codigo, String contrasenia){
-        return new Cajero(codigo, datos[0], datos[1], datos[2], datos[3], contrasenia, datos[4]);
+    private Cajero convertirACajero(String datos[], int codigo, String contrasenia, String fechaIncorporacion){
+        return new Cajero(codigo, datos[0], datos[1], datos[2], datos[3], contrasenia, fechaIncorporacion, datos[4]);
     }
     
-    private Gerente convertirAGerente(String datos[], int codigo, String contrasenia){
-        return new Gerente(codigo, datos[0], datos[1], datos[2], datos[3], contrasenia, datos[4]);
+    private Gerente convertirAGerente(String datos[], int codigo, String contrasenia, String fechaIncorporacion){
+        return new Gerente(codigo, datos[0], datos[1], datos[2], datos[3], contrasenia, fechaIncorporacion, datos[4]);
     }
     
     public Cuenta convertirACuenta(int numeroCuenta, int codigoDueno, double monto, String fechaCreacion){

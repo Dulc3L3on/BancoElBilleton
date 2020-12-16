@@ -23,25 +23,7 @@ public class Buscador {
     private Connection conexion = ManejadorDB.darConexion();
     private Transformador transformador = new Transformador();        
     private int tipoSituacion;//Este será util para informar que tipo de situación surgió... especialmente cuando pueden suceder más de 2, puesto que solo se puede expresar en una de dos formas..., devolver el obj o devolver nulo, entonces de esta manera se evita la ambigüedad...    
-    
-    public boolean esTablaLlena(int numeroEntidad){
-        String entidades[] = {"Cliente", "Gerente", "Cajero", "Transaccion", "Cuenta"};
-        String buscar = "SELECT * FROM "+entidades[numeroEntidad];
-        
-        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
-                        ResultSet.CONCUR_UPDATABLE)){
-            ResultSet resultado = instrucciones.executeQuery();            
-            
-           if(resultado.first()){
-               return true;
-           }
-            
-        }catch(SQLException sqlE){
-            System.out.println("Error al verificar llenura de " + entidades[numeroEntidad] + " "+ sqlE.getMessage());
-        }
-        return false;
-    }
-    
+         
     public Usuario[] buscarUsuarios(String tipo, String tipoOrden){//Este tipo está = que el nombre en la DB
         String buscar ="SELECT * FROM "+ tipo+ " ORDER BY "+ tipoOrden;
         
