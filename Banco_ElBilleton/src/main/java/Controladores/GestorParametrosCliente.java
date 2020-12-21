@@ -14,7 +14,6 @@ import Modelo.Manejadores.DB.BuscadorParaReportesCliente;
 import Modelo.Manejadores.DB.BuscadorPersonaEncargada;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -70,10 +69,9 @@ public class GestorParametrosCliente extends HttpServlet{
     
     private void darParametrosPersonalesMasFechas(Map<String, Object> mapa, HttpServletRequest request){
         if(mapa!=null){
-            mapa.put("fechaInicial", request.getParameter("fechaInicial"));
-            mapa.put("fechaFinal", request.getParameter("fechaFinal"));                
-        }
-        
+            mapa.put("fechaInicial", (request.getParameter("fechaInicial")==null)?"???":request.getParameter("fechaInicial"));
+            mapa.put("fechaFinal", request.getParameter("fechaFinal"));//Se supone que nunca debería ser null y si fuese así y por ello fallara la búsqueda, entonces debería mostrar un msje indicando que algo mal salió en la búsqueda xD                
+        }        
     }
     
     private void darParametrosPersonalesMasCuenta(Map<String, Object> mapa, HttpServletRequest request){

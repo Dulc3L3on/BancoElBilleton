@@ -104,13 +104,11 @@
                         </th>
                     </tr>                                                               
                 </table><!--esto debería ser reemplazado por el html del JR...-->                                    
-                <form method="POST" action="gestorParametrosCliente">
-                    <input type="text" name="reporte" value="" hidden>                        
+                <form method="POST" action="gestorParametrosCliente">                    
                     <input type="text" name="codigoDueno" value="<%=codigoDueno%>" hidden>                        
                     <input type="text" name="numeroCuenta" value="<%=request.getParameter("numeroCuenta")%>" hidden>                        
-                    <input type="text" name="fechaFinal" value="<%=java.time.LocalDate.now()%>" hidden>                        
-                    <input type="submit" name="reporte" value="PersonalesFechasCuentaDesdeCajero_EstadoDeCuenta" hidden>
-                    <input type="submit" name="submit" id="submit" value="DESCARGAR ESTADO DE CUENTA" style="width: 300px; height: 65px;">
+                    <input type="text" name="fechaFinal" value="<%=java.time.LocalDate.now()%>" hidden>                                                                
+                    <button type ="submit" name="reporte" value="PersonalesFechasCuentaDesdeCajero_EstadoDeCuenta" style="width: 300px; height: 65px;"><img  src="img/flechitaDescarga.png" style="width: 25px; height: 25px;"> DESCARGAR ESTADO DE CUENTA</button>
                 </form><!--recuerda que toma el valor como si etsuviera vacío, pero no es así... puede que se haya trabajdo de tanto compilar xD o que sea un error en la dirección de la redirección xD, pero si fuera así, no podría llegar al gestor de Paráms del Cliente...-->
        <%}else{%>             
             <input type="text" id="tipoMsje" value="errorTransaccion" hidden>

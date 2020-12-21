@@ -76,7 +76,7 @@ public class BuscadorParaReportesCliente {
         List<Transaccion> listaTransaccionesTodasLasCuentas = new LinkedList<>();
        
         for (int cuentaActual = 0; cuentaActual < numeroCuentas.length; cuentaActual++) {
-            List<Transaccion> listaTransaccionesHalladas = buscarTransaccionesDeCuenta(numeroCuentas[cuentaActual], String.valueOf(herramientas.darAnioActual())+"-01-01", String.valueOf(herramientas.darAnioActual())+"-12-31");            
+            List<Transaccion> listaTransaccionesHalladas = buscarTransaccionesDeCuenta(numeroCuentas[cuentaActual], String.valueOf(herramientas.darAnioActual())+"-01-01", herramientas.darFechaActualString());//lo hago así por el hecho de que no existirán transcciones de días que aún no hayan pasado :v xD
             
             for (int transaccionActual = 0; transaccionActual < ((listaTransaccionesHalladas.size()<=15)?listaTransaccionesHalladas.size():15); transaccionActual++) {
                 listaTransaccionesTodasLasCuentas.add(listaTransaccionesHalladas.get(transaccionActual));

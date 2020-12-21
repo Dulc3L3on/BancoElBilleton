@@ -81,7 +81,7 @@ public class Analizador {
         if(sumaTransacciones[0]>=sumaTransacciones[1]){//Es decir créditos > debitos [pongo el = por si acaso el saldo inicial era de 0...
             return montoActual- (sumaTransacciones[0]-sumaTransacciones[1]);
         }        
-        return montoActual + (sumaTransacciones[0]-sumaTransacciones[1]);//y asi se obtiene el monto inicial xD
+        return montoActual + (sumaTransacciones[1]-sumaTransacciones[0]);//y asi se obtiene el monto inicial xD
     }
     
     public List<Transaccion> hallarSaldosPorTransacciones(double saldoActual, int numeroCuenta, List<Transaccion> listadoTransacciones){                                

@@ -31,12 +31,12 @@
 				<text><![CDATA[Estado de Cuenta]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="51" y="40" width="172" height="20" uuid="01033be6-8cd6-4125-88e2-70111a8d23b6"/>
+				<reportElement x="51" y="40" width="172" height="20" forecolor="#575656" uuid="01033be6-8cd6-4125-88e2-70111a8d23b6"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{numeroCuentaAfectada}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="20" y="40" width="31" height="20" forecolor="#575656" uuid="9921a002-6772-42a2-9aba-db56c8384674"/>
+				<reportElement x="20" y="40" width="31" height="20" forecolor="#000000" uuid="9921a002-6772-42a2-9aba-db56c8384674"/>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Manjari Regular" size="12" isBold="true"/>
 				</textElement>
@@ -85,7 +85,7 @@
 				<textFieldExpression><![CDATA[$P{DPI}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="20" y="60" width="50" height="20" forecolor="#575656" uuid="03de36fc-4864-4078-a72a-6156f8b9bfa5"/>
+				<reportElement x="20" y="60" width="50" height="20" forecolor="#000000" uuid="03de36fc-4864-4078-a72a-6156f8b9bfa5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Manjari Regular" size="11" isBold="true"/>
 				</textElement>
@@ -373,14 +373,14 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="64" splitType="Stretch">
+		<band height="56" splitType="Stretch">
 			<rectangle>
 				<reportElement mode="Opaque" x="240" y="16" width="511" height="20" forecolor="#B0C7D1" backcolor="#BFC1C7" uuid="19081bed-af4b-4325-aaa5-da0301dd941e"/>
 			</rectangle>
 			<textField>
 				<reportElement x="250" y="19" width="72" height="15" uuid="013b973d-51a3-41d8-af80-cafe786f0d99"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página" + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="330" y="19" width="53" height="15" uuid="ee8f9d22-4c27-4429-9d69-c07e129122bc"/>
@@ -400,14 +400,7 @@
 				<textFieldExpression><![CDATA[$P{horaActual}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="246" y="40" width="498" height="12" uuid="3ccbad73-2ed8-4ed5-876f-473b8ceeca42"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6.5" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Al exisitir más de una cuenta pertenecientes al cliente en cuestión con el mismo saldo, se mostrará el detalle de la cuenta con No. de cuenta menor]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="252" y="52" width="209" height="12" uuid="0e287e44-3f6e-4d27-863e-cb06872512fa"/>
+				<reportElement x="252" y="36" width="209" height="12" uuid="0e287e44-3f6e-4d27-863e-cb06872512fa"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6.5" isItalic="true"/>
 				</textElement>
