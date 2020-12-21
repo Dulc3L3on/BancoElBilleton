@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Entidades.Objetos.Asociacion"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
@@ -15,12 +16,17 @@
         <link rel="stylesheet" href="../css/cssCliente.css">
         <link rel="stylesheet" href="css/cssCliente.css">
         <title>RequestReceived</title>
-        <%!Buscador buscador = new Buscador();
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Buscador buscador = new Buscador();
            Cliente clienteSolicitante;
            Asociacion[] solicitudes;
            String[] datosInteraccion;%>
     </head>
-    <body>                
+    <body>    
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cliente")){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <%solicitudes = buscador.buscarSolicitudes("RECIBIDAS","codigoSolicitado", (String) request.getSession().getAttribute("codigo"));%><!--aunque por el hecho de que aún no ha ido al doPost quien se encarga de cb el estado por medio del cual se sabe si aún es solicitud o no, entonces no habría problema con que estuviera antes de la redirección al gestor, pero si sale bien para evitar realizar una axn extra, eso considerando que el valor del obj solicitudes se conserva, sino pues pasalo antes del bloque de arriba xD y listo xD-->
          <br/>
         <%if(buscador.darTipoSituacion()==1){%>

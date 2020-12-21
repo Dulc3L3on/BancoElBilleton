@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Nodo"%>
 <%@page import="Modelo.Entidades.Objetos.Cambio"%>
 <%@page import="Modelo.ListaEnlazada"%>
@@ -17,12 +18,17 @@
         <link rel="icon" href="img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
         
         <title>RECORD</title>
-        <%!ListaEnlazada<ListaEnlazada<Cambio>> listadoCambiosGeneral;
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           ListaEnlazada<ListaEnlazada<Cambio>> listadoCambiosGeneral;
            Nodo<ListaEnlazada<Cambio>> nodoDeListados;
            ListaEnlazada<Cambio> listado;
            Nodo<Cambio> nodoAuxiliar;%>
     </head>
     <body>
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <center>                       
             <%if(request.getAttribute("mostrarError")!= null){%> 
                 <input type="text" id="tipoMsje" value="erroActualizacionUsuario" hidden>

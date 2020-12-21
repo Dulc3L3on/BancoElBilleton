@@ -5,11 +5,14 @@
  */
 package Modelo.Herramientas;
 
+import Modelo.Entidades.Usuarios.Trabajador;
 import Modelo.Entidades.Usuarios.Usuario;
 import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.BuscadorExistencia;
 import Modelo.Manejadores.DB.ManejadorDB;
 import java.sql.Connection;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -73,5 +76,25 @@ public class GuardiaSeguridad {
         }        
         return false;
     }  
+    
+    public boolean esPermitidaEstadia(HttpServletRequest request, HttpServletResponse response, String codigo, String tipoUsuario){
+        if(!tipoUsuario.equals("Cliente")){
+            if(estaEnHorario(tipoUsuario, (String)request.getSession().getAttribute("codigo"))==false){//EN lugar de esto, podrías revisar la negación de laexpresión... creo xD
+                return false;
+            }            
+        }        
+        return (request.getSession().getAttribute("codigo") != null);             
+    }    
+    
+    
+    public boolean estaEnHorario(String tipoTrabajador, String codigo){
+        Trabajador trabajador = (Trabajador) buscador.buscarUsuario(tipoTrabajador, "codigo", codigo);
+        
+        if((trabajador.getTurno().equals("matutino") && System.currentTimeMillis() >= herramienta.obtenerHoraEnMiliSegundos("06:00:00") || System.currentTimeMillis() <= herramienta.obtenerHoraEnMiliSegundos("14:30:00"))
+            || (trabajador.getTurno().equals("matutino") && System.currentTimeMillis() >= herramienta.obtenerHoraEnMiliSegundos("13:00:00") || System.currentTimeMillis() <= herramienta.obtenerHoraEnMiliSegundos("22:00:00"))){//para las 6 AM 46800000000 para las 13 PM 21600000000
+            return true;
+        }//Solo debes revisar la hora en milliss para hacerlo más fácil si se pasa o es menor según el tipo de turno correspondiente, eso lo harás en otro método, ahí revisas si haces uno por cada tipo o no xD
+        return false;
+    }
     
 }

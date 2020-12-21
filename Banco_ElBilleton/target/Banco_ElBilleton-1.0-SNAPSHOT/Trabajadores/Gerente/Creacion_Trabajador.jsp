@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,8 +12,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
          <link rel="stylesheet" href="../../css/cssGerente.css">
         <title>CreateWork</title>
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();%>
     </head>
     <body>
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <center>
             <form method="POST" action="../../gestorCreacionTrabajadores">
                 <div id="contenedorGeneral">

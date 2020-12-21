@@ -4,6 +4,8 @@
     Author     : phily
 --%>
 
+<%@page import="Controladores.GestorCargaDPI"%>
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Entidades.Objetos.Cuenta"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
@@ -14,15 +16,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../../css/cssCajero.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
-        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
-        
+        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->                
         <title>Retirement</title>
-        <%!Buscador buscador = new Buscador();
-           Cliente cliente;
-           Cuenta cuentas[];%>
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Buscador buscador = new Buscador();
+           Cliente cliente = null;
+           Cuenta cuentas[] = null;%>
     </head>
     <body>   
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero") || !guardia.estaEnHorario("Cajero", (String) request.getSession().getAttribute("codigo"))){%>        
+            <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
+            <script src="../../js/sweetInformativo.js"></script>
+            <%response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]
+        }%>
         <%if(request.getParameter("DPI_Buscado")!=null){
+            cliente = null;
+            cuentas = null;
             cliente = (Cliente)buscador.buscarUsuario("Cliente", "DPI", request.getParameter("DPI_Buscado"));
             if(cliente!=null){
                 cuentas = (Cuenta[]) buscador.buscarCuentasDeDueno(cliente.getCodigo());
@@ -56,13 +65,20 @@
             <%if(cuentas!=null && request.getParameter("DPI_Buscado")!=null){%>
                 <form method="POST" action="../../gestorRetiro">
                     <div id="contenedorGeneral">
-                        <input type="text" name="codigoDueno" value="<%=cliente.getCodigo()%>" hidden>
+                        <input type="text" name="codigoDueno" value="<%=cliente.getCodigo()%>" hidden>                        
                         <table>                        
                             <tr>
                                 <th colspan="2">
                                     <h3 id="subencabezado">>>DATOS DUEÑO DE CUENTA</h3>
                                 </th>
                             </tr>
+                            <tr>
+                                <th colspan="2">     
+                                <center>
+                                     <iframe src="<%=GestorCargaDPI.BASE_PATH+"/"+cliente.getPathDPI()%>" width="780px" height="300px"></iframe>                                                                              
+                                </center>                                
+                            </th>
+                            </tr>                            
                             <tr id="nombresDatos">
                                 <th>
                                     <h5 id="subtitulo">Nombre</h5>
@@ -124,10 +140,10 @@
                 </form>    
           <%}else if(request.getParameter("DPI_Buscado")!=null && cuentas==null){%><!--Creo que este tipo de msjes, deberían mostrarse como texto... [con este tipo me refiero a los que se muestran en la misma página en la que se están ingresando los datos... pero mira su apariencia, si te parece entonces déjalo con el sweet xD-->                
                 <input type="text" id="tipoMsje" value="errorBusquedaCuentas" hidden>
-                <script src="js/sweetError.js"></script>
+                <script src="../../js/sweetError.js"></script>
           <%}else if(cuentas!=null && cliente==null){%>                
                 <input type="text" id="tipoMsje" value="errorBusquedaDueno" hidden>
-                <script src="js/sweetError.js"></script>
+                <script src="../../js/sweetError.js"></script>
           <%}%>
             <script>
                 function maximoMonto(){
@@ -141,7 +157,7 @@
                     }
                     
                     if(document.getElementById('saldo').value > 0){
-                        document.getElementsByClassName('saldo').style.color="green";
+                        document.getElementsByClassName('saldo').style.color="green";//esto lo coloqué con la intención de cambiar el color de la palabra "Saldo" según el tipo de saldo xD que tuviera xD
                         document.getElementById('submit').disabled =false;
                     }else if(document.getElementById('saldo').value === 0){
                         document.getElementsByClassName('saldo').style.color="gray";

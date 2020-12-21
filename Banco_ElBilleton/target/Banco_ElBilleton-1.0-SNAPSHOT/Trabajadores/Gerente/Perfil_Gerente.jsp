@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Herramientas.Kit"%>
 <%@page import="Modelo.Entidades.Usuarios.Gerente"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
@@ -15,11 +16,16 @@
         <link rel="stylesheet" href="../../css/cssPerfiles.css">     
         <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
         <title>ManagerProfile</title>
-        <%!Buscador buscador = new Buscador();
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Buscador buscador = new Buscador();
            Gerente gerente;
            Kit herramienta = new Kit();%>
     </head>
     <body>
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <%gerente = (Gerente)buscador.buscarUsuario("Gerente", "codigo",(String) request.getSession().getAttribute("codigo"));%>
         <center>
             <div>                

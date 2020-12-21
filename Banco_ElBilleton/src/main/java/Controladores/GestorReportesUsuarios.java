@@ -5,8 +5,6 @@
  */
 package Controladores;
 
-import Modelo.Entidades.Objetos.Cambio;
-import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
 import java.io.File;

@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Entidades.Objetos.Cuenta"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
@@ -14,18 +15,25 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../../css/cssCajero.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
-        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
-        
+        <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->                       
         <title>Deposit</title>
-        <%!Buscador buscador = new Buscador();
-           Cliente cliente;
-           Cuenta cuenta;%>        
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Buscador buscador = new Buscador();
+           Cliente cliente = null;
+           Cuenta cuenta= null;%>        
     </head>
-    <body>           
+    <body>  
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero") || !guardia.estaEnHorario("Cajero", (String) request.getSession().getAttribute("codigo"))){%>
+            <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
+            <script src="../../js/sweetInformativo.js"></script><!--recuerda que veremos cómo está la apariencia de la página cuando se redireccione ella misma hacia aquí para add o no el sweet con una dir menos profunda o no xD-->
+            <%response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
         <%if(request.getParameter("cuentaBuscada")!=null){
+           cuenta = null;
+           cliente = null;
            cuenta = buscador.buscarCuenta(request.getParameter("cuentaBuscada").trim());           
            if(cuenta!=null){
-               cliente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", String.valueOf(cuenta.getCodigoDueno()));                         
+               cliente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", String.valueOf(cuenta.getCodigoDuenoCuenta()));                         
            }           
         }%>
         <br/>
@@ -58,7 +66,7 @@
             <%if(cliente!=null && request.getParameter("cuentaBuscada")!=null){%>
                 <form method="POST" action="../../gestorDeposito">
                     <div id="contenedorGeneral">
-                        <input type="text" name="codigoDueno" value="<%=cliente.getCodigo()%>" hidden>
+                        <input type="text" name="codigoDueno" value="<%=cliente.getCodigo()%>" hidden>                        
                         <table>                        
                             <tr>
                                 <th colspan="2">
@@ -111,12 +119,12 @@
                 <!--se muestra el sweet de error, que indicará que: no exite una cuenta con el número ingresado [suponiendo que todo salió bien en la búsqueda de la cuenta xD]-->
                 <!--eso si, se mostrará cuando el input search no sea nulo y la variable de hallado o algo por el estilo tenga el valor no esperado xD-->
                  <input type="text" id="tipoMsje" value="errorBusquedaCuenta" hidden>
-                <script src="js/sweetError.js"></script>
+                <script src="../../js/sweetError.js"></script>
           <%}else if(cuenta!=null && cliente==null){%>
                 <!--eso quiere decir que el dueño de la cuenta ya no es cliente del banco... xD-->
                 <!--o que ingresó en el campo de búsqueda un dato erróneo... xD-->
                 <input type="text" id="tipoMsje" value="errorBusquedaDueno" hidden>
-                <script src="js/sweetError.js"></script>
+                <script src="../../js/sweetError.js"></script>
           <%}%>
         </center>                 
     </body>

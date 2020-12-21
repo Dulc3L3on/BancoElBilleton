@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Manejadores.DB.BuscadorExistencia"%>
 <%@page import="Modelo.Entidades.Objetos.Cuenta"%>
 <%@page import="Modelo.Manejadores.DB.BuscadorParaReportesTrabajador"%>
@@ -20,7 +21,8 @@
         <link rel="stylesheet" href="../../css/cssReportes.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
         <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
-        <%!BuscadorParaReportesTrabajador buscadorParaReportesTrabajador = new BuscadorParaReportesTrabajador();           
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           BuscadorParaReportesTrabajador buscadorParaReportesTrabajador = new BuscadorParaReportesTrabajador();           
            Buscador buscador = new Buscador();
            BuscadorExistencia buscadorExistencia = new BuscadorExistencia();
            List<Usuario> listadoUsuarios;
@@ -31,6 +33,10 @@
         <title>ManagerReports</title>
     </head>
     <body>
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <div id="ContenedorReportes"><!--le colocaremos un layout para que se organicen de forma "automática"...-->        
             <form method="POST" action="Reportes_Gerente.jsp">
                 <center><!--asumo que por medio del nombre podré mandar a la clase que se encarga de traer los reportes [o clases, puesto que algunos requieren de tiepo s de obj que no tienen relación, si es así necesitaría 1 por cada grupo general... bueno, ya veremos xD] qué tipo de reporte es el que quiero..-->
@@ -49,9 +55,10 @@
         <%if(request.getParameter("reporte")!=null){%>
             <div id="back" onclick="cancelarEnvio()">               
                 <%if(request.getParameter("reporte").equals("Usuario_HistorialCambiosUsuarios")){%>
+                    <%listadoUsuarios = buscadorParaReportesTrabajador.buscarUsuariosNoGerentes();%>                                
                     <center>   
                        <div id="form">
-                           <%listadoUsuarios = buscadorParaReportesTrabajador.buscarUsuariosNoGerentes();%>
+                           
                             <form id="formulario" action="../../gestorParametrosGerente" method="POST">
                                 <input type="text" name="reporte" value="<%=request.getParameter("reporte")%>" hidden>                                
                                 
@@ -63,11 +70,11 @@
                                 
                                 <h4>* Código o Nombre de Usuario</h4>
                                 <input type="search" list="listaUsuarios" name="datosUsuario" required><!--No asocie la lista porque en google se mira feo... pues siempre muestra el listado completo y eso no es lo que quiero, sino que sea como en firefox, muestra el listado de las coincidencias cuando se ha escrito algo, de lo contrario no...-->                                
-                                <datalist id="listaUsuarios">
-                                    <%for(int usuarioActual=0; usuarioActual<listadoUsuarios.size(); usuarioActual++){%>                                    
-                                        <option id="<%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"Cliente":"Cajero"%>" value="<%=listadoUsuarios.get(usuarioActual).getCodigo()%> <%=listadoUsuarios.get(usuarioActual).getNombre()%>" <%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"":"hidden"%>> </option>                                       
+                                <datalist id="listaUsuarios">                                  
+                                    <%for(int usuarioActual=0; usuarioActual<buscadorParaReportesTrabajador.darNumeroDeClientes(); usuarioActual++){%>                                    
+                                         <option id="<%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"Cliente":"Cajero"%>" value="<%=listadoUsuarios.get(usuarioActual).getCodigo()%> <%=listadoUsuarios.get(usuarioActual).getNombre()%>" <%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"":"hidden"%>> </option>                                       
                                     <%}%>
-                                </datalist><br/><br/>     
+                                </datalist><br/><br/>                                                             
                                 <input id="boton" type="submit" value="ACEPTAR">                                     
                            </form>                                                      
                        </div>
@@ -169,7 +176,7 @@
             }//NICE XD
         </script>
         <script>
-            function esconderOtrosUsuarios(){
+             function esconderOtrosUsuarios(){
                 var usuarios = document.getElementById("listaUsuarios").options;                
                 var seleccionado = (document.getElementByName("tipoUsuario")[0].checked)?document.getElementByName("tipoUsuario")[0]: document.getElementByName("tipoUsuario")[1];                
                 
@@ -180,7 +187,7 @@
                         usuarios[elementoActual].hidden = false;                                               
                     }
                 }//y así debería hacer invisibles las opciones de los usuarios que no necesito x|
-            }            
+            }             
         </script>
         <script>
             function mostrarCuentasDeDueno(event){

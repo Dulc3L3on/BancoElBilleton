@@ -128,4 +128,10 @@ public class Kit {
         return -1;      
     }
     
+    public long obtenerHoraEnMiliSegundos(String hora){
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        return date.getTime();
+    }
+    
 }

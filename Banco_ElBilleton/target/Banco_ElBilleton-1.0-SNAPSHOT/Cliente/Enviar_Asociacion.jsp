@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Herramientas.Analizador"%>
 <%@page import="Modelo.Entidades.Objetos.Asociacion"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
@@ -19,9 +20,14 @@
         <link rel="icon" href="../../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
         
         <title>SendAssociation</title>
-        <%String ubicacionGestor = "../gestorEnvioSolicitud";%>
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           String ubicacionGestor = "../gestorEnvioSolicitud";%>
     </head>
-    <body>    
+    <body>   
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cliente")){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <%if(request.getAttribute("ubicacionGestor")!=null){//Aquí SÍ es necesario esto puesto que al principio se llega aquí de una forma [es decir con la dirección de forma directa...], pero después se llega aquí desde el servlet... por lo cual si cb la ubicación... a diferencia de las solicitudes recibidas [El JSP específicamente] siempre se llega a ellas desde una misma dirección...            
             ubicacionGestor = (String) request.getAttribute("ubicacionGestor");
             System.out.println("ubicacion gestor"+ ubicacionGestor);

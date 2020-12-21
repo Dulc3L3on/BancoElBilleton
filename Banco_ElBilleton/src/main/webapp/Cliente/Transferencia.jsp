@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Entidades.Objetos.Cuenta"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,12 +17,17 @@
         <link rel="icon" href="../img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
         
         <title>Transference</title>
-        <%!Buscador buscador = new Buscador();           
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Buscador buscador = new Buscador();           
            Cuenta cuentasOrigen[] = null;
            Cuenta cuentasAsociadas[];           
            Cuenta cuentasDestino[] = null;%>        
     </head>
-    <body>            
+    <body>         
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cliente")){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <%cuentasOrigen = buscador.buscarCuentasDeDueno(Integer.parseInt((String) request.getSession().getAttribute("codigo")));
           cuentasAsociadas = buscador.buscarCuentasAsociadas((String)request.getSession().getAttribute("codigo"));
           

@@ -77,7 +77,7 @@ public class GestorParametrosCajero extends HttpServlet{
                 buscadorPersonaEncargada.buscarDuenoDeCuenta(transaccionesAtendidas);
                 
                 request.getSession().setAttribute("listado", transaccionesAtendidas);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD                        
-                response.sendRedirect((request.getParameter("reporte").contains("Intervalo"))?"gestorReportesTransacciones":"../../gestorReportesTransacciones");
+                response.sendRedirect((request.getParameter("reporte").contains("Intervalo"))?"gestorReportesTransaccionesYCambios":"../../gestorReportesTransaccionesYCambios");
             }else{
                 request.getSession().setAttribute("sinDatos",true);
                 if(tipoListado.contains("Intervalo")){

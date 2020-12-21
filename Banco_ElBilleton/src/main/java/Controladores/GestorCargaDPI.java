@@ -22,7 +22,7 @@ import javax.servlet.http.Part;
 @MultipartConfig(location="/tmp", fileSizeThreshold=1024*1024, 
     maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
 public class GestorCargaDPI extends HttpServlet{
-   public static final String BASE_PATH = "/tmp";//entonces lo guardará en la carpeta del gerente...
+   public static final String BASE_PATH = "/home/phily/Documentos/Carpeta_estudios/CuartoSemestre/IPC2/LabIPC2/Proyectos/BancoElBilleton/BancoElBilleton/Banco_ElBilleton/src/main/webapp/Trabajadores/Gerente/DPIsClientes";//entonces lo guardará en la carpeta del gerente...
         
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

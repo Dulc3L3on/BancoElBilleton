@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Manejadores.ManejadorDeNavegacion"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,12 +13,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../css/cssCliente.css">
         <title>Association</title>
-        <%!ManejadorDeNavegacion navegador = new ManejadorDeNavegacion();//<!--al prinicpio [es decir después de loguearse], se llegará aquí por medio del doGet del servlet Perfil o LOgin xD [mejor login xD] luego de crear a la entidad correspondiente [por medio de un parmetro que indicará el tipo al métoodo correspondiente, que por el hecho de no tener que devolver nada puede crearse a los usuarios sin tener que quitarles su mero nombre xD p.ej-> CLIENTE a USUARIO y de instanciar sus valores con el setAttribute[auque por usar singleton, creo que no seá muy útil...creo xD]... de tal forma que al ya estar logueado,s e exe con normalidad este proceso...-->
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+        ManejadorDeNavegacion navegador = new ManejadorDeNavegacion();//<!--al prinicpio [es decir después de loguearse], se llegará aquí por medio del doGet del servlet Perfil o LOgin xD [mejor login xD] luego de crear a la entidad correspondiente [por medio de un parmetro que indicará el tipo al métoodo correspondiente, que por el hecho de no tener que devolver nada puede crearse a los usuarios sin tener que quitarles su mero nombre xD p.ej-> CLIENTE a USUARIO y de instanciar sus valores con el setAttribute[auque por usar singleton, creo que no seá muy útil...creo xD]... de tal forma que al ya estar logueado,s e exe con normalidad este proceso...-->
         String pagina;%> 
     </head>
     <body>
-        <%pagina = navegador.darPaginasAsociacion(request.getParameter("opcion"));%><!--igaul aquó podrías tener como default una página != a la de enviar o recibidas xd que mostrara los pasos para hacer la solicitud...-->       
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cliente")){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
         
+        <%pagina = navegador.darPaginasAsociacion(request.getParameter("opcion"));%><!--igaul aquó podrías tener como default una página != a la de enviar o recibidas xd que mostrara los pasos para hacer la solicitud...-->               
         <div class="submenuAcciones asociacion">
             <form method="POST" action="Asociacion.jsp">
                 <button type="submit" class="button" id="submit" name="opcion" value="ENVIAR"><center><img src="../img/Icono_EnviarSoliAso.png" height="90px" width="90px" alt="enviar"></center></button><br/><br/>

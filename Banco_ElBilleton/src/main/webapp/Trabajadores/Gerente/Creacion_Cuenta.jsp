@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
 <%@page import="Modelo.Herramientas.ControladorIndices"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,10 +16,15 @@
          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>     
          <link rel="icon" href="img/Logos/Favicon_Banco_ElBilleton.ico"><!--puesto que cuando regresa, lo hace con un dirección directa xD-->
         <title>CreateAccount</title>
-        <%!ControladorIndices controlador = new ControladorIndices();
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           ControladorIndices controlador = new ControladorIndices();
            Cliente cliente;%>
     </head>
     <body>
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <%if(request.getAttribute("mostrarMsje")==null){%>
             <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->                                   
                <%cliente = (Cliente)request.getSession().getAttribute("usuarioBuscado_Cliente");%>            

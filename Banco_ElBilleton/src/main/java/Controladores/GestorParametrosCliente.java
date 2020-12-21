@@ -44,20 +44,20 @@ public class GestorParametrosCliente extends HttpServlet{
     }
     
     private void establecerParametros(String tipoParametros, HttpServletRequest request){
-        Map<String, Object> mapa = darParametrosPersonales(request);                
+        Map<String, Object> mapa = darParametrosPersonales(request, tipoParametros);                
         
         if(tipoParametros.contains("Fechas")){
             darParametrosPersonalesMasFechas(mapa, request);                        
         }
         if(tipoParametros.contains("Cuenta")){
             darParametrosPersonalesMasCuenta(mapa, request);            
-        }                                      
+        }
         request.getSession().setAttribute("parametros", mapa);
     }
     
-    private Map<String, Object> darParametrosPersonales(HttpServletRequest request){
+    private Map<String, Object> darParametrosPersonales(HttpServletRequest request, String tipoParametros){
         Map<String, Object> parametros = new HashMap<>();
-            Cliente cliente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", (String)request.getSession().getAttribute("codigo"));
+            Cliente cliente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", (tipoParametros.contains("DesdeCajero")?request.getParameter("codigoDueno"):(String)request.getSession().getAttribute("codigo")));
         
         if(cliente!=null){
             parametros.put("nombre", cliente.getNombre());
@@ -94,7 +94,7 @@ public class GestorParametrosCliente extends HttpServlet{
             case "Personales_GrandesTransaccionesdelAnio":
                 establecerListadoUltimas15Transacciones(request, response);
             break;
-            case "PersonalesFechasCuenta_EstadoDeCuenta":
+            case "PersonalesFechasCuenta_EstadoDeCuenta": case "PersonalesFechasCuentaDesdeCajero_EstadoDeCuenta":
                 establecerListadoTodasLasTransacciones(request, response);
             break;
             case "PersonalesCuenta_CuentaMasDinero":
@@ -134,7 +134,11 @@ public class GestorParametrosCliente extends HttpServlet{
                 response.sendRedirect("gestorReportesTransaccionesYCambios");
             }else{
                 request.getSession().setAttribute("sinDatos",true);
-                response.sendRedirect("Cliente/Reportes_Cliente.jsp");
+                if(request.getParameter("reporte").contains("DesdeCajero")){
+                    response.sendRedirect("Trabajadores/Cajero/Reportes_Cajero.jsp");
+                }else{
+                    response.sendRedirect("Cliente/Reportes_Cliente.jsp");
+                }                
             }
              
         } catch (IOException e) {
@@ -145,7 +149,7 @@ public class GestorParametrosCliente extends HttpServlet{
     private void establecerListadoCuentaConMasDinero(HttpServletRequest request, HttpServletResponse response){
         try {
             int cuentaConMasDinero = buscadorParaReportes.buscarCuentaConMasDinero((String) request.getSession().getAttribute("codigo"));
-            List<Transaccion> listadoTransacciones = new LinkedList<>();
+            List<Transaccion> listadoTransacciones;
             
             if(cuentaConMasDinero!=-1){//par mi que debería ser !=-1 puesto que cuando es así todo salió bien... pero ya lo había modificado y terminé dejándolo así, no se por qué :v
                 listadoTransacciones = buscadorParaReportes.buscarTransaccionesDeCuenta(cuentaConMasDinero, request.getParameter("fechaInicial"), request.getParameter("fechaFinal"));

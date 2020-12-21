@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Manejadores.DB.BuscadorExistencia"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
 <%@page import="Modelo.Entidades.Objetos.Cuenta"%>
@@ -16,12 +17,16 @@
         <link rel="stylesheet" href="css/cssReportes.css"><!--creo que no es necesario pues al hacer el "regresón" xD el favicón se seguía mostrando, sin importar que el regreso fuese por JS o por el response del servlet por falta de datos...-->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
         <link rel="icon" href="../img/Logos/Favicon_Banco_ElBilleton.ico">
-        <%!Cuenta[] cuentas = null;
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Cuenta[] cuentas = null;
            Buscador buscador = new Buscador();
            BuscadorExistencia buscadorExistencia = new BuscadorExistencia();%>
         <title>ClientReports</title>
     </head>
     <body>
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cliente")){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
         
             <div id="ContenedorReportes"><!--le colocaremos un layout para que se organicen de forma "automática"...-->        
                 <form action="Reportes_Cliente.jsp" method="POST">

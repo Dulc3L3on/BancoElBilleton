@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Herramientas.Kit"%>
 <%@page import="Modelo.Entidades.Usuarios.Usuario"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
@@ -15,14 +16,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../../css/cssGerente.css">
         <title>UserList</title>  
-        <%!Buscador buscador = new Buscador();
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Buscador buscador = new Buscador();
            Usuario[] usuarios;
            Kit herramienta = new Kit();
            int ubicacionUsuarioBuscado;
            String[] datosUsuarioBuscado;//<!--a partir del valor que se tome del input search...-->
            String laPagina;%>
     </head>
-    <body>           
+    <body>    
+        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
+        }%>
+        
         <%laPagina = (request.getParameter("pagina")!=null)?request.getParameter("pagina"):laPagina;%>
                
         <%usuarios = buscador.buscarUsuarios((laPagina.contains("Cuenta") || laPagina.contains("Cliente"))?"Cliente":"Cajero", (request.getParameter("tipoOrden")==null)?"codigo":request.getParameter("tipoOrden"));%>        

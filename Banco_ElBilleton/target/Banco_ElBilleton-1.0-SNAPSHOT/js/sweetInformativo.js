@@ -107,6 +107,16 @@ switch(document.getElementById("tipoMsje").value){
         })
     break; 
     
+    case "fueraDeHorario":
+         Swal.fire({
+            title:'Denegación de Acceso',            
+            text: 'No puede emplear las funciones de \n\
+                   las páginas porque no se encuentra\n\
+                   dentro del horario de trabajo',            
+            position: 'center',
+            icon: 'sucess',
+            timer: 3100
+    }) 
    
 }
 /*Swal.fire({
