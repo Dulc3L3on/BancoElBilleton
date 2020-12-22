@@ -24,15 +24,21 @@
            Kit herramientas = new Kit();%>
         <title>CashierReports</title>
     </head>
-    <body>      
-        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")){
+    <body>     
+        <%if(request.getSession().getAttribute("sinDatos")!=null){%>        
+            <input type="text" name="tipoMsje" value="sinDatos" hidden>         
+            <script src="../../js/sweetInformativo.js"></script><!--No se si al redireccionar con un dispatcher desde la carpeta menos profunda hasta la que se encuentra el arch JSP se estará a poca profundidad o a mucha... pero por el hecho de que no cambia la apariencia luego de haber presionado el btn odría ser que al redireccionar a partir de esa carpeta, se quede en una profundidad grande ó que por el hecho de ser una "cargaDatos" se quede en la profunidad en la que estaba la pág al redireccionar al gestor que se enciarga de cargar los datos...-->
+            <%request.getSession().removeAttribute("sinDatos");
+        }%><!--queda mejor así xD, solo hay que solucionar el problema de los sweet de no mostrarse cuando no es la primer opción...-->
+        
+        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")==false){
             response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
         }%>
         <div id="ContenedorReportes"><!--le colocaremos un layout para que se organicen de forma "automática"...-->        
             <form method="POST" action="Reportes_Cajero.jsp">
                 <center><!--asumo que por medio del nombre podré mandar a la clase que se encarga de traer los reportes [o clases, puesto que algunos requieren de tiepo s de obj que no tienen relación, si es así necesitaría 1 por cada grupo general... bueno, ya veremos xD] qué tipo de reporte es el que quiero..-->
-                    <button type ="submit" name="reporte" value="Personales_TransaccionesDelDia" <%=(buscadorExistencia.aAtendidoTransacciones((String) request.getSession().getAttribute("codigo")))?"":"disabled"%> ><img  src="../../img/iconos_Billeton/Transaccion.png"><br/>Transacciones<br/>del Día</button><!--luego tendría que recuperar el tipo de usuario del sweet... solo que áun no se como xD-->                     
-                    <button type ="submit" name="reporte" value="PersonalesFechas_IntervaloTransacciones" <%=(buscadorExistencia.aAtendidoTransacciones((String) request.getSession().getAttribute("codigo")))?"":"disabled"%> ><img  src="../../img/iconos_Billeton/Historial.png"><br/>Transacciones<br/>Antiguas</button>               
+                    <button type ="submit" name="reporte" value="Personales_TransaccionesDelDia" <%=(buscadorExistencia.aAtendidoTransacciones((String) request.getSession().getAttribute("codigo"), null))?"":"disabled"%> ><img  src="../../img/iconos_Billeton/Transaccion.png"><br/>Transacciones<br/>del Día</button><!--luego tendría que recuperar el tipo de usuario del sweet... solo que áun no se como xD-->                     
+                    <button type ="submit" name="reporte" value="PersonalesFechas_IntervaloTransacciones" <%=(buscadorExistencia.aAtendidoTransacciones((String) request.getSession().getAttribute("codigo"), null))?"":"disabled"%> ><img  src="../../img/iconos_Billeton/Historial.png"><br/>Transacciones<br/>Antiguas</button>               
                 </center>    
                 
                 <input type="date" name="fechaInicial" value="<%=java.time.LocalDate.now()%>" hidden>      
@@ -69,12 +75,6 @@
                    window.location.href = "Reportes_Cajero.jsp";                                          
                 }                                                     
             }//FUNCIONA super NICE XD GRACIAS DIOSS!!! XD
-        </script>
-        
-         <%if(request.getSession().getAttribute("sinDatos")!=null){%>        
-            <input type="text" name="tipoMsje" value="sinDatos" hidden>         
-            <script src="../../js/sweetInformativo.js"></script><!--No se si al redireccionar con un dispatcher desde la carpeta menos profunda hasta la que se encuentra el arch JSP se estará a poca profundidad o a mucha... pero por el hecho de que no cambia la apariencia luego de haber presionado el btn odría ser que al redireccionar a partir de esa carpeta, se quede en una profundidad grande ó que por el hecho de ser una "cargaDatos" se quede en la profunidad en la que estaba la pág al redireccionar al gestor que se enciarga de cargar los datos...-->
-            <%request.getSession().removeAttribute("sinDatos");
-         }%><!--queda mejor así xD, solo hay que solucionar el problema de los sweet de no mostrarse cuando no es la primer opción...-->
+        </script>               
     </body>
 </html>

@@ -22,7 +22,7 @@
            Kit herramienta = new Kit();%>
     </head>
     <body>
-        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")){
+        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")==false){
             response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
         }%>
         <%cajero =(Cajero) buscador.buscarUsuario("Cajero", "codigo",(String) request.getSession().getAttribute("codigo"));%>

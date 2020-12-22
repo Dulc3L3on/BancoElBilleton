@@ -40,6 +40,15 @@ public class Kit {
         return cal.get(Calendar.YEAR);            
     }
     
+    public int darNumeroDeHoraActual(){
+        Calendar cal= Calendar.getInstance();
+        return cal.get(Calendar.HOUR_OF_DAY);      
+    }
+    
+    public int darMinutosActuales(){
+        Calendar cal= Calendar.getInstance();
+        return cal.get(Calendar.MINUTE);      
+    }
      
     public String encriptarContrasenia(String contraseniaReal){    
         String encriptada=null;        
@@ -126,12 +135,5 @@ public class Kit {
             System.out.println("Error al obtener la ubicación del usuario buscado del listado"+ e.getMessage());
         }        
         return -1;      
-    }
-    
-    public long obtenerHoraEnMiliSegundos(String hora){
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        return date.getTime();
-    }
-    
+    }      
 }

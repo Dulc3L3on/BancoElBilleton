@@ -23,7 +23,7 @@
            Cuenta cuenta= null;%>        
     </head>
     <body>  
-        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero") || !guardia.estaEnHorario("Cajero", (String) request.getSession().getAttribute("codigo"))){%>
+        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")==false || guardia.estaEnHorario("Cajero", (String) request.getSession().getAttribute("codigo"))==false){%>
             <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
             <script src="../../js/sweetInformativo.js"></script><!--recuerda que veremos cómo está la apariencia de la página cuando se redireccione ella misma hacia aquí para add o no el sweet con una dir menos profunda o no xD-->
             <%response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            

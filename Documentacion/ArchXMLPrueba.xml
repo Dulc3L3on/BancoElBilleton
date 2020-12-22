@@ -5,7 +5,7 @@
 		<NOMBRE>Archival Cornvell</NOMBRE>
 		<TURNO>Matutino</TURNO>
 		<DPI>124343</DPI>
-			<DIRECCION>Estados Unidos</DIRECCION>
+		<DIRECCION>Estados Unidos</DIRECCION>
 		<SEXO>Masculino</SEXO>
 		<PASSWORD>Candice</PASSWORD>
 	</GERENTE>
@@ -126,7 +126,7 @@
 			</CUENTA>
 			<CUENTA>
 				<CODIGO>12313213</CODIGO>
-				buscadorParaReportesTrabajador<CREADA>2013-06-12</CREADA>
+				<CREADA>2013-06-12</CREADA>
 				<CREDITO>7700</CREDITO>
 			</CUENTA>
 		</CUENTAS>

@@ -69,14 +69,17 @@ public class BuscadorExistencia {
        return (tipoSituacion==1);
     }
     
-    public boolean aAtendidoTransacciones(String codigoCajero){
-        String buscar = "SELECT * FROM Transaccion WHERE codigoCajero = ?";
+    public boolean aAtendidoTransacciones(String codigoCajero, String fecha){
+        String buscar = "SELECT * FROM Transaccion WHERE codigoCajero = ? " + ((fecha!=null)? "AND fecha = ? ":"");
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                         ResultSet.CONCUR_UPDATABLE)){
             int codigoCajeroACargo = Integer.parseInt(codigoCajero);
             
             instrucciones.setInt(1, codigoCajeroACargo);
+            if(fecha!=null){
+                instrucciones.setString(2, fecha);
+            }
             
             ResultSet resultado = instrucciones.executeQuery();
             return resultado.first();                

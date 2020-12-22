@@ -13,7 +13,7 @@ switch(document.getElementById("tipoMsje").value){
                    de forma exitosa al cliente :)',            
             position: 'center',
             icon: 'sucess',
-            timer: 2100
+            timer: 2700
         })            
     break;    
     
@@ -35,7 +35,7 @@ switch(document.getElementById("tipoMsje").value){
             text: 'la solicitud se ha enviado correctamente',            
             position: 'center',
             icon: 'sucess',
-            timer: 1500
+            timer: 2700
         })           
     break;//Creo que es así el nombre dle ícono xD
     
@@ -92,7 +92,7 @@ switch(document.getElementById("tipoMsje").value){
             toast: true,            
             position: 'bottom-end',
             icon: 'warning', 
-            timer: 1700
+            timer: 2700
         })
     break;  
     
@@ -103,7 +103,7 @@ switch(document.getElementById("tipoMsje").value){
             toast: true,            
             position: 'bottom-end',
             icon: 'warning', 
-            timer: 1700
+            timer: 2700
         })
     break; 
     
