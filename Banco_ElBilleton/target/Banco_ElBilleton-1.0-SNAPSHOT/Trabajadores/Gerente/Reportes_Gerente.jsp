@@ -33,7 +33,7 @@
         <title>ManagerReports</title>
     </head>
     <body>
-        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){
             response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
         }%>
         
@@ -204,9 +204,10 @@
                 }                
             }            
         </script>     
-       <%if(request.getSession().getAttribute("sinDatos")==null){%>        
+       <%if(request.getSession().getAttribute("sinDatos")!=null){%>        
             <input type="text" name="tipoMsje" value="sinDatos" hidden>         
             <script src="../../js/sweetInformativo.js"></script>
+            <script src="js/sweetInformativo.js"></script>
            <%request.getSession().removeAttribute("sinDatos");
        }%>        
     </body>

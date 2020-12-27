@@ -63,7 +63,7 @@ label, .radio, .checkBox{
 }
 
 
-#FrameListado{
+#frameListado{
     margin-top: -760px;
     height: 750px;
     width: 350px;
@@ -76,9 +76,11 @@ label, .radio, .checkBox{
     background: linear-gradient(180deg, rgba(161,161,166,1) 31%, rgba(157,206,235,1) 80%, rgba(180,230,221,0.5214460784313726) 100%);*/
     /*background: rgb(161,161,166);
     background: linear-gradient(180deg, rgba(161,161,166,1) 31%, rgba(157,206,235,0.6250875350140056) 100%, rgba(180,230,221,0.5214460784313726) 100%);*/
-    background-color: #D9DDE0;/*#D3D3C6*/
-    border: solid gray;
-    border-radius: 5px;
+    background-color: #E3E8E8;/*#D3D3C6*/
+    border-radius: 7px;
+    border: solid  gray 0.5px;    
+    box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19); 
+    font-family: Poppins;
 }
 
 #bannerBusqueda{
@@ -99,7 +101,7 @@ label, .radio, .checkBox{
 }
 
 #elemento:hover{
-    background-color: gray;  
+    background-color: #C3C8CB;  
     font-weight: bold;
 }
 

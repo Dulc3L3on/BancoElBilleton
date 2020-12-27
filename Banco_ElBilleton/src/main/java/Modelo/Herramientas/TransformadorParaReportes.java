@@ -81,7 +81,7 @@ public class TransformadorParaReportes {
     
     public Cambio transformarACambio(ResultSet resultado, String tipoUsuario){
         try{
-            Cambio cambio = new Cambio(resultado.getString(1), resultado.getString(2), resultado.getInt(3), resultado.getString(4), resultado.getString(6), resultado.getString(7));                       
+            Cambio cambio = new Cambio(resultado.getString(1), resultado.getString(2), resultado.getInt(3), resultado.getString(4), resultado.getString((tipoUsuario.equalsIgnoreCase("gerente"))?5:6), resultado.getString((tipoUsuario.equalsIgnoreCase("Gerente")?6:7)));                       
             cambio.establecerCodigoUsuarioCambiado((tipoUsuario.equalsIgnoreCase("Gerente"))?resultado.getInt(3):resultado.getInt(5));
             return cambio;
         }catch(SQLException e){

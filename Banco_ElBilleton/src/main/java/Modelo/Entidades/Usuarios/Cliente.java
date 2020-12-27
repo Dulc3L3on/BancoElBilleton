@@ -19,8 +19,8 @@ public class Cliente extends Usuario implements Serializable{
     private double totalCreditos;
     
     public Cliente(int elCodigo, String elNombre, String elDPI, String laDireccion,
-            String elGenero, String elPassword, String fechaIncorporacion, String elBirth, String elPathDPI) {
-        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, fechaIncorporacion);
+            String elGenero, String elPassword, String fechaIncorporacion, String elCorreo, String elBirth, String elPathDPI) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, fechaIncorporacion, elCorreo);
         
         birth = elBirth;
         pathDPI = elPathDPI;

@@ -22,8 +22,7 @@
         String pagina;%> 
     </head>
     <body> 
-        <!--te recuerdas de revisar aquí si la sesión aún sigue activa, es decir si el atributo código aún no ha sido invalidado...-->
-        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){
             response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
         }%>
         

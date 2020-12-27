@@ -8,7 +8,6 @@ package Controladores;
 import Modelo.Entidades.Usuarios.Trabajador;
 import Modelo.Entidades.Usuarios.Usuario;
 import Modelo.Herramientas.GuardiaSeguridad;
-import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.Creador;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -57,6 +56,7 @@ public class GestorCreacionTrabajadores extends HttpServlet{
             }else{
            //RECUERDA!!!, cuando es setAttribute, se DEBE usar la nitación con {} sino no se podrán tomar como objetos... el getParamete todo lo toma como objetos y se emplea [o al  menos yo lo he usado xD cuando se obtiene los valorse de los componentes, como de un botón...
                 request.setAttribute("usuario", usuario);//solo para ser más expllícita xD                
+                request.setAttribute("correo", usuario.getCorreo());
             }    
             request.getRequestDispatcher("Trabajadores/Gerente/Resultado_Creacion.jsp").forward(request, response);//para no redireccionar a la otra pag solo par mostra eso xD, sino se puede, deplano que se tendrá que hacer así xD        
         } catch (ServletException | IOException e) {

@@ -19,25 +19,21 @@ public class Modificador {
     Kit herramienta = new Kit();
     
     public boolean modificarCliente(String datosActualizar[]){
-        String modificar="INSERT INTO Cliente (codigo, nombre, DPI, direccion, sexo, password, birth, pathDPI)"
-                + "VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE nombre = ?, direccion = ?, password = ?, birth = ?, pathDPI = ?";
+        String modificar="UPDATE Cliente SET nombre = ?, direccion = ?, password = ?,  pathDPI = ?"+((!datosActualizar[8].isBlank() && !datosActualizar[8].isEmpty() && datosActualizar[8]!=null)?", correo = ?":"")+" WHERE codigo = ?";
                 
         try(PreparedStatement instrucciones = conexion.prepareStatement(modificar)){
-        int codigo = Integer.parseInt(datosActualizar[0]);
-            
-            instrucciones.setInt(1, codigo);
-            instrucciones.setString(2, datosActualizar[4]);
-            instrucciones.setString(3, datosActualizar[1]);
-            instrucciones.setString(4, datosActualizar[6]);
-            instrucciones.setString(5, datosActualizar[2]);
-            instrucciones.setString(6, herramienta.encriptarContrasenia(datosActualizar[7]));
-            instrucciones.setString(7, datosActualizar[3]);
-            instrucciones.setString(8, datosActualizar[5]);//datos con posible actualización...
-            instrucciones.setString(9, datosActualizar[4]);            
-            instrucciones.setString(10, datosActualizar[6]);
-            instrucciones.setString(11, herramienta.encriptarContrasenia(datosActualizar[7]));
-            instrucciones.setString(12, datosActualizar[3]);
-            instrucciones.setString(13, datosActualizar[5]);
+        int codigo = Integer.parseInt(datosActualizar[0]);            
+        
+            instrucciones.setString(1, datosActualizar[4]);            
+            instrucciones.setString(2, datosActualizar[6]);
+            instrucciones.setString(3, herramienta.encriptarContrasenia(datosActualizar[7]));            
+            instrucciones.setString(4, datosActualizar[5]);
+            if(!datosActualizar[8].isEmpty() && !datosActualizar[8].isBlank() && datosActualizar[8]!=null){
+                instrucciones.setString(5, datosActualizar[8]);
+                instrucciones.setInt(6, codigo);
+            }else{
+                instrucciones.setInt(5, codigo);
+            }            
             
             instrucciones.executeUpdate();
             return true;            
@@ -48,23 +44,21 @@ public class Modificador {
     }
     
     public boolean modificarCajero(String datosActualizar[]){
-        String modificar ="INSERT INTO Cajero (codigo, nombre, DPI, direccion, sexo, password, turno)"
-                + "VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE nombre = ?, direccion = ?, password = ?, turno = ?";
+        String modificar ="UPDATE Cajero nombre = ?, direccion = ?, password = ?, turno = ?"+((!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null)?", correo = ?":"")+" WHERE codigo = ?";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(modificar)){
-            int codigo = Integer.parseInt(datosActualizar[0]);
-            
-            instrucciones.setInt(1, codigo);
-            instrucciones.setString(2, datosActualizar[3]);
-            instrucciones.setString(3, datosActualizar[1]);
-            instrucciones.setString(4, datosActualizar[4]);
-            instrucciones.setString(5, datosActualizar[2]);
-            instrucciones.setString(6, herramienta.encriptarContrasenia(datosActualizar[5]));
-            instrucciones.setString(7, datosActualizar[6]);//datos con posible actualización...
-            instrucciones.setString(8, datosActualizar[3]);
-            instrucciones.setString(9, datosActualizar[4]);
-            instrucciones.setString(10, herramienta.encriptarContrasenia(datosActualizar[5]));
-            instrucciones.setString(11, datosActualizar[6]);
+            int codigo = Integer.parseInt(datosActualizar[0]);           
+           
+            instrucciones.setString(1, datosActualizar[3]);
+            instrucciones.setString(2, datosActualizar[4]);
+            instrucciones.setString(3, herramienta.encriptarContrasenia(datosActualizar[5]));
+            instrucciones.setString(4, datosActualizar[6]);            
+            if(!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null){
+                instrucciones.setString(5, datosActualizar[7]);
+                instrucciones.setInt(6, codigo);
+            }else{
+                instrucciones.setInt(5, codigo);
+            }            
             
             instrucciones.executeUpdate();
             return true;            
@@ -75,23 +69,21 @@ public class Modificador {
     }
   
     public boolean modificarGerente(String datosActualizar[]){
-        String modificar ="INSERT INTO Gerente (codigo, nombre, DPI, direccion, sexo, password, turno)"
-                + "VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE nombre = ?, direccion = ?, password = ?, turno = ?";
+        String modificar ="UPDATE Gerente nombre = ?, direccion = ?, password = ?, turno = ?"+((!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null)?", correo = ?":"")+" WHERE codigo = ?";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(modificar)){
             int codigo = Integer.parseInt(datosActualizar[0]);
             
-            instrucciones.setInt(1, codigo);
-            instrucciones.setString(2, datosActualizar[1]);
-            instrucciones.setString(3, datosActualizar[3]);
-            instrucciones.setString(4, datosActualizar[4]);
-            instrucciones.setString(5, datosActualizar[5]); 
-            instrucciones.setString(6, herramienta.encriptarContrasenia(datosActualizar[2]));                       
-            instrucciones.setString(7, datosActualizar[6]);//datos con posible actualización...
-            instrucciones.setString(8, datosActualizar[1]);
-            instrucciones.setString(9, datosActualizar[4]);
-            instrucciones.setString(10, herramienta.encriptarContrasenia(datosActualizar[2]));                       
-            instrucciones.setString(11, datosActualizar[6]);            
+            instrucciones.setString(1, datosActualizar[1]);
+            instrucciones.setString(2, datosActualizar[4]);
+            instrucciones.setString(3, herramienta.encriptarContrasenia(datosActualizar[2]));                       
+            instrucciones.setString(4, datosActualizar[6]);            
+            if(!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null){//se que no podrá ser null por el hecho de haber colocado un input de tipo "email" pero por si xD
+                instrucciones.setString(5, datosActualizar[7]);
+                instrucciones.setInt(6, codigo);
+            }else{
+                instrucciones.setInt(5, codigo);
+            }    
             
             instrucciones.executeUpdate();
             return true;            

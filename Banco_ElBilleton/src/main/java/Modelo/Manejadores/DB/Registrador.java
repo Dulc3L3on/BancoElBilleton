@@ -48,14 +48,14 @@ public class Registrador {
             listaCambiosAgregados.anadirAlFinal(new Cambio(herramientas.darFechaActualString(), hora, codigoGerente, tipoCambio, datoAntiguo, nuevoDato));
             
         }catch(SQLException | NumberFormatException e){
-            System.out.println("Error al registrar cambios del cliente: "+ e.getMessage());
+            System.out.println("Error al REGISTRAR cambios del "+tipoUsuarioModificado+": "+ e.getMessage());
             listaCambiosErrados.anadirAlFinal(new Cambio(herramientas.darFechaActualString(), hora, codigoGerente, tipoCambio, datoAntiguo, nuevoDato));
         }
     }
     
      public void registrarCambioGerente(int codigoGerente, String tipoCambio, String datoAntiguo, String nuevoDato){
      String hora = herramientas.darHoraActual();
-        String registrar = "INSERT INTO Cambios_Gerente (fecha, hora, codigoGerente, tipoDeCambio, datoAnterior, datoNuevo)"
+        String registrar = "INSERT INTO Cambios_Gerente (fecha, hora, gerenteCambiado, tipoDeCambio, datoAnterior, datoNuevo)"
                 + " VALUES (?,?,?,?,?,?)";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(registrar)){            
@@ -70,7 +70,7 @@ public class Registrador {
             listaCambiosAgregados.anadirAlFinal(new Cambio(herramientas.darFechaActualString(), hora, codigoGerente, tipoCambio, datoAntiguo, nuevoDato));
             
         }catch(SQLException | NumberFormatException e){
-            System.out.println("Error al registrar cambios del cliente: "+ e.getMessage());
+            System.out.println("Error al REGISTRAR cambios del Gerente: "+ e.getMessage());
             listaCambiosErrados.anadirAlFinal(new Cambio(herramientas.darFechaActualString(), hora, codigoGerente, tipoCambio, datoAntiguo, nuevoDato));
         }
     }
@@ -146,9 +146,11 @@ public class Registrador {
     
     public ListaEnlazada<ListaEnlazada<Cambio>> darListaDeListados(){
         if(!listaCambiosAgregados.estaVacia()){
+            listaCambiosAgregados.establecerNOmbre("exitosos");
             listadoDeListados.anadirAlFinal(listaCambiosAgregados);
         }
         if(!listaCambiosErrados.estaVacia()){
+            listaCambiosErrados.establecerNOmbre("fallidos");
             listadoDeListados.anadirAlFinal(listaCambiosErrados);
         }              
         return listadoDeListados;

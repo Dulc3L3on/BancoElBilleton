@@ -26,8 +26,8 @@ h4{
     font-weight: bold;
 }
 
-.button{
-   border-radius: 25px;
+.button{   
+   border-radius: 5px;
    color: black;    
    border: none;
    float: left;
@@ -53,7 +53,7 @@ h4{
 }
 
 .marcadoAcciones{
-    text-decoration: underline lightblue;    
+    text-decoration: underline #145473;    
 }
 
 #submit{
@@ -63,7 +63,7 @@ h4{
     padding-right: 0px;
     width: 95px;
     height: 45px;  
-    background-color: lightseagreen;/*codigo #5EAA9F [al menos se parece xD]*/  
+    background-color: #B5D2E2;/*codigo #5EAA9F [al menos se parece xD]*/  
 }/*si no te cuadra solo le cambias el colorcito y ya xD... pero debe ser una tonalidad de verde aqua xD*/
 
 #frameAccion{

@@ -70,7 +70,7 @@ public class GuardiaSeguridad {
     
     private boolean esContraseniaCorrecta (String contraseniaIngresada, String contraseniaRegistrada){
         if(contraseniaRegistrada!=null){
-            if(herramienta.desencriptarContrasenia(contraseniaRegistrada).equals(contraseniaIngresada)){
+            if(contraseniaRegistrada.equals(contraseniaIngresada)){
                 return true;
             }                        
         }        
@@ -84,7 +84,7 @@ public class GuardiaSeguridad {
     public boolean estaEnHorario(String tipoTrabajador, String codigo){
         Trabajador trabajador = (Trabajador) buscador.buscarUsuario(tipoTrabajador, "codigo", codigo);
         
-        if((trabajador.getTurno().equals("matutino") && herramienta.darNumeroDeHoraActual() >= 6 && System.currentTimeMillis()<= 52200000)
+        if((trabajador.getTurno().equals("matutino") && herramienta.darNumeroDeHoraActual() >= 6 && Double.parseDouble(herramienta.darNumeroDeHoraActual()+"."+herramienta.darMinutosActuales()) <=13.30)
             || (trabajador.getTurno().equals("vespertino") && herramienta.darNumeroDeHoraActual() >= 13 && herramienta.darNumeroDeHoraActual() <= 22)){//para las 6 AM 46800000000 para las 13 PM 21600000000
             return true;
         }//Solo debes revisar la hora en milliss para hacerlo más fácil si se pasa o es menor según el tipo de turno correspondiente, eso lo harás en otro método, ahí revisas si haces uno por cada tipo o no xD

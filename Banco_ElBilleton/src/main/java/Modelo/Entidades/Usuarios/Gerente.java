@@ -15,33 +15,35 @@ import Modelo.Manejadores.DB.Registrador;
  * @author phily
  */
 public class Gerente extends Trabajador{
-    Kit herramienta = new Kit();
-    Registrador registrador = new Registrador();
+    private Kit herramienta = new Kit();
+    private Registrador registrador = new Registrador();
     
-    public Gerente(int elCodigo, String elNombre, String elDPI, String laDireccion, String elGenero, String elPassword, String laFechaIncorporacion, String elTurno) {
-        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, laFechaIncorporacion, elTurno);
+    public Gerente(int elCodigo, String elNombre, String elDPI, String laDireccion, String elGenero, String elPassword, String laFechaIncorporacion, String elCorreo, String elTurno) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, laFechaIncorporacion, elCorreo, elTurno);
     }
     
-    public void hallarCambiosCajero(Cajero cajeroAntiguo, String datosNuevos[]){
-        String desencriptada = herramienta.desencriptarContrasenia(cajeroAntiguo.password);
-        
+    public void hallarCambiosCajero(Cajero cajeroAntiguo, String datosNuevos[]){                
       if(!cajeroAntiguo.nombre.equals(datosNuevos[3])){
             registrador.registrarCambioClienteCajero("Cajero", codigo, "nombre", cajeroAntiguo.nombre, datosNuevos[3], cajeroAntiguo.codigo);
         }       
         if(!cajeroAntiguo.direccion.equals(datosNuevos[4])){
             registrador.registrarCambioClienteCajero("Cajero", codigo, "direccion", cajeroAntiguo.direccion, datosNuevos[4], cajeroAntiguo.codigo);
         }
-        if(!desencriptada.equals(datosNuevos[5])){
-            registrador.registrarCambioClienteCajero("Cajero", codigo, "contraseña", desencriptada, datosNuevos[5], cajeroAntiguo.codigo);
+        if(!cajeroAntiguo.password.equals(datosNuevos[5])){
+            registrador.registrarCambioClienteCajero("Cajero", codigo, "contraseña", cajeroAntiguo.password, datosNuevos[5], cajeroAntiguo.codigo);
         } 
         if(!cajeroAntiguo.turno.equals(datosNuevos[6])){
             registrador.registrarCambioClienteCajero("Cajero", codigo, "turno", cajeroAntiguo.turno, datosNuevos[6], cajeroAntiguo.codigo);
         }
+        if(!datosNuevos[7].isBlank() && !datosNuevos[7].isEmpty() && datosNuevos[7]!=null){
+            if(!cajeroAntiguo.correo.equals(datosNuevos[7])){
+                registrador.registrarCambioClienteCajero("Cajero", codigo, "correo", cajeroAntiguo.correo, datosNuevos[8], cajeroAntiguo.codigo);
+            }
+        }
+        
     }
     
-    public void hallarCambiosCliente(Cliente clienteAntiguo, String datosNuevos[]){
-        String desencriptada = herramienta.desencriptarContrasenia(clienteAntiguo.password);
-        
+    public void hallarCambiosCliente(Cliente clienteAntiguo, String datosNuevos[]){               
         if(!clienteAntiguo.nombre.equals(datosNuevos[4])){
             registrador.registrarCambioClienteCajero("Cliente", codigo, "nombre", clienteAntiguo.nombre, datosNuevos[4], clienteAntiguo.codigo);
         }
@@ -51,26 +53,35 @@ public class Gerente extends Trabajador{
         if(!clienteAntiguo.direccion.equals(datosNuevos[6])){
             registrador.registrarCambioClienteCajero("Cliente", codigo, "direccion", clienteAntiguo.direccion, datosNuevos[6], clienteAntiguo.codigo);
         }
-        if(!desencriptada.equals(datosNuevos[7])){
-            registrador.registrarCambioClienteCajero("Cliente", codigo, "contraseña", desencriptada, datosNuevos[7], clienteAntiguo.codigo);
-        }              
+        if(!clienteAntiguo.password.equals(datosNuevos[7])){
+            registrador.registrarCambioClienteCajero("Cliente", codigo, "contraseña", clienteAntiguo.password, datosNuevos[7], clienteAntiguo.codigo);
+        }  
+        if(!datosNuevos[8].isBlank() && !datosNuevos[8].isEmpty() && datosNuevos[8]!=null){
+            if(!clienteAntiguo.correo.equals(datosNuevos[8])){
+                registrador.registrarCambioClienteCajero("Cliente", codigo, "correo", clienteAntiguo.correo, datosNuevos[8], clienteAntiguo.codigo);
+            }
+        }
     }
     
-    public void hallarCambiosPropios(String datosNuevos[]){
-      String desencriptada = herramienta.desencriptarContrasenia(password);
-        
+    public void hallarCambiosPropios(String datosNuevos[]){             
       if(!nombre.equals(datosNuevos[1])){
             registrador.registrarCambioGerente(codigo, "nombre", nombre, datosNuevos[1]);
         }       
         if(!direccion.equals(datosNuevos[4])){
             registrador.registrarCambioGerente(codigo, "direccion", direccion, datosNuevos[4]);
         }
-        if(!desencriptada.equals(datosNuevos[2])){
-            registrador.registrarCambioGerente(codigo, "contraseña", desencriptada, datosNuevos[2]);
+        if(!password.equals(datosNuevos[2])){
+            registrador.registrarCambioGerente(codigo, "contraseña", password, datosNuevos[2]);
         } 
         if(!turno.equals(datosNuevos[6])){
             registrador.registrarCambioGerente(codigo, "turno", turno, datosNuevos[6]);
         }
+        if(!datosNuevos[7].isBlank() && !datosNuevos[7].isEmpty() && datosNuevos[7]!=null){
+            if(!correo.equals(datosNuevos[7])){
+                registrador.registrarCambioGerente(codigo, "correo", correo, datosNuevos[7]);
+            }
+        }
+        
     }
     
      public ListaEnlazada<ListaEnlazada<Cambio>> darListaListados(){

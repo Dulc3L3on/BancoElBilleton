@@ -12,7 +12,8 @@ switch(document.getElementById("tipoMsje").value){
             text: 'La cuenta ha sido agregada\n\
                    de forma exitosa al cliente :)',            
             position: 'center',
-            icon: 'sucess',
+            icon: 'success',
+            backdrop: false,
             timer: 2700
         })            
     break;    
@@ -34,7 +35,7 @@ switch(document.getElementById("tipoMsje").value){
             title:'Envío exitoso',            
             text: 'la solicitud se ha enviado correctamente',            
             position: 'center',
-            icon: 'sucess',
+            icon: 'success',
             timer: 2700
         })           
     break;//Creo que es así el nombre dle ícono xD
@@ -91,8 +92,7 @@ switch(document.getElementById("tipoMsje").value){
                    para el intervalo de tiempo especificado',
             toast: true,            
             position: 'bottom-end',
-            icon: 'warning', 
-            timer: 2700
+            icon: 'warning'
         })
     break;  
     
@@ -100,7 +100,8 @@ switch(document.getElementById("tipoMsje").value){
         Swal.fire({
             title:'No existen registros de transacciones\n\
                    atendidas para el rango de tiempo especificado',
-            toast: true,            
+            toast: true,   
+            backdrop: false,
             position: 'bottom-end',
             icon: 'warning', 
             timer: 2700
@@ -110,14 +111,14 @@ switch(document.getElementById("tipoMsje").value){
     case "fueraDeHorario":
          Swal.fire({
             title:'Denegación de Acceso',            
-            text: 'No puede emplear las funciones de \n\
-                   las páginas porque no se encuentra\n\
+            text: 'Esta función solo puede emplearse\n\
                    dentro del horario de trabajo',            
+            background:'#EAEDED',
+            backdrop: false,
             position: 'center',
-            icon: 'sucess',
-            timer: 3100
+            icon: 'error'            
     }) 
-   
+    break;
 }
 /*Swal.fire({
   position: 'top-end',

@@ -14,20 +14,17 @@ import Modelo.Nodo;
  */
 public class Verificador {      
     ListaEnlazada<String> listadoDPIs = new ListaEnlazada();    
-    ListaEnlazada<String> listadoCodigosUnUsuario = new ListaEnlazada();//puesto que haré la revisión se hace de primero de un usuario, luego de otro y al terminar este el útimo [pues en este caso son 3 xD] entonces el listado vivirá mientras se esté en un usuario xD lo hago así pues eso es lo que necesito ya que si podrían haber codigos iguales en otras tablas pero ese es otro ambiente, a diferencia del DPI que si solo puede haber 1 sin importar que tipo de Usuario sea...
+    ListaEnlazada<String> listadoCodigosUnaEntidad = new ListaEnlazada();//puesto que haré la revisión se hace de primero de un usuario, luego de otro y al terminar este el útimo [pues en este caso son 3 xD] entonces el listado vivirá mientras se esté en un usuario xD lo hago así pues eso es lo que necesito ya que si podrían haber codigos iguales en otras tablas pero ese es otro ambiente, a diferencia del DPI que si solo puede haber 1 sin importar que tipo de Usuario sea...
+    ListaEnlazada<String> listadoNumerosCuenta = new ListaEnlazada();
     
     public String verificarDatosCompletosUsuario(String codigo, String CUI, String nombre, String genero, String turno, String path){                    
-        String resultadoVerificacion = verificarUnicidadCodigo(codigo);//si llegara a aparecer es un error faltal... por ello ya no se sigue revisando...
-         
-        if(resultadoVerificacion.equals("???")){
-            resultadoVerificacion = verificarUnicidadDPIxml(CUI);//este tb es fatal xD, es decir con solo este basta para decir que es un error...
-            
-            if(resultadoVerificacion.equals("???")){//Es decir no es repetido xD
-                String segundoResultado = verificarDatosUsuario(nombre, genero, turno, path);//y así de esta manera si no hay errores hallados de ningún tipo, se devulve ??? xD
-                resultadoVerificacion+= (segundoResultado.isEmpty())?"":segundoResultado;
-            }        
-        }                                
-        return resultadoVerificacion;
+        String resultadoVerificacion = verificarUnicidadCodigo(codigo, false);
+        String datosHallados = verificarUnicidadDPIxml(CUI);
+        
+        resultadoVerificacion +=(!resultadoVerificacion.isEmpty() && !datosHallados.isEmpty())?", "+datosHallados:datosHallados;//Lo hago así por le hecho de que si no hay error devlverá nada, lo cual no afecta a lo que haya devuelto el método anteriror, pues si era error, entonces no se acumula algo en vano y si no había error entonces sigue estando vacía la variable xD
+        datosHallados = verificarDatosUsuario(nombre, genero, turno, path);
+        resultadoVerificacion+= (!resultadoVerificacion.isEmpty() && !datosHallados.isEmpty())?", "+ datosHallados:datosHallados;                   
+        return (resultadoVerificacion.isEmpty())?"???":resultadoVerificacion;
     }    
     
     private String verificarDatosUsuario(String nombre, String genero, String turno, String path){//el DPI no porque puede ser el código de otro documento personal [pasaporte supuestamente tien 8 dígitos, pero no se si es el máximo...]
@@ -37,15 +34,14 @@ public class Verificador {
             datosErrados+="-Nombre-";
         }
         if(!verificarGenero(genero)){
-            datosErrados+="-Genero-";
+            datosErrados+=(datosErrados.isEmpty())?"Genero":", Genero";
         }
         if(!verificarTurno(turno)){
-            datosErrados+="-Turno-";
+            datosErrados+= (datosErrados.isEmpty())?"Turno":", Turno";
         }
         if(!verificarExtension(path)){
-            datosErrados+="-Extension-";
-        }
-        
+            datosErrados+=(datosErrados.isEmpty())?"Extension":", Extension";
+        }        
         return datosErrados;
     }
     
@@ -80,7 +76,7 @@ public class Verificador {
     private boolean verificarExtension(String path){       
         
         if(path!= null){//los usuarios que no posean ese tipo de dato enviarán un null, por ello debe verificarse de primero que no tenga o sea xD este valor xD
-            String[] pathPartido = new String[2]; 
+            String[] pathPartido; 
             pathPartido = path.split("\\.");
             
             if(!pathPartido[1].equals("pdf")){//Se supone que fijos deberían tener almacenados archivos... así que el arreglo si tendría que almacenar en 0 el nombre y en 1 la extensión...
@@ -95,32 +91,35 @@ public class Verificador {
         
         for (int dpiActual = 0; dpiActual < listadoDPIs.darTamanio(); dpiActual++) {//puesto que hay que revisar y no solo añadir...
             if(nodoAuxiliar.contenido.equals(CUIrecibido)){
-                return "-DPI repetido-";
+                return "DPI repetido";
             }
             
             nodoAuxiliar = nodoAuxiliar.nodoSiguiente;
-        }
-        
+        }        
         listadoDPIs.anadirAlFinal(CUIrecibido);//Cuando no exista ninguno, por el hecho de tener tamaño 0 e iniciar en 0 no recorrerá nada xD y por ello no habrá problemas xD
-        return "???";   
+        return "";   
     }
     
-    private String verificarUnicidadCodigo(String codigoUsuario){
-        Nodo<String> nodoAuxiliar = listadoCodigosUnUsuario.obtnerPrimerNodo();
+    public String verificarUnicidadCodigo(String codigoEntidad, boolean esParaCuentas){        
+        ListaEnlazada<String> listaAuxiliar = (esParaCuentas)?listadoNumerosCuenta:listadoCodigosUnaEntidad;
+        Nodo<String> nodoAuxiliar = listaAuxiliar.obtnerPrimerNodo();
         
-        for (int codigoActual = 0; codigoActual < listadoCodigosUnUsuario.darTamanio(); codigoActual++) {//puesto que hay que revisar y no solo añadir...
-            if(nodoAuxiliar.contenido.equals(codigoUsuario)){
-                return "-Código repetido-";
+        for (int codigoActual = 0; codigoActual < listaAuxiliar.darTamanio(); codigoActual++) {//puesto que hay que revisar y no solo añadir...
+            if(nodoAuxiliar.contenido.equals(codigoEntidad)){
+                return "Código repetido";
             }            
             nodoAuxiliar = nodoAuxiliar.nodoSiguiente;
-        }
-        
-        listadoCodigosUnUsuario.anadirAlFinal(codigoUsuario);//Cuando no exista ninguno, por el hecho de tener tamaño 0 e iniciar en 0 no recorrerá nada xD y por ello no habrá problemas xD
-        return "???";   
+        }        
+        listaAuxiliar.anadirAlFinal(codigoEntidad);//Cuando no exista ninguno, por el hecho de tener tamaño 0 e iniciar en 0 no recorrerá nada xD y por ello no habrá problemas xD
+        return "";   
     }
     
     public void limpiarListadoCodigos(){
-        listadoCodigosUnUsuario.limpiar();    
+        listadoCodigosUnaEntidad.limpiar();    
+    }
+    
+    public void limpiarListadoNumerosCuenta(){
+        listadoNumerosCuenta.limpiar();
     }
     
     //no se revisarán fechas porque se debe saber que signo es el que separa a los números... y eso puede variar así que...

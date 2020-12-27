@@ -5,7 +5,6 @@
  */
 package Modelo.RegistrosAntiguos;
 
-import Modelo.Herramientas.ControladorIndices;
 import Modelo.ListaEnlazada;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -43,7 +42,7 @@ public class ClasificadorEntidades {
    }
    
    private void leerCajero(NodeList cajeros){
-       creadorEntidades.limpiarListadoCodigosUsuario();//puesto que pueden coincidir con otros de otras tablas pero JAMPAS NUNCA con los de la misma xD
+       creadorEntidades.limpiarListadoCodigos();//puesto que pueden coincidir con otros de otras tablas pero JAMPAS NUNCA con los de la misma xD
        
         if(cajeros!=null){
             for(int cajeroAcual=0; cajeroAcual < cajeros.getLength(); cajeroAcual++ ){//es decir el numero de ocurrencia del mismo tipo de categoría...
@@ -61,7 +60,8 @@ public class ClasificadorEntidades {
    }
    
    private void leerCliente(NodeList clientes){    
-        creadorEntidades.limpiarListadoCodigosUsuario();//puesto que pueden coincidir con otros de otras tablas pero JAMPAS NUNCA con los de la misma xD
+        creadorEntidades.limpiarListadoCodigos();//puesto que pueden coincidir con otros de otras tablas pero JAMPAS NUNCA con los de la misma xD
+        creadorEntidades.limpiarListadoNumerosCuenta();
         boolean clienteCreadoCorrectamente =true;                
             
         if(clientes!=null){
@@ -85,9 +85,8 @@ public class ClasificadorEntidades {
         }                                                                                    
    }//debes revisar... por el hecho de obtener la lisa de las cuentas como aquellas de > jerarquía como cliente, cajero, gerente...
    
-   private void leerCuentas(NodeList cuentas, String codigoDueno, String nombre){         
-        if(cuentas!=null){
-            
+   private void leerCuentas(NodeList cuentas, String codigoDueno, String nombre){                       
+        if(cuentas!=null){            
             for (int cuentaActual = 0; cuentaActual < cuentas.getLength(); cuentaActual++) {
                 Node cuenta = cuentas.item(cuentaActual);
                 
@@ -102,6 +101,8 @@ public class ClasificadorEntidades {
    }
    
    private void leerTransaccion(NodeList transacciones){
+       creadorEntidades.limpiarListadoCodigos();
+       
         if(transacciones!=null){
             for(int transaccionAcual=0; transaccionAcual < transacciones.getLength(); transaccionAcual++ ){//es decir el numero de ocurrencia del mismo tipo de categoría...
                 Node transaccion = transacciones.item(transaccionAcual);//que aquí lo nombraron como item xD

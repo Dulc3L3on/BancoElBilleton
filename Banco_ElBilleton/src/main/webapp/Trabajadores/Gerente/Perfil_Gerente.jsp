@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
-<%@page import="Modelo.Herramientas.Kit"%>
 <%@page import="Modelo.Entidades.Usuarios.Gerente"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,11 +17,10 @@
         <title>ManagerProfile</title>
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
            Buscador buscador = new Buscador();
-           Gerente gerente;
-           Kit herramienta = new Kit();%>
+           Gerente gerente;%>
     </head>
     <body>
-        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
+        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){
             response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
         }%>
         
@@ -48,7 +46,7 @@
                                     <input type="text" id="datosUsuario"  name="datosActualizar" placeholder="Nombre" value="<%=(gerente!=null)?gerente.getNombre():""%>"  required>
                                 </th>
                                 <th>
-                                    <input type="text" id="datosUsuario" name="datosActualizar" placeholder="Contraseña" value="<%=(gerente!=null)?herramienta.desencriptarContrasenia(gerente.getPassword()):""%>"><!--por ser gerente se le dará el privilegio de poder crear una contraseña personalizada para él xD-->
+                                    <input type="text" id="datosUsuario" name="datosActualizar" placeholder="Contraseña" value="<%=(gerente!=null)?gerente.getPassword():""%>"><!--por ser gerente se le dará el privilegio de poder crear una contraseña personalizada para él xD-->
                                 </th>                                  
                             </tr>
                                 <tr> 
@@ -85,7 +83,15 @@
                                             <option value="vespertino" <%=(gerente!=null)?(gerente.getTurno().equals("vespertino")?"selected":""):""%>>Vespertino</option>
                                         </select><!--el turno que tiene asignado en ese momento lo mostrarás por medio del dato almacenado en la DB, de tal forma que si es == a matutino [p.ej] entonces que ese adquiera el valor selected si no pues nada es decir ""... simi a lo que hiciste para dejar marcada la opción del menú seleccionada de las páginas principales... [es decir con un ternario...]-->
                                     </th>
-                                </tr>     
+                                </tr>    
+                                <tr>
+                                    <th>
+                                        <h5>Correo</h5>
+                                    </th>                                    
+                                </tr>
+                                <th>
+                                    <input type="email" id="datosUsuario" name="datosActualizar" placeholder="Correo electrónico" value="<%=(gerente!=null)?(gerente.getCorreo().equals("???")?"":gerente.getCorreo()):""%>" required> 
+                                </th>                             
                                 <tr>
                                     <th colspan="2">
                                         <h6>+ no es necesaria su modificación, pero si se requiere que al presionar modificar posea contenido</h6>

@@ -17,12 +17,8 @@
         ManejadorDeNavegacion navegador = new ManejadorDeNavegacion();//<!--al prinicpio [es decir después de loguearse], se llegará aquí por medio del doGet del servlet Perfil o LOgin xD [mejor login xD] luego de crear a la entidad correspondiente [por medio de un parmetro que indicará el tipo al métoodo correspondiente, que por el hecho de no tener que devolver nada puede crearse a los usuarios sin tener que quitarles su mero nombre xD p.ej-> CLIENTE a USUARIO y de instanciar sus valores con el setAttribute[auque por usar singleton, creo que no seá muy útil...creo xD]... de tal forma que al ya estar logueado,s e exe con normalidad este proceso...-->
         String pagina;%> 
     </head>
-    <body>
-        <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente") && !guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))){
-            response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
-        }%>
-        
-          <%pagina = navegador.darPaginasModificacion(request.getParameter("opcion"));%>
+    <body>              
+        <%pagina = navegador.darPaginasModificacion(request.getParameter("opcion"));%>
         <div class="submenuAcciones modificacion">
             <form method="POST" action="Modificacion.jsp">
                 <input type="submit" class="button <%=(pagina.contains("Cliente")?"marcadoAcciones":"")%>" id="submit" name="opcion" value="Cliente">

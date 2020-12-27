@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
-<%@page import="Modelo.Herramientas.Kit"%>
 <%@page import="Modelo.Entidades.Usuarios.Cajero"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,8 +17,7 @@
         <title>CashierProfile</title>
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
            Buscador buscador = new Buscador();
-           Cajero cajero;
-           Kit herramienta = new Kit();%>
+           Cajero cajero;%>
     </head>
     <body>
         <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")==false){
@@ -45,7 +43,7 @@
                                 <input type="text" id="datosUsuario"  name="nombre" placeholder="Nombre" value="<%=(cajero!=null)?cajero.getNombre():""%>" readonly>
                             </th>
                             <th>
-                                <input type="text" id="datosUsuario" name="contrasenia" placeholder="Contraseña" value="<%=(cajero!=null)?herramienta.desencriptarContrasenia(cajero.getPassword()):""%> " readonly>                                 
+                                <input type="text" id="datosUsuario" name="contrasenia" placeholder="Contraseña" value="<%=(cajero!=null)?cajero.getPassword():""%> " readonly>                                 
                             </th>
                         </tr>
                         <tr>
@@ -72,15 +70,26 @@
                                 <th>
                                     <h5>Turno</h5>
                                 </th>
-                            </tr>   
+                        </tr>   
+                        <tr>
                             <th>
                                 <input type="text" id="datosUsuario" name="genero" placeholder="Genero" value="<%=(cajero!=null)?cajero.getSexo():""%>" readonly> 
                             </th>
                             <th>
                                 <input type="text" id="datosUsuario" name="turno" placeholder="Turno" value="<%=(cajero!=null)?cajero.getTurno():""%>" readonly> 
                                 <!--el turno que tiene asignado en ese momento lo mostrarás por medio del dato almacenado en la DB, de tal forma que si es == a matutino [p.ej] entonces que ese adquiera el valor selected si no pues nada es decir ""... simi a lo que hiciste para dejar marcada la opción del menú seleccionada de las páginas principales... [es decir con un ternario...]--><!--pero esto es para el gerente xD, porque sólo él puede modificar sus datos... xD-->
-                            </th>
+                            </th>                            
                         </tr>                                          
+                        <tr>
+                            <th>
+                                <h5>Correo</h5>
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="text" id="datosUsuario"  name="correo" placeholder="correo" value="<%=(cajero!=null)?cajero.getCorreo():""%>" readonly>
+                            </th>                            
+                        </tr>
                     </table>                    
                 </div>
             </div>

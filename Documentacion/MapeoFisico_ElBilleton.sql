@@ -2,13 +2,13 @@ CREATE DATABASE ElBilleton;
 
 USE ElBilleton;
 
-CREATE TABLE Gerente (codigo int PRIMARY KEY, nombre varchar(150) NOT NULL, DPI varchar(18) NOT NULL, direccion varchar(200) NOT NULL, sexo varchar(9) NOT NULL, password varchar(200), turno varchar(10), fechaIncorporacion varchar(14));
+CREATE TABLE Gerente (codigo int PRIMARY KEY, nombre varchar(150) NOT NULL, DPI varchar(18) NOT NULL, direccion varchar(200) NOT NULL, sexo varchar(9) NOT NULL, password varchar(200), turno varchar(10), fechaIncorporacion varchar(14), correo varchar(75) DEFAULT '???');
 
-CREATE TABLE Cliente (codigo int PRIMARY KEY, nombre varchar(150) NOT NULL, DPI varchar (18) NOT NULL, direccion varchar(200) NOT NULL, sexo varchar(9) NOT NULL, password varchar(200), birth varchar(14), pathDPI varchar(250), fechaIncorporacion varchar(14));
+CREATE TABLE Cliente (codigo int PRIMARY KEY, nombre varchar(150) NOT NULL, DPI varchar (18) NOT NULL, direccion varchar(200) NOT NULL, sexo varchar(9) NOT NULL, password varchar(200), birth varchar(14), pathDPI varchar(250), fechaIncorporacion varchar(14), correo varchar(75) DEFAULT '???');
 
-CREATE TABLE Cajero (codigo int PRIMARY KEY, nombre varchar(150) NOT NULL, DPI varchar (18) NOT NULL, direccion varchar(200) NOT NULL, sexo varchar(9) NOT NULL, password varchar(200), turno varchar(10), fechaIncorporacion varchar(14));
+CREATE TABLE Cajero (codigo int PRIMARY KEY, nombre varchar(150) NOT NULL, DPI varchar (18) NOT NULL, direccion varchar(200) NOT NULL, sexo varchar(9) NOT NULL, password varchar(200), turno varchar(10), fechaIncorporacion varchar(14), correo varchar(75) DEFAULT '???');
 
-CREATE TABLE Cuenta (numeroCuenta int PRIMARY KEY, codigoDueno int NOT NULL, monto decimal(22,2), fechaCreacion varchar(14), estado varchar(12) DEFAULT "activa");
+CREATE TABLE Cuenta (numeroCuenta int PRIMARY KEY, codigoDueno int NOT NULL, monto decimal(22,2) DEFAULT 0, fechaCreacion varchar(14), estado varchar(12) DEFAULT "activa");
 ALTER TABLE Cuenta ADD FOREIGN KEY (codigoDueno) REFERENCES Cliente (codigo) ON DELETE NO ACTION ON UPDATE CASCADE; 
 
 CREATE TABLE Asociacion (codigoSolicitado int NOT NULL, numeroCuentaSolicitado int NOT NULL, codigoSolicitante int NOT NULL, estado varchar(9) DEFAULT "enEspera", fechaCreacion varchar(14));

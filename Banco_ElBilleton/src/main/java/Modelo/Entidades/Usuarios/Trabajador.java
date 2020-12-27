@@ -13,8 +13,8 @@ public class Trabajador extends Usuario{
     String turno;
     
     public Trabajador(int elCodigo, String elNombre, String elDPI, String laDireccion,
-            String elGenero, String elPassword, String laFechaIncorporacion, String elTurno) {
-        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, laFechaIncorporacion);
+            String elGenero, String elPassword, String laFechaIncorporacion, String elCorreo, String elTurno) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, laFechaIncorporacion, elCorreo);
         
         turno = elTurno;
     }

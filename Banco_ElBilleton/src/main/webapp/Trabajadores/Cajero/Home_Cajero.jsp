@@ -43,7 +43,8 @@
         <iframe src="<%=pagina%>" id="frameCajero"></iframe>
         
         <%if(request.getSession().getAttribute("msjeBienvenida")!=null){%>
-             <script src="../../js/sweetInformativo.js"></script>                         
+            <input type="text" id="tipoMsje" value="bienvenida" hidden>
+            <script src="../../js/sweetInformativo.js"></script>                         
             <% request.getSession().removeAttribute("msjeBienvenida");//para que no se muestre cada vez... sino solo al nada más llegar xD
         }%>      
     </body>

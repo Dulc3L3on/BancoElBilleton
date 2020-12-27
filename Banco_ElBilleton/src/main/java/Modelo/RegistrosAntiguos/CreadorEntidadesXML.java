@@ -120,60 +120,75 @@ public class CreadorEntidadesXML {
         return false;        
     }      
     
-    public void crearTransaccion(String codigo, String numeroCuenta, String fecha, String hora, String tipo, String monto, String codigoCajero){
+    public boolean crearTransaccion(String codigo, String numeroCuenta, String fecha, String hora, String tipo, String monto, String codigoCajero){
         String crear = "INSERT INTO Transaccion (codigo, numeroCuentaAfectada, tipo, monto, fecha, hora, codigoCajero) VALUES(?,?,?,?,?,?,?)"
                 + "ON DUPLICATE KEY UPDATE tipo = Transaccion.tipo";        
+        String resultadoVerificacionCodigo = verificador.verificarUnicidadCodigo(codigo, false);
         
-        try(PreparedStatement instrucciones = conexion.prepareStatement(crear, Statement.RETURN_GENERATED_KEYS)){            
-            int codigoTransaccion = Integer.parseInt(codigo);
-            int cuenta = Integer.parseInt(numeroCuenta);
-            int cajero_id = Integer.parseInt(codigoCajero);
+        if(resultadoVerificacionCodigo.isEmpty()){
+            try(PreparedStatement instrucciones = conexion.prepareStatement(crear, Statement.RETURN_GENERATED_KEYS)){            
+                int codigoTransaccion = Integer.parseInt(codigo);
+                int cuenta = Integer.parseInt(numeroCuenta);
+                int cajero_id = Integer.parseInt(codigoCajero);
             
-            instrucciones.setInt(1,codigoTransaccion);
-            instrucciones.setInt(2, cuenta);
-            instrucciones.setString(3, tipo.toLowerCase());//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
-            instrucciones.setString(4, monto);//vamos a dejarlo así, pues tal parece que un int adminte un string... porque me estuvo cargando los datos si darme error al establecer el mosnto con un tipo string...si da error quiere decir que el double no acepta esto...
-            instrucciones.setString(5, fecha);
-            instrucciones.setString(6, hora);
-            instrucciones.setInt(7, cajero_id);                                   
+                instrucciones.setInt(1,codigoTransaccion);
+                instrucciones.setInt(2, cuenta);
+                instrucciones.setString(3, tipo.toLowerCase());//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
+                instrucciones.setString(4, monto);//vamos a dejarlo así, pues tal parece que un int adminte un string... porque me estuvo cargando los datos si darme error al establecer el mosnto con un tipo string...si da error quiere decir que el double no acepta esto...
+                instrucciones.setString(5, fecha);
+                instrucciones.setString(6, hora);
+                instrucciones.setInt(7, cajero_id);                                   
             
-            instrucciones.executeUpdate();
-            controlador.hallarMayor(codigoTransaccion, 3);
-        }catch(SQLException | NumberFormatException e){
-            System.out.println("Error al crear la transacción del XML: "+ e.getMessage());           
-            String[] datos = {"Transaccion", codigo,fecha, hora, numeroCuenta, tipo, monto, codigoCajero, "???"};
-            listaErrados.anadirAlFinal(datos);//sería bueno mostrar tb el código del cajero a cargo... pero deberías ver como de tal forma que no se vea desordenado... [quizá sería útil que la lista vaciara sus datos en las cols de una tabla de cada fila creada, pero eso implicaría que el listado de errores recibiera un arreglo xD... eso lo veráa mañanita XD
-        }                
+                instrucciones.executeUpdate();
+                controlador.hallarMayor(codigoTransaccion, 3);
+                return true;
+            }catch(SQLException | NumberFormatException e){
+                System.out.println("Error al crear la transacción del XML: "+ e.getMessage());    
+            }                        
+        }
+        String[] datos = {"Transaccion", codigo,fecha, hora, numeroCuenta, tipo, monto, codigoCajero, resultadoVerificacionCodigo};
+        listaErrados.anadirAlFinal(datos);//sería bueno mostrar tb el código del cajero a cargo... pero deberías ver como de tal forma que no se vea desordenado... [quizá sería útil que la lista vaciara sus datos en las cols de una tabla de cada fila creada, pero eso implicaría que el listado de errores recibiera un arreglo xD... eso lo veráa mañanita XD
+        return false;
     }  
     
-    public void crearCuenta(String numeroCuenta, String codigoDueno, String monto, String fechaCreacion, String nombre){
+    public boolean crearCuenta(String numeroCuenta, String codigoDueno, String monto, String fechaCreacion, String nombre){
         String crear = "INSERT INTO Cuenta (numeroCuenta, codigoDueno, monto, fechaCreacion) VALUES(?,?,?,?)"
                 + "ON DUPLICATE KEY UPDATE monto = Cuenta.monto";        
-        
-        try(PreparedStatement instrucciones = conexion.prepareStatement(crear, Statement.RETURN_GENERATED_KEYS)){            
-            int cuenta = Integer.parseInt(numeroCuenta);
-            int codigo = Integer.parseInt(codigoDueno);
-            double saldo = Double.parseDouble(monto);
+        String resultadoVerificacionCodigo = verificador.verificarUnicidadCodigo(numeroCuenta, true);
+       
+        if(resultadoVerificacionCodigo.isEmpty()){
+            try(PreparedStatement instrucciones = conexion.prepareStatement(crear, Statement.RETURN_GENERATED_KEYS)){            
+                int cuenta = Integer.parseInt(numeroCuenta);
+                int codigo = Integer.parseInt(codigoDueno);
+                double saldo = Double.parseDouble(monto);
             
-            instrucciones.setInt(1, cuenta);
-            instrucciones.setInt(2,codigo);
-            instrucciones.setDouble(3, saldo);//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
-            instrucciones.setString(4, fechaCreacion);                 
+                instrucciones.setInt(1, cuenta);
+                instrucciones.setInt(2,codigo);
+                instrucciones.setDouble(3, saldo);//este será el nombre del documento, el cual agregarás a la dirección en la que se almacenan todos los DPI, por lo cual podrás obtener el que corresponde, media vez obtengas este nombre... xD, depkano que se tendrá que agarrar luego de haberlo "subido" al servidor... entonces piensa como vas a llamar al servlet subidor...
+                instrucciones.setString(4, fechaCreacion);                 
             
-            instrucciones.executeUpdate();
-            controlador.hallarMayor(cuenta, 4);
-        }catch(SQLException | NumberFormatException e){
-            System.out.println("Error al crear la cuenta del XML: "+ e.getMessage());   
-            String[] datos = {"Cuenta", fechaCreacion, numeroCuenta, codigoDueno, monto, "???"};
-            listaErrados.anadirAlFinal(datos);//XD si se entinede xD
-        }                                
+                instrucciones.executeUpdate();
+                controlador.hallarMayor(cuenta, 4);
+                return true;
+            }catch(SQLException | NumberFormatException e){
+                System.out.println("Error al crear la cuenta del XML: "+ e.getMessage());                   
+            }                
+        }
+        String[] datos = {"Cuenta", fechaCreacion, numeroCuenta, codigoDueno, monto, resultadoVerificacionCodigo};
+        listaErrados.anadirAlFinal(datos);//XD si se entinede xD                       
+        return false;
     }
     
     public ListaEnlazada<String[]> darListadoErrores(){
         return listaErrados;
     } 
-    public void limpiarListadoCodigosUsuario(){
+    
+    public void limpiarListadoCodigos(){
         verificador.limpiarListadoCodigos();
+    }
+    
+    public void limpiarListadoNumerosCuenta(){
+        verificador.limpiarListadoNumerosCuenta();
     }
 }
 

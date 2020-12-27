@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -23,7 +25,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author phily
  */
 public class Kit {
-     final String contraseniaMaestra = "ElBilleton";
+    private final String contraseniaMaestra = "ElBilleton";
     
      public String darFechaActualString(){
         return java.time.LocalDate.now().toString();               
@@ -119,21 +121,29 @@ public class Kit {
      * btn en el cual tb se halla el nombre de un solo usuario del listado existente
      * o del usuario "buscado" [esto último al ingresar el cod o nombre de un user en cuestión
      * en el input para búsqueda] el cajero o cliente en cuestión...
-     * @param codigo
+     * @param tipoBusqueda     
      * @param listadoUsuarios
      * @return
      */
-    public int buscarUbicacionUsuarioBuscado(String codigo, Usuario[] listadoUsuarios){
+    public List<Integer> buscarUbicacionUsuarioBuscado(String tipoBusqueda, String datoBusqueda, Usuario[] listadoUsuarios){
+        List<Integer> listaUbicacionesCoincidentes = new LinkedList<>();
         
         try{
             for (int usuarioActual = 0; usuarioActual < listadoUsuarios.length; usuarioActual++) {
-                if(listadoUsuarios[usuarioActual].getCodigo() == Integer.parseInt(codigo)){
-                    return usuarioActual;
-                }                           
+                if(tipoBusqueda.equalsIgnoreCase("codigo")){
+                    if(String.valueOf(listadoUsuarios[usuarioActual].getCodigo()).startsWith(datoBusqueda)){
+                        listaUbicacionesCoincidentes.add(usuarioActual);
+                    }                
+                }else{
+                    if(listadoUsuarios[usuarioActual].getNombre().contains(datoBusqueda)){
+                        listaUbicacionesCoincidentes.add(usuarioActual);
+                    }
+                }                
             }
+            return listaUbicacionesCoincidentes;
         }catch(NumberFormatException e){//porque no recuerdo la otra además de numberFormlatException, por el hecho de tratar de covertir a número un dato alfanumérico... si te da excepción xD entonces copia el tipo y ya xD
             System.out.println("Error al obtener la ubicación del usuario buscado del listado"+ e.getMessage());
         }        
-        return -1;      
+        return new LinkedList<>();      
     }      
 }

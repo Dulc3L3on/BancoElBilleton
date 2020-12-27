@@ -7,20 +7,22 @@ and open the template in the editor.
     Created on : 24/11/2020, 11:24:12
     Author     : phily
 */
-@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Sansita+Swashed:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Questrial&family=Sansita+Swashed:wght@400;500&display=swap');
 
 body{
-    font-family: Questrial;    
+    font-family: 'Roboto Condensed';    
 }
 
 #resultados{
     border: 1px solid black;
 }
 
+table{
+    font-family: Questrial;
+}
+
 th{
-    border: 1px solid black;
-    width: 450px;    
-    height: 250px;
+    border: 1px solid black;    
     text-decoration: none;
 }
 
@@ -38,16 +40,12 @@ a{
 }
 
 #subencabezado{
-    margin-left: -575px;   
+    margin-left: -775px;   
     font-weight: bold;
 }
 
 #titulos{
     background-color: lightgray    
-}
-
-#tipoError{
-    width: 550px;    
 }
 
 #submit:hover{

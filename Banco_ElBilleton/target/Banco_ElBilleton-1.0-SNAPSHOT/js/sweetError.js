@@ -17,11 +17,11 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
         })
     break;    
 
-    case "erroActualizacionUsuario":
+    case "errorActualizacionUsuario":
         Swal.fire({
             title:'Error en la actualización',            
             text: 'Intente nuevamente por favor',
-            backdrop: true,
+            backdrop: false,
             position: 'center',
             icon: 'error'
         })
@@ -121,10 +121,9 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             title:'Cuenta No Creada',            
             text: 'Surgió un error que impidió\n\
                    la creación de la cuenta, \n\
-                   por favor intente nuevamente',
-            backdrop: true,
+                   por favor intente nuevamente',            
             position: 'center',
-            icon: 'error'
+            icon: 'error'            
         })            
     break;
 }       

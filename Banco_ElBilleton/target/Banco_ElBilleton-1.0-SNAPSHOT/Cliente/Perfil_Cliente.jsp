@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
-<%@page import="Modelo.Herramientas.Kit"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
 <%@page import="Modelo.Manejadores.DB.Buscador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,8 +17,7 @@
         <title>ClientProfile</title>
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
            Buscador buscador = new Buscador();
-           Cliente cliente;
-           Kit herramienta = new Kit();%>
+           Cliente cliente;%>
     </head>
     <body>
         <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cliente")){
@@ -46,7 +44,7 @@
                                  <input type="text" id="datosUsuario"  name="nombre" placeholder="Nombre" value="<%=(cliente!=null)?cliente.getNombre():""%>"  readonly>
                             </th>
                             <th>
-                                <input type="text" id="datosUsuario" name="contrasenia" placeholder="Contraseña" value="<%=(cliente!=null)?herramienta.desencriptarContrasenia(cliente.getPassword()):""%>" readonly>                                 
+                                <input type="text" id="datosUsuario" name="contrasenia" placeholder="Contraseña" value="<%=(cliente!=null)?cliente.getPassword():""%>" readonly>                                 
                             </th>
                         </tr>
                         <tr>
@@ -80,7 +78,17 @@
                             <th>
                                 <input type="date" id="datosUsuario" name="birth" placeholder="Birth" value="<%=(cliente!=null)?cliente.getBirth():""%>" readonly> 
                             </th>
-                        </tr>                                          
+                        </tr>         
+                        <tr>
+                            <th>
+                                <h5>Correo</h5>
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="text" id="datosUsuario"  name="correo" placeholder="correo" value="<%=(cliente!=null)?cliente.getCorreo():""%>" readonly>
+                            </th>                            
+                        </tr>
                     </table>                    
                 </div>
             </div>

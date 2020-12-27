@@ -9,6 +9,7 @@ import Modelo.Entidades.Objetos.Cambio;
 import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
+import Modelo.Entidades.Usuarios.Trabajador;
 import Modelo.Entidades.Usuarios.Usuario;
 import Modelo.Herramientas.Kit;
 import Modelo.Manejadores.DB.Buscador;
@@ -17,6 +18,7 @@ import Modelo.Manejadores.DB.BuscadorPersonaEncargada;
 import Modelo.Manejadores.DB.Modificador;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -56,6 +58,8 @@ public class GestorParametrosDelGerente extends HttpServlet{
             mapa =  darParametrosLimiteMenor(request, tipoParametros);
         }else if(tipoParametros.contains("Fecha")){
             mapa = darParametrosFechas(request);
+        }else if(tipoParametros.contains("encargado")){
+            mapa = darParametrosGerenteEncargado(request);
         }
         mapa.put("horaActual", herramientas.darHoraActual());
         request.getSession().setAttribute("parametros", mapa);//esto será así si es que cuando no se quieren parámetros s edbee enviar un mapa null... sino, entonces deberás investigar xD
@@ -97,6 +101,15 @@ public class GestorParametrosDelGerente extends HttpServlet{
        return mapa;
     }
     
+    private Map<String, Object> darParametrosGerenteEncargado(HttpServletRequest request){
+        Map<String, Object> mapa = new HashMap<>();
+        
+        Usuario gerente = buscador.buscarUsuario("Gerente", "codigo", (String)request.getSession().getAttribute("codigo"));
+        mapa.put("nombreEncargado", gerente.getNombre());
+        mapa.put("codigoEncargado", gerente.getCodigo());
+        return mapa;
+    }
+    
      private void establecerListados(String tipoListado, HttpServletRequest request, HttpServletResponse response){//aquí se hace la búsqueda de los datos que se mostrarán en las tablas, según el tipo de reporte, y así se establezcan como atributos...                 
         if(tipoListado.contains("Cambios")){
             establecerListadoCambios(tipoListado, request, response);
@@ -104,6 +117,8 @@ public class GestorParametrosDelGerente extends HttpServlet{
             establecerListadosDeClientes(tipoListado, request, response);
         }else if(tipoListado.contains("Historial")){//puedo colocar eso por el hecho de que media vez se entre a una condición, ya no se entra a los demás :v... niña eso es lo básico :v xD
             establecerListadoHistorialTransacciones(request, response);
+        }else if(tipoListado.contains("ResumenCreacion")){
+            establecerListadoResumenCreacion(tipoListado, request, response);
         }else{
             establecerListadoCajeroMuyEficiente(request, response);
         }        
@@ -120,10 +135,10 @@ public class GestorParametrosDelGerente extends HttpServlet{
                 }                
             
                 request.getSession().setAttribute("listado", listadoCambios);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD        
-                response.sendRedirect((tipoListado.contains("Propios"))?"../../gestorReportesTransaccionesYCambios":"gestorReportesTransaccionesYCambios");//esto será para probar si funciona lo que se hizo con el instanceof, para reducir el número de clases para establecer el listado...
+                response.sendRedirect(((request.getParameter("desdeElHistorial")!=null || tipoListado.contains("Usuarios"))?"gestorReportesTransaccionesYCambios":"../../gestorReportesTransaccionesYCambios"));//esto será para probar si funciona lo que se hizo con el instanceof, para reducir el número de clases para establecer el listado...
             }else{
                 request.getSession().setAttribute("sinDatos",true);
-                response.sendRedirect((tipoListado.contains("Propios"))?"Reportes_Gerente.jsp":"Trabajadores/Gerente/Reportes_Gerente.jsp");//esta dir está bien puesto que no tiene subform como para que le hayn reducido la profundidad
+                response.sendRedirect((request.getParameter("desdeElHistorial")!=null)?"Trabajadores/Gerente/Historial.jsp":((tipoListado.contains("Propios"))?"Reportes_Gerente.jsp":"Trabajadores/Gerente/Reportes_Gerente.jsp"));//esta dir está bien puesto que no tiene subform como para que le hayn reducido la profundidad
             }                                           
          }catch(IOException e) {
             System.out.println("Error al establecer el listado de Cambios "+ request.getParameter("datosUsuario")!=null?request.getParameter("tipoUsuario"):"Gerente" +" -> "+ e.getMessage());
@@ -185,7 +200,39 @@ public class GestorParametrosDelGerente extends HttpServlet{
          }catch(IOException e){
              System.out.println("Error al buscar al CAJERO MÁS EFICIENTE -> "+e.getMessage());
          }                          
-     }            
+     }   
+     
+     private void establecerListadoResumenCreacion(String tipoListado, HttpServletRequest request, HttpServletResponse response){
+         try{
+             List<Cliente> listadoDeCliente = new LinkedList<>();
+             List<Trabajador> listadoDeTrabajador = new LinkedList<>();
+            
+             if(tipoListado.contains("Cliente")){
+                 Cliente cliente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", request.getParameter("codigoUsuario"));
+                 if(cliente!=null){
+                     listadoDeCliente.add(cliente);
+                 }
+             }else{
+                 Trabajador trabajador = (Trabajador) buscador.buscarUsuario((request.getParameter("trabajador").contains("GERENTE")?"Gerente":"Cajero"), "codigo", request.getParameter("codigoUsuario"));
+                 if(trabajador!=null){
+                    listadoDeTrabajador.add(trabajador);
+                 }                 
+             }
+             
+             if(!listadoDeCliente.isEmpty()){
+                request.getSession().setAttribute("listado", listadoDeCliente);
+                response.sendRedirect("gestorReportesUsuarios");
+             }else if(!listadoDeTrabajador.isEmpty()){
+                request.getSession().setAttribute("listado", listadoDeTrabajador);
+                response.sendRedirect("gestorReportesUsuarios");                
+             }else{
+                request.getSession().setAttribute("sinDatos",true);
+                response.sendRedirect("Trabajadores/Gerente/Resultado_Creacion.jsp");
+             }                          
+         }catch(IOException e){
+             System.out.println("Error al establecer el listado del RESUMEN de creación -> "+ e.getMessage());
+         }
+     }
 }//RECUERDA todos los reportes que tienen el subformulario terminan teniendo una dirección "directa" de tal forma que no debe retrocederse al redirigir al gestor que se encarga de los reportes xD
  //A diferencia de los otros... xD [ESTO SUCEDE por el hecho de REGRESAR a la página desde por medio de la cual se mostró el subform en este caso...
 /*Reporte con la profundidad de redirección al gestor del reporete correp arregalo

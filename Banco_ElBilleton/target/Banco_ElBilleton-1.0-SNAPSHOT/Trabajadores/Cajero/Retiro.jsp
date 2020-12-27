@@ -24,11 +24,14 @@
            Cuenta cuentas[] = null;%>
     </head>
     <body>   
-        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")==false || guardia.estaEnHorario("Cajero", (String) request.getSession().getAttribute("codigo"))==false){%>        
-            <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
-            <script src="../../js/sweetInformativo.js"></script>
+        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cajero")==false){%>                  
             <%response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]
         }%>
+        <%if(guardia.estaEnHorario("Cajero", (String) request.getSession().getAttribute("codigo"))==false){%>
+            <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
+            <script src="../../js/sweetInformativo.js"></script>            
+        <%}%>
+        
         <%if(request.getParameter("DPI_Buscado")!=null){
             cliente = null;
             cuentas = null;

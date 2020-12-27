@@ -14,8 +14,9 @@ import java.io.Serializable;
 public class Cajero extends Trabajador implements Serializable{
     private int numeroTransaccionesAtendidas; 
     
-    public Cajero(int elCodigo, String elNombre, String elDPI, String laDireccion, String elGenero, String elPassword, String laFechaIncorporacion, String elTurno) {
-        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, laFechaIncorporacion, elTurno);
+    public Cajero(int elCodigo, String elNombre, String elDPI, String laDireccion,
+        String elGenero, String elPassword, String laFechaIncorporacion, String elCorreo, String elTurno) {
+        super(elCodigo, elNombre, elDPI, laDireccion, elGenero, elPassword, laFechaIncorporacion, elCorreo, elTurno);
     }
     
     public void establecerNumeroTransacciones(int numero){

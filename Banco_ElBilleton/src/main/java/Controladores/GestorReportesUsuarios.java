@@ -7,6 +7,7 @@ package Controladores;
 
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
+import Modelo.Entidades.Usuarios.Trabajador;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -52,6 +53,8 @@ public class GestorReportesUsuarios extends HttpServlet{
             }
             else if(listadoGenerico.get(0) instanceof Cajero){
                dataSource = new JRBeanCollectionDataSource((List<Cajero>)request.getSession().getAttribute("listado"));
+            }else if(listadoGenerico.get(0) instanceof Trabajador){
+               dataSource = new JRBeanCollectionDataSource((List<Trabajador>)request.getSession().getAttribute("listado"));
             }                          
             
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReports, (Map<String, Object>)request.getSession().getAttribute("parametros"), dataSource);
