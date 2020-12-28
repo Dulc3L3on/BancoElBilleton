@@ -210,6 +210,21 @@ public class Buscador {
         return null;
     } 
     
+    public String buscarContraseniaRemitente(){
+        String buscar ="SELECT contraseniaRemitente FROM Setting";
+        
+        try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE)){
+           ResultSet resultado = instrucciones.executeQuery();
+           if(resultado.first()){
+               return resultado.getString(1);
+           }        
+        }catch(SQLException sqlE){
+            System.out.println("Error al buscar la contrasenia del remitente -> "+ sqlE.getMessage());
+        }
+        return null;
+    }
+    
    public int darTipoSituacion(){
        return tipoSituacion;
    }

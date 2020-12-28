@@ -133,7 +133,7 @@
                         </div>
                     </form>   
                         
-                <%}else{%>
+                <%}else if(request.getSession().getAttribute("usuarioBuscado_Cliente")!=null && cajero==null){%>
                         <input type="text" id="tipoMsje" value="errorBusquedaUsuario" hidden>
                         <script src="../../js/sweetError.js"></script> 
                   <%}%>                     

@@ -43,7 +43,7 @@ switch(document.getElementById("tipoMsje").value){
     case "solicitudAceptada":
           Swal.fire({
             toast: true,
-            backdrop: true,
+            backdrop: false,
             text: 'Ya existe una asociación concretada\n\
                    con el número de cuenta ingresado',                                    
             position: 'center',
@@ -54,7 +54,7 @@ switch(document.getElementById("tipoMsje").value){
     case "intentosAgotados":
           Swal.fire({
             toast: true,
-            backdrop: true,
+            backdrop: false,
             title: 'Intentos de envío Agotados',
             text: 'No esposible enviar una solicitud\n\
                    más al número de cuenta ingresado',            
@@ -66,7 +66,7 @@ switch(document.getElementById("tipoMsje").value){
     case "sinReaccion":
           Swal.fire({            
             toast: true,
-            backdrop: true,
+            backdrop: false,
             text: 'Una solicitud enviada con anterioridad\n\
                    a la misma cuenta aún no ha sido respondida\n\
                    por favor espera la respuesta...',            
@@ -78,7 +78,7 @@ switch(document.getElementById("tipoMsje").value){
     case "cuentaPropia":
           Swal.fire({            
             toast: true,
-            backdrop: true,
+            backdrop: false,
             text: 'Tus cuentas poseen una asociación\n\
                    entre sí desde que son creadas...',            
             position: 'center',
@@ -118,6 +118,15 @@ switch(document.getElementById("tipoMsje").value){
             position: 'center',
             icon: 'error'            
     }) 
+    break;
+    
+    case "exitoEnvioMail":
+        Swal.fire({
+            title:'Correo Enviado Exitosamente',                        
+            position: 'center',
+            backdrop: false,
+            icon: 'success'            
+        })            
     break;
 }
 /*Swal.fire({

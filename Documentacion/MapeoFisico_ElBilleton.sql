@@ -31,8 +31,7 @@ ALTER TABLE Cambios_Cajero ADD FOREIGN KEY (cajeroCambiado) REFERENCES Cajero (c
 CREATE TABLE Cambios_Gerente (fecha varchar(14), hora varchar(14), gerenteCambiado int NOT NULL, tipoDeCambio varchar(15), datoAnterior varchar(350), datoNuevo varchar(350));
 ALTER TABLE Cambios_Gerente ADD FOREIGN KEY (gerenteCambiado) REFERENCES Gerente (codigo) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-CREATE TABLE Setting (limiteMayorMonto double(22,2) DEFAULT 100, limiteMayorSumaMonto double(22,2) DEFAULT 100);
+CREATE TABLE Setting (limiteMayorMonto double(22,2) DEFAULT 150, limiteMayorSumaMonto double(22,2) DEFAULT 250, contraseniaRemitente varchar(150));
 
 INSERT INTO Cajero (codigo, nombre, DPI, direccion, sexo, password, turno, fechaIncorporacion) VALUES(101, "Banca Virtual","101", "---", "---", "8cX7%%tedj4!yJm4", "completo", "???");
-INSERT INTO Setting (limiteMayorMonto, limiteMayorSumaMonto) VALUES (150, 250);
-
+INSERT INTO Setting (contraseniaRemitente) VALUES ("|ng3n1os");

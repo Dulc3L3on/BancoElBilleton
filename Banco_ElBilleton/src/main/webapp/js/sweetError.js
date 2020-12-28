@@ -126,6 +126,17 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             icon: 'error'            
         })            
     break;
+    
+    case "errorEnvioMail":
+        Swal.fire({
+            title:'Correo no enviado',            
+            text: 'Surgió un error que impidió\n\
+                   el envío del correo, \n\
+                   por favor intente nuevamente',            
+            position: 'center',
+            icon: 'error'            
+        })            
+    break;
 }       
 
 

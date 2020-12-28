@@ -27,11 +27,7 @@
     <body>
         <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){%>            
             <%response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
-        }%>
-        <%if(guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))==false){%>
-            <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
-            <script src="js/sweetInformativo.js"></script><!--recuerda que veremos cómo está la apariencia de la página cuando se redireccione ella misma hacia aquí para add o no el sweet con una dir menos profunda o no xD-->
-        <%}else if(request.getSession().getAttribute("sinDatos")!=null){%>        
+        }else if(request.getSession().getAttribute("sinDatos")!=null){%>        
                 <input type="text" name="tipoMsje" value="sinDatos" hidden>         
                 <script src="../../js/sweetInformativo.js"></script>                
                <%request.getSession().removeAttribute("sinDatos");
@@ -116,7 +112,7 @@
                       <input type="text" name="desdeElHistorial" value="true" hidden>                                                
                       <button type ="submit" id="submit" name="reporte" value="<%=((request.getParameter("tipoUsuario")!=null)?"Usuario":"Gerente")+"_HistorialCambios"+((request.getParameter("tipoUsuario")!=null)?"Usuarios":"Propios")%>" style="width: 355px; height: 65px;"><img  src="img/flechitaDescarga.png" style="width: 25px; height: 25px;"> DESCARGAR HISTORIAL COMPLETO</button>    
                   </form>                 
-                <%}%>                                               
+                <%}%><!--iba a agregarle un sweet, pero es imposible que el registrador le mande un listado nulo al gerente al momento de darle los listados porque ya están inicializados, es imposible que sea null sin haber enviado el msje indicandp que salió algo mal en la actualización y por lo tanto haberse saltado el método del gerente y el establecimiento del atriubto...-->
             <%}%> 
             </center>                          
        <%}%>      

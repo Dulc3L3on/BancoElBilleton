@@ -16,6 +16,7 @@ Controladores/GestorCreacionCliente.class
 Modelo/Entidades/Objetos/Transaccion.class
 Modelo/Herramientas/Conversor.class
 Modelo/Herramientas/Transformador.class
+Controladores/GestorEnvioEmail$1.class
 Controladores/GestorRecargaDPI.class
 Controladores/GestorCreacionTrabajadores.class
 Controladores/GestorLogin.class
@@ -46,10 +47,12 @@ Controladores/GestorParametrosCajero.class
 Modelo/Manejadores/ManejadorXML.class
 Modelo/Manejadores/DB/BuscadorExistencia.class
 Modelo/Herramientas/GuardiaSeguridad.class
+Controladores/GestorEnvioEmail.class
 Controladores/GestorCargaXML.class
 Modelo/RegistrosAntiguos/CreadorEntidadesXML.class
 Modelo/Entidades/Usuarios/Cliente.class
 Controladores/GestorModificacionCajero.class
+Modelo/Herramientas/CuerpoEmail.class
 Modelo/RegistrosAntiguos/ClasificadorEntidades.class
 Controladores/GestorModificacionGerente.class
 Modelo/Herramientas/Verificador.class
