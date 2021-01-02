@@ -6,10 +6,13 @@
 package Controladores;
 
 import Modelo.Entidades.Objetos.Transaccion;
+import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.Registrador;
 import Modelo.Manejadores.DB.Tramitador;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,26 +32,26 @@ public class GestorTransferencia extends HttpServlet{
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){
-     
-        if(tramitador.transferir(request.getParameter("origen"), request.getParameter("destino"), request.getParameter("monto"))){//no se porque lo habrí anombrado opDeposito xd... le queda mejor monto xD
-            transacciones = registrador.registrarTransferencia(buscador.buscarUsuarioBancaVirtual(),
+        try {   
+            if(tramitador.transferir(request.getParameter("origen"), request.getParameter("destino"), request.getParameter("monto"))){//no se porque lo habrí anombrado opDeposito xd... le queda mejor monto xD
+                Cajero cajero = buscador.buscarUsuarioBancaVirtual();
+                transacciones = registrador.registrarTransferencia(cajero.getCodigo(),
                   request.getParameter("origen"), request.getParameter("destino"), request.getParameter("monto"));         
          
-            if(transacciones!=null){                                                   
-                request.setAttribute("saldoAntiguoSaliente", request.getParameter("saldo"));
-                //deplano que lo que haré es lo que había pensado, es decir mostrar el reporte JR como html
-                //puesto que aquí no tengo el saldo anterior de la cuentaDEstino si en dado caso la transferencia fuera
-                //De tipo propia y por eso tendría que hacer una query en la que recuperara solo el saldo y no me conviene así que así será xD
-                //porque si lo tuviera, entonces entre los atributos debería mandar ambos saldos antiguos, el obj transacciones... aunque los request se siguen mandteniendo, así que solo sería necesario enviar las transsacciones porque los saldos  [si tuviera ambos] y el monto ya van en los request antiguos...
-                request.setAttribute("transaccion", transacciones);                               
-            }else{
-                while(!tramitador.deshacerTransferencia(request.getParameter("origen"), request.getParameter("destino"), request.getParameter("monto"))){
-                
-                }//puesto que si falla debo dejar todo como antes de intentar exe la axn...
-                request.setAttribute("mostrarError", "mostrar");//Mmm pero si la página que se mostrará será la del JR en html, no se si se pueda add esto... si la pág se genera como el jrxml para los pdf yo diria que sí se podría agregar... pero aún no existe, sino lo que se podría hacer es redirigir a otra página para indicar esto... pero depende xD O PIENSALO XD          
-            }                                                     
-        }     
-        try {            
+                if(transacciones!=null){                                                   
+                    request.setAttribute("saldoAntiguoSaliente", request.getParameter("saldo"));
+                    //deplano que lo que haré es lo que había pensado, es decir mostrar el reporte JR como html
+                    //puesto que aquí no tengo el saldo anterior de la cuentaDEstino si en dado caso la transferencia fuera
+                    //De tipo propia y por eso tendría que hacer una query en la que recuperara solo el saldo y no me conviene así que así será xD
+                    //porque si lo tuviera, entonces entre los atributos debería mandar ambos saldos antiguos, el obj transacciones... aunque los request se siguen mandteniendo, así que solo sería necesario enviar las transsacciones porque los saldos  [si tuviera ambos] y el monto ya van en los request antiguos...
+                    request.setAttribute("transaccion", transacciones);                               
+                }else{
+                    while(!tramitador.deshacerTransferencia(request.getParameter("origen"), request.getParameter("destino"), request.getParameter("monto"))){                
+                    }//puesto que si falla debo dejar todo como antes de intentar exe la axn...
+                    request.setAttribute("mostrarError", "mostrar");//Mmm pero si la página que se mostrará será la del JR en html, no se si se pueda add esto... si la pág se genera como el jrxml para los pdf yo diria que sí se podría agregar... pero aún no existe, sino lo que se podría hacer es redirigir a otra página para indicar esto... pero depende xD O PIENSALO XD          
+                }                                                     
+            }     
+                 
             request.getRequestDispatcher("Cliente/EstadoDeCuenta.jsp").forward(request, response);             
          } catch (ServletException | IOException e) {
                 System.out.println("Error al mostrar los resutados del DEPÓSITO: " + e.getMessage());

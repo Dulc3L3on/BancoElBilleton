@@ -7,10 +7,12 @@ package Modelo.Manejadores.DB;
 
 import Modelo.Entidades.Objetos.Asociacion;
 import Modelo.Entidades.Objetos.Cuenta;
+import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Usuario;
 import Modelo.Herramientas.Conversor;
 import Modelo.Herramientas.Transformador;
+import Modelo.Herramientas.TransformadorParaReportes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +25,7 @@ import java.sql.SQLException;
 public class Buscador {
     private Connection conexion = ManejadorDB.darConexion();
     private Transformador transformador = new Transformador();  
+    private TransformadorParaReportes transformadorParaReportes = new TransformadorParaReportes();
     private Conversor conversor = new Conversor();
     private int tipoSituacion;//Este será util para informar que tipo de situación surgió... especialmente cuando pueden suceder más de 2, puesto que solo se puede expresar en una de dos formas..., devolver el obj o devolver nulo, entonces de esta manera se evita la ambigüedad...    
         
@@ -58,7 +61,7 @@ public class Buscador {
         return null;
     }
     
-    public int buscarUsuarioBancaVirtual(){//me dan ganas de solo colocar el 101 como parámetro en el registrador [que está en el gestor de transferencia xD
+    public Cajero buscarUsuarioBancaVirtual(){//me dan ganas de solo colocar el 101 como parámetro en el registrador [que está en el gestor de transferencia xD
         String buscar ="SELECT * FROM Cajero WHERE nombre =?";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
@@ -67,12 +70,13 @@ public class Buscador {
             
             ResultSet resultado = instrucciones.executeQuery();
             
-            resultado.first();
-            return resultado.getInt(1);//y así retorno el código xD
+            if(resultado.first()){
+                return transformadorParaReportes.transformarACajeroVirtual(resultado);//y así retorno el código xD
+            }                        
         }catch (SQLException e) {
             System.out.println("Error: al buscar al cajero de la Banca Virtual "+e.getMessage());
         }        
-        return -1;
+        return null;//aunque no debeŕía suceder...
     }
     
     public Cuenta[] buscarCuentasDeDueno(int codigoUsuario){

@@ -222,7 +222,13 @@ public class BuscadorParaReportesGerente {
         
             ResultSet resultado = instrucciones.executeQuery();
             if(resultado.first()){
-                Cajero cajero = (Cajero)buscador.buscarUsuario("Cajero", "codigo", String.valueOf(resultado.getInt(2)));
+                Cajero cajero;
+                if(resultado.getInt(2)== 101){
+                    cajero = buscador.buscarUsuarioBancaVirtual();
+                }else{
+                    cajero = (Cajero)buscador.buscarUsuario("Cajero", "codigo", String.valueOf(resultado.getInt(2)));
+                }
+                
                 cajero.establecerNumeroTransacciones(resultado.getInt(1));
                 cajeroUnico.add(cajero);
             }

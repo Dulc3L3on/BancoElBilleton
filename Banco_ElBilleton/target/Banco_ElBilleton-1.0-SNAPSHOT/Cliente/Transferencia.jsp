@@ -162,14 +162,11 @@
                             }                                               
                         }
                     </script>                    
-                <%}else{%>
-                     <input type="text" id="tipoMsje" value="errorBusquedaCuentas" hidden>
-                     <script src="js/sweetError.js"></script>
-                <%}%>        
+                <%}%><!--eliminé este js de error de búsqueda de cuentas por el hecho de que cada vez que se regrese a este JSP que sería cada vez que se presione un btn del tipo de "ctaDestino" se hará nuevamente la búsqueda y si salió mal, entonces no se mostrará nada más que el msje que informa esta situación [el que está aquí abajito] es decir que estaba de más porque el if grande siempre se revisará y si no logra pasarlo es porque no salió bien y se caería al sweet de su else corresp y nunca al de adentro xD-->
             </center> 
         <%}else{%>
             <input type="text" id="tipoMsje" value="errorBusquedaCuentas" hidden>
-            <script src="js/sweetError.js"></script>
+            <script src="../js/sweetError.js"></script>
         <%}%>
     </body>
 </html>

@@ -135,33 +135,35 @@
                     cuentas = buscadorExistencia.buscarTodasLasCuentasExistentes();%>
                     
                     <center>
-                        <form id="formulario" method="POST" action="../../gestorParametrosGerente">
-                            <input type="text" id="datosUsuario" name="reporte" value="<%=request.getParameter("reporte")%>" hidden>
+                        <div id="form">
+                            <form id="formulario" method="POST" action="../../gestorParametrosGerente">
+                                <input type="text" id="datosUsuario" name="reporte" value="<%=request.getParameter("reporte")%>" hidden>
                             
-                            <h4>* Cliente</h4></br>                                                
-                           <%if(clientes!=null){%>                               
-                                <select id="listadoClientes" name="datosUsuario" onchange="mostrarCuentasDeDueno()" required>
-                                     <option disabled selected>-Seleccione al Cliente-</option>
-                                    <%for(int clienteActual=0; clienteActual<clientes.length; clienteActual++){%>                                    
-                                           <option value="<%=clientes[clienteActual].getCodigo()%>"><%=clientes[clienteActual].getCodigo()%> <%=clientes[clienteActual].getNombre()%></option> 
-                                    <%}%>
-                                </select><br>
-                                
-                                <%if(cuentas!=null){%>
-                                    <h4>* Cuenta</h4><br/>
-                                    <select name="numeroCuenta" id="listadoCuentas" required>                                         
-                                        <option disabled selected>-Seleccione No. Cuenta-</option>
-                                    </select><br/><br/>
-                                    
-                                    <select name="numeroCuentasExistentes" id="listadoCuentasAuxiliar" hidden> 
-                                        <%for(int cuentaActual = 0; cuentaActual<cuentas.length; cuentaActual++){%>
-                                        <option id="<%=cuentas[cuentaActual].getCodigoDuenoCuenta()%>" value="<%=cuentas[cuentaActual].getNumeroCuenta()%>"><%=cuentas[cuentaActual].getNumeroCuenta()%></option>
+                                <h4>* Cliente</h4>                                    
+                               <%if(clientes!=null){%>                               
+                                    <select id="listadoClientes" name="datosUsuario" onchange="mostrarCuentasDeDueno()" required>
+                                         <option disabled selected>-Seleccione al Cliente-</option>
+                                        <%for(int clienteActual=0; clienteActual<clientes.length; clienteActual++){%>                                    
+                                               <option value="<%=clientes[clienteActual].getCodigo()%>"><%=clientes[clienteActual].getCodigo()%> <%=clientes[clienteActual].getNombre()%></option> 
                                         <%}%>
-                                    </select>
+                                    </select><br>
+                                    
+                                    <%if(cuentas!=null){%>
+                                        <h4>* Cuenta</h4>
+                                        <select name="numeroCuenta" id="listadoCuentas" required>                                         
+                                            <option disabled selected>-Seleccione No. Cuenta-</option>
+                                        </select><br/><br/>
+                                    
+                                        <select name="numeroCuentasExistentes" id="listadoCuentasAuxiliar" hidden> 
+                                            <%for(int cuentaActual = 0; cuentaActual<cuentas.length; cuentaActual++){%>
+                                            <option id="<%=cuentas[cuentaActual].getCodigoDuenoCuenta()%>" value="<%=cuentas[cuentaActual].getNumeroCuenta()%>"><%=cuentas[cuentaActual].getNumeroCuenta()%></option>
+                                            <%}%>
+                                        </select>
+                                    <%}%>
                                 <%}%>
-                            <%}%>
-                            <input id="boton" type="submit" value="ACEPTAR">              
-                        </form>                
+                                <input id="boton" type="submit" value="ACEPTAR">              
+                            </form>                
+                        </div>                        
                     </center>                              
               <%}else{
                      request.getRequestDispatcher("../../gestorParametrosGerente").forward(request, response);
@@ -177,8 +179,7 @@
                     window.location.href = "Reportes_Gerente.jsp";                                          
                 }                                                     
             }//NICE XD
-        </script>
-        <script>
+        
              function esconderOtrosUsuarios(){
                 var usuarios = document.getElementById("listaUsuarios").options;                
                 var seleccionado = (document.getElementByName("tipoUsuario")[0].checked)?document.getElementByName("tipoUsuario")[0]: document.getElementByName("tipoUsuario")[1];                
@@ -191,12 +192,11 @@
                     }
                 }//y así debería hacer invisibles las opciones de los usuarios que no necesito x|
             }             
-        </script>
-        <script>
+        
             function mostrarCuentasDeDueno(){                
                 var cuentas = document.getElementById('listadoCuentas');
                 var cuentasExistentes = document.getElementById('listadoCuentasAuxiliar').options;
-                var clientes = document.getElementById('datosUsuario');                
+                var clientes = document.getElementById('listadoClientes');                
         
                 for (let opcionActual = cuentas.options.length; opcionActual >= 1; opcionActual--) {//a ver si no da un index of, por empezar por un valor = al tamaño y no por (tam -1)
                     cuentas.remove(opcionActual);
@@ -211,7 +211,7 @@
                         cuentas.appendChild(opcion);                            
                     }
                 }                                                                  
-            }            
+            }//NICE xD            
         </script>     
        <%if(request.getSession().getAttribute("sinDatos")!=null){%>        
             <input type="text" name="tipoMsje" value="sinDatos" hidden>         

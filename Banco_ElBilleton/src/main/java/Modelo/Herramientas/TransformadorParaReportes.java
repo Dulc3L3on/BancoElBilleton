@@ -7,6 +7,7 @@ package Modelo.Herramientas;
 
 import Modelo.Entidades.Objetos.Cambio;
 import Modelo.Entidades.Objetos.Transaccion;
+import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Manejadores.DB.ManejadorDB;
 import java.sql.Connection;
@@ -106,5 +107,16 @@ public class TransformadorParaReportes {
             System.out.println("Error al transformar a CLIENTES");
         }
         return listadoClientes; 
-    }      
+    } 
+    
+    public Cajero transformarACajeroVirtual(ResultSet resultado){
+        try{
+            return new Cajero(resultado.getInt(1), resultado.getString(2), resultado.getString(3),
+                    resultado.getString(4), resultado.getString(5), resultado.getString(6), 
+                    resultado.getString(8), resultado.getString(9), resultado.getString(7));
+        }catch(SQLException e){
+            System.out.println("Error al transformar el resultado a CAJERO VIRTUAL -> "+e.getMessage());
+        }        
+        return null;        
+    }       
 }
