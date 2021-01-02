@@ -11,7 +11,7 @@
 	<field name="fechaCreacion" class="java.lang.String"/>
 	<field name="codigoSolicitante" class="java.lang.Integer"/>
 	<field name="nombreSolicitante" class="java.lang.String"/>
-	<field name="cuentaSolicitada" class="java.lang.Integer"/>
+	<field name="numeroCuentaSolicitada" class="java.lang.Integer"/>
 	<field name="estado" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -66,17 +66,17 @@
 				<text><![CDATA[CUI:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="71" y="123" width="280" height="20" forecolor="#575656" uuid="44c55ecd-6d1c-406c-bfa7-487c38e93645"/>
+				<reportElement x="60" y="123" width="291" height="20" forecolor="#575656" uuid="44c55ecd-6d1c-406c-bfa7-487c38e93645"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{DPI}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="71" y="102" width="280" height="20" forecolor="#575656" uuid="caa282bb-1355-40bd-a418-74d22cb82a32"/>
+				<reportElement x="60" y="102" width="291" height="20" forecolor="#575656" uuid="caa282bb-1355-40bd-a418-74d22cb82a32"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{codigoCliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="71" y="81" width="340" height="20" forecolor="#575656" uuid="47aeb36e-2f4c-4aec-b5a7-570d89f5c0bd"/>
+				<reportElement x="60" y="81" width="351" height="20" forecolor="#575656" uuid="47aeb36e-2f4c-4aec-b5a7-570d89f5c0bd"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
 			</textField>
@@ -85,7 +85,7 @@
 	<columnHeader>
 		<band height="34" splitType="Stretch">
 			<staticText>
-				<reportElement x="1" y="2" width="100" height="20" uuid="66cbbdbe-634e-47dc-a504-e0b2be99529f">
+				<reportElement x="1" y="2" width="79" height="20" uuid="66cbbdbe-634e-47dc-a504-e0b2be99529f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b7b5998f-1172-4a65-a346-66e9a10e4c78"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -97,12 +97,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Manjari Regular" size="11" isBold="true" isUnderline="false"/>
+					<font fontName="Manjari Regular" size="9" isBold="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[Fecha Realización]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="101" y="2" width="100" height="20" uuid="cefa6a5b-a4e8-47f5-b973-88c9a79370c4">
+				<reportElement x="80" y="2" width="100" height="20" uuid="cefa6a5b-a4e8-47f5-b973-88c9a79370c4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="073c77df-45e2-43ec-b99b-faace37e7e75"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -119,7 +119,7 @@
 				<text><![CDATA[Código Solicitante]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="201" y="2" width="158" height="20" uuid="ef921f01-6850-4b5b-a3a8-017713cbb76e">
+				<reportElement x="180" y="2" width="179" height="20" uuid="ef921f01-6850-4b5b-a3a8-017713cbb76e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="00e41abd-b35d-4dd9-a4a7-74ec8c72de32"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -174,7 +174,7 @@
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement x="1" y="1" width="100" height="20" forecolor="#575656" uuid="4dae046b-10c5-4234-85ff-ab80347cb696">
+				<reportElement x="1" y="1" width="79" height="20" forecolor="#575656" uuid="4dae046b-10c5-4234-85ff-ab80347cb696">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b7b5998f-1172-4a65-a346-66e9a10e4c78"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -191,7 +191,7 @@
 				<textFieldExpression><![CDATA[$F{fechaCreacion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="101" y="1" width="100" height="20" forecolor="#575656" uuid="8c3f9a39-a831-496b-be04-eef2d5db143f">
+				<reportElement x="80" y="1" width="100" height="20" forecolor="#575656" uuid="8c3f9a39-a831-496b-be04-eef2d5db143f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="073c77df-45e2-43ec-b99b-faace37e7e75"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -208,7 +208,7 @@
 				<textFieldExpression><![CDATA[$F{codigoSolicitante}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="201" y="1" width="158" height="20" forecolor="#575656" uuid="78fcf2cc-f2e8-47d4-a771-1d0ab48b4670">
+				<reportElement x="180" y="1" width="179" height="20" forecolor="#575656" uuid="78fcf2cc-f2e8-47d4-a771-1d0ab48b4670">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="00e41abd-b35d-4dd9-a4a7-74ec8c72de32"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -239,7 +239,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cuentaSolicitada}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{numeroCuentaSolicitada}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="480" y="1" width="90" height="20" forecolor="#575656" uuid="8a6aa8a5-3903-4791-89eb-f8415aa006ae">
@@ -268,7 +268,7 @@
 			<textField>
 				<reportElement x="74" y="8" width="70" height="15" uuid="ebf2bff1-27b2-4f36-b80d-8f30d9e911ef"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="148" y="8" width="55" height="15" uuid="f975a177-627f-4998-b381-c74cdbb2bc88"/>

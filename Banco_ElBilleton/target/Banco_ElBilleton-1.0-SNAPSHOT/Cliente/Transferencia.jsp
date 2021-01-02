@@ -67,9 +67,9 @@
                     </table>                
                 </form>                                   
                                 
-                <%if(cuentasOrigen!=null && cuentasDestino!=null){%>            
+               <%if(cuentasOrigen!=null && cuentasDestino!=null && request.getParameter("tipoCuentaDestino")!=null){%> 
                    <form method="POST" action="../gestorTransferencia">
-                       <input type="text" name="tipoTransferencia" value="<%=(request.getParameter("tipoCuentaDestino").equals("Propia")?"propia":"terceros")%>" hidden>
+                       <input type="text" name="tipoTransferencia" id="tipoTransferencia" value="<%=(request.getParameter("tipoCuentaDestino").equals("Propia")?"propia":"terceros")%>" hidden>
                        
                         <div id="contenedorGeneral">
                             <table>                        
@@ -83,10 +83,10 @@
                                         <h5 id="subtitulo">* Cuenta Origen</h5>
                                     </th>
                                     <th>
-                                        <select name="origen" id="opTransferencia" class="origen"  onchange="convergencia()" onclick="" required> 
+                                        <select name="origen" id="opTransferencia" class="origen" onchange="maximoMontoRetiro()" required> 
                                             <option value="-Seleccione Número Cuenta-" disabled selected>-Seleccione Número Cuenta-</option>                                                                                                                                                                                 
                                             <%for(int cuentaActual=0; cuentaActual < cuentasOrigen.length; cuentaActual++){%>
-                                                <option value="<%=cuentasOrigen[cuentaActual].getNumeroCuenta()%>" ><%=cuentasOrigen[cuentaActual].getNumeroCuenta()%></option><!--no creo que sea necesario poner un vacío en el valor... creo que con no declararlo basta...-->                                                                                                          
+                                                <option value="<%=cuentasOrigen[cuentaActual].getNumeroCuenta()%>"><%=cuentasOrigen[cuentaActual].getNumeroCuenta()%></option><!--no creo que sea necesario poner un vacío en el valor... creo que con no declararlo basta...-->                                                                                                          
                                             <%}%><!--Se seleccionará la primer cta por defecto [y para el combo de la cta emisora se desactivará el 1ro por default, para después cb conforme al cb de selección realizado...] para cumplir con la función JS, que se activa al haber cb en este combo...-->
                                         </select>
                                     </th>                            
@@ -96,7 +96,7 @@
                                         <h5 id="subtitulo">* Cuenta Destino</h5>
                                     </th>                                
                                     <th>
-                                        <select name="destino" id="opTransferencia" class="destino" required> 
+                                        <select name="destino" id="opTransferencia" class="destino" onclick="eliminacionRedundancia()"required> 
                                             <option value="-Seleccione Número Cuenta-" disabled selected>-Seleccione Número Cuenta-</option>                                                                                                                                         
                                             <%for(int cuentaActual=0; cuentaActual < cuentasDestino.length; cuentaActual++){%>
                                                 <option value="<%=cuentasDestino[cuentaActual].getNumeroCuenta()%>" ><%=cuentasDestino[cuentaActual].getNumeroCuenta()%></option>                                                                                              
@@ -132,25 +132,24 @@
                   
                    <script>
                        function convergencia(){
-                            eliminacionRedundancia();
-                            maximoMontoRetiro();
+                           maximoMontoRetiro();
+                           eliminacionRedundancia();                            
                        }
-                   </script>                      
-                  
-                  <%if(request.getParameter("tipoCuentaDestino").equals("Propia")){%>
-                        <script>
-                            function eliminacionRedundancia(){
+                 
+                        function eliminacionRedundancia(){
+                            var tipoDestino = document.getElementById('tipoTransferencia').value;
+                            
+                            if(tipoDestino === 'propia'){
                                 var origen = document.getElementsByClassName('origen');
                                 var opcionesDestino = document.getElementsByClassName('destino').options;                                                        
                             
                                 for (var opcionDestionActual = 1; opcionDestionActual < opcionesDestino.length; opcionDestionActual++) {
-                                    opcionesDestino[origen.selectedIndex].setAttribute("disabled", "false");                            
+                                    opcionesDestino[origen.selectedIndex].disabled = false;                            
                                 }//de esta manera se habilitan todas las opciones menos el msje indicador xD
-                                opcionesDestino[origen.selectedIndex].setAttribute("disabled", "true");//Así se deshabilita la opción que corresponde a la cta origen xD para evitar redundancIa xD
-                            }    
-                        </script>
-                    <%}%>
-                    <script>                                              
+                                opcionesDestino[origen.selectedIndex].disabled = true;//Así se deshabilita la opción que corresponde a la cta origen xD para evitar redundancIa xD                                                                
+                            }
+                        }    
+                    
                         function maximoMontoRetiro(){
                             var cuentasOrigen = document.getElementsByClassName('origen');
                             var opcionesMontos = document.getElementById('montos').options;
@@ -158,10 +157,10 @@
                             
                             if(cuentasOrigen.selectedIndex>0){                        
                                 document.getElementById('saldo').value = opcionesMontos[cuentasOrigen.selectedIndex-1].value;  
-                                }else{
-                                    document.getElementById('saldo').value =0;//De aquí hacia abajo no funciona :v... aún xD
-                                }                                               
-                            }
+                            }else{
+                               document.getElementById('saldo').value =0;
+                            }                                               
+                        }
                     </script>                    
                 <%}else{%>
                      <input type="text" id="tipoMsje" value="errorBusquedaCuentas" hidden>

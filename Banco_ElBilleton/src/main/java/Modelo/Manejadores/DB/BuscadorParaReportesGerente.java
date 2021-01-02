@@ -71,16 +71,21 @@ public class BuscadorParaReportesGerente {
     public boolean poseeMayorTransaccion(int codigo, String limiteInferior){//Si llegaras a agergar el subreporte, entonces sería conveniente que este método en lugar de devovler un boolean, devuelva las trasnacciones para agergarlas al listado que se enviaría al subreporte, eso sí tendrían que tenerse 2 listados, uno de solo CLIENTEs y otro de las TRANSACCIONes del cliente, puesto que uno sería para el reporte principal el otro para el secundario; dije que este devolviera de una vez las transacciones para evitar redundancia en los pasos... de tal forma que luego de revisar que el listado que acab de enviar este método no sea nulo [o mejor dicho no esté vacío, porque no devolvería nunca un listado nulo...] se agregaran los ele de este LIST al LIST que se estabelcerá para llenar el subrep y se agregara el usuario que se buscaría por medio del código que se envió para hacer la búsqueda del listado de TRANSACC pero por ese motivo tb tendrías que revisar que el iusaurio que devuelva el método al que se le ordenó buscar al cliente, no sea nul...
         Cuenta[] cuentasDeDueno = buscador.buscarCuentasDeDueno(codigo);   
         
-        try{
-            for (int cuentaActual = 0; cuentaActual < cuentasDeDueno.length; cuentaActual++) {
-                if(poseeMayorTransaccionLaCuenta(cuentasDeDueno[cuentaActual].getNumeroCuenta(), Double.parseDouble(limiteInferior))){
-                    return true;
+        if(cuentasDeDueno!=null){
+            try{//podría ser que al probar el programa no a todos los clientes se les creen uentas, así que colocas el nullPointe en el catch o simplemente dices si cuentasDeDueno != null haces el procedimiento, de lo contrario no xD
+                for (int cuentaActual = 0; cuentaActual < cuentasDeDueno.length; cuentaActual++) {
+                    if(poseeMayorTransaccionLaCuenta(cuentasDeDueno[cuentaActual].getNumeroCuenta(), Double.parseDouble(limiteInferior))){
+                        return true;
+                    }
                 }
+                return false;        
+            }catch(NumberFormatException e){
+                System.out.println("Error al buscar si el CLIENTE posee MAYOR Transacción -> "+ e.getMessage());
             }
-            return false;        
-        }catch(NumberFormatException e){
-            System.out.println("Error al buscar si el CLIENTE posee MAYOR Transacción -> "+ e.getMessage());
-        }
+        
+        }else{
+            System.out.println("El cliente código: "+ codigo +" no posee cuenta alguna");
+        }        
         return false;
     }//Creo que al final de cuentas devolverás un listado de Clientes, puesto que eso es lo que solitian, si quieres más trabajín xd, entonces agrega un "sumary" con el listado de las transaccionesd elos clientes mostrados en los detalles...
     
@@ -127,10 +132,10 @@ public class BuscadorParaReportesGerente {
             try{
                 for (int tipoTransaccion = 0; tipoTransaccion < 2; tipoTransaccion++) {
                     for (int cuentaActual = 0; cuentaActual < cuentasDeDueno.length; cuentaActual++) {
-                       sumaTransacciones[cuentaActual] += buscarSumaTransaccionesDeCuenta(cuentasDeDueno[cuentaActual].getNumeroCuenta(), (tipoTransaccion==0)?"credito":"debito");//con tal de no alargar esto, pues la razón del 0 puede averiguarse al pedir que situación fue la que aconteció xD                                            
+                       sumaTransacciones[tipoTransaccion] += buscarSumaTransaccionesDeCuenta(cuentasDeDueno[cuentaActual].getNumeroCuenta(), (tipoTransaccion==0)?"credito":"debito");//con tal de no alargar esto, pues la razón del 0 puede averiguarse al pedir que situación fue la que aconteció xD                                            
                     }
                 }                          
-                if((sumaTransacciones[0]+ sumaTransacciones[1])> Double.parseDouble(limiteInferior)){
+                if((sumaTransacciones[0]+ sumaTransacciones[1])> Double.parseDouble(limiteInferior)){//puesto que la suma es de los valores absolutos, es decir sin tomar en cuenta que una sea de créditos y otra de débitos...
                     return sumaTransacciones;
                 }
             }catch(NumberFormatException e){
@@ -160,9 +165,9 @@ public class BuscadorParaReportesGerente {
     }
     
     public List<Cliente> buscarClientesConMasDinero(){        
-        String buscar = "SELECT codigo, nombre, DPI, direccion, sexo, password, birth, pathDPI, fechaIncorporacion, SUM(monto) as sumaTotal, codigoDueno FROM Cuenta INNER JOIN"
+        String buscar = "SELECT codigo, nombre, DPI, direccion, sexo, password, birth, pathDPI, fechaIncorporacion, SUM(monto) AS sumaTotal, codigoDueno FROM Cuenta INNER JOIN"
                 + " Cliente ON Cliente.codigo = Cuenta.codigoDueno GROUP BY codigoDueno ORDER BY sumaTotal "
-                + "DESC LIMIT 10";
+                + "DESC LIMIT 10";//no se pudo incluir la condicicón de que se muestren si la suma es mayor a 0, porque da error de sintaxis al parecer es por el inner porque con o sin el alias no se puede por diferenctesrazones, al tenerlo porque dice qu eno la encuentra [ha de ser po el join] y cuando no dice que no se puede por el group by, supongo que tb es por el join, pero si vas a probar prueba nuevamente pero sin el alias xD talvez si te confundiste o pasaste algo por alto xD 
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                  ResultSet.CONCUR_UPDATABLE)){
@@ -178,7 +183,7 @@ public class BuscadorParaReportesGerente {
     }   
     
     public List<Cliente> clientesConCuentasAbandonadas(String fechaInicial, String fechaFinal){        
-        String buscar = "SELECT codigoDueno FROM Cuenta INNER JOIN Transaccion ON Cuenta.numeroCuenta = Transaccion.numeroCuentaAfectada WHERE fecha BETWEEN ? AND ? GROUP BY codigoDueno ORDER BY codigo DESC";
+        String buscar = "SELECT codigoDueno FROM Cuenta INNER JOIN Transaccion ON Cuenta.numeroCuenta = Transaccion.numeroCuentaAfectada WHERE fecha BETWEEN ? AND ? GROUP BY codigoDueno ORDER BY codigoDueno ASC";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                  ResultSet.CONCUR_UPDATABLE)){

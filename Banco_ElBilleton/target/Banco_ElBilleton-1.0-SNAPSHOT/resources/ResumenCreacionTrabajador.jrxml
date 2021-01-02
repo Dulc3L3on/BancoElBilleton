@@ -32,7 +32,7 @@
 				<text><![CDATA[RESUMEN DE CREACIÓN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="120" y="57" width="98" height="23" forecolor="#000000" backcolor="#8DB0C4" uuid="63c4810d-a08e-40dd-9c9c-b6f009a918a5">
+				<reportElement mode="Transparent" x="144" y="57" width="98" height="23" forecolor="#000000" backcolor="#8DB0C4" uuid="63c4810d-a08e-40dd-9c9c-b6f009a918a5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="styled">
@@ -42,7 +42,7 @@
 				<text><![CDATA[Gerente a cargo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="150" y="80" width="68" height="23" forecolor="#000000" backcolor="#8DB0C4" uuid="c33f249b-a419-4471-94f2-82bdb4794b8c">
+				<reportElement mode="Transparent" x="174" y="80" width="68" height="23" forecolor="#000000" backcolor="#8DB0C4" uuid="c33f249b-a419-4471-94f2-82bdb4794b8c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="styled">
@@ -52,7 +52,7 @@
 				<text><![CDATA[Código:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="150" y="103" width="68" height="23" forecolor="#000000" backcolor="#8DB0C4" uuid="0e089bda-895f-47fd-b97e-195784535499">
+				<reportElement mode="Transparent" x="174" y="103" width="68" height="23" forecolor="#000000" backcolor="#8DB0C4" uuid="0e089bda-895f-47fd-b97e-195784535499">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="styled">
@@ -62,11 +62,13 @@
 				<text><![CDATA[Nombre:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="220" y="80" width="189" height="23" forecolor="#575656" uuid="b6c01abd-8185-4ad4-b533-d01bdf710fbe"/>
+				<reportElement x="244" y="80" width="189" height="23" forecolor="#575656" uuid="b6c01abd-8185-4ad4-b533-d01bdf710fbe"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{codigoEncargado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="220" y="103" width="189" height="23" forecolor="#575656" uuid="83f0018e-c704-42a7-a7cc-f0d4a17f445b"/>
+				<reportElement x="244" y="103" width="189" height="23" forecolor="#575656" uuid="83f0018e-c704-42a7-a7cc-f0d4a17f445b"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{nombreEncargado}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -123,7 +125,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[DPI:]]></text>
+				<text><![CDATA[CUI:]]></text>
 			</staticText>
 			<textField>
 				<reportElement mode="Opaque" x="217" y="92" width="228" height="19" forecolor="#565757" backcolor="#EBEEF0" uuid="caae22ee-1f7e-4e44-bea2-92e0bf4fa805"/>
@@ -186,13 +188,13 @@
 				<reportElement mode="Opaque" x="201" y="40" width="369" height="25" backcolor="#F2F2F2" uuid="03b4e9dc-6549-4cf8-8856-715abffcd66a"/>
 				<text><![CDATA[]]></text>
 			</staticText>
-			<textField pattern="HH:mm">
-				<reportElement x="350" y="46" width="100" height="15" uuid="e3ee3bac-de1d-4932-a2e0-96f34a45e923"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="469" y="45" width="100" height="15" uuid="7fdf148b-a9f3-4c03-8e94-e4aa5b679f7d"/>
 				<textFieldExpression><![CDATA[$P{horaActual}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="350" y="45" width="100" height="15" uuid="2ecf75e1-78fb-408b-b0cf-3f1ff372d380"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

@@ -168,13 +168,13 @@ public class GestorParametrosCliente extends HttpServlet{
             Asociacion[] solicitudes = null;
             
             if(request.getParameter("reporte").contains("Recibidas")){
-                solicitudes = buscador.buscarSolicitudes("recibidas", "codigoSolicitado", (String)request.getSession().getAttribute("codigo"));
+                solicitudes = buscador.buscarSolicitudes("recibidas", "codigoSolicitado", (String)request.getSession().getAttribute("codigo"), true);//puesto que son todas las recibidas y no importa que estado tengan...
             }else{
-                solicitudes = buscador.buscarSolicitudes("recibidas", "codigoSolicitante", (String)request.getSession().getAttribute("codigo"));
+                solicitudes = buscador.buscarSolicitudes("enviadas", "codigoSolicitante", (String)request.getSession().getAttribute("codigo"), true);
             }
             
             if(buscador.darTipoSituacion()==1){
-                List<Asociacion> listadoSolicitudes = buscadorPersonaEncargada.buscarNombrePersonaInvolucrada((request.getParameter("reporte").contains("Recibidas"))?"solicitado":"solicitante", solicitudes);
+                List<Asociacion> listadoSolicitudes = buscadorPersonaEncargada.buscarNombrePersonaInvolucrada((request.getParameter("reporte").contains("Recibidas"))?"solicitante":"solicitado", solicitudes);
                 request.getSession().setAttribute("listado", listadoSolicitudes);                    
                 response.sendRedirect("../gestorReportesAsociaciones");
             }else{

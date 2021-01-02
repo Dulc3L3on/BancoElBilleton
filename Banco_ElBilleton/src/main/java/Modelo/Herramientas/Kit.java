@@ -8,6 +8,7 @@ package Modelo.Herramientas;
 import Modelo.Entidades.Usuarios.Usuario;
 import java.security.MessageDigest;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Base64;
@@ -31,6 +32,19 @@ public class Kit {
         return java.time.LocalDate.now().toString();               
     }//:v xD
     
+    public java.util.Date convertirStringAUtilDate(String fecha){
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        
+        try {
+            return formatoFecha.parse(fecha);
+     
+        } catch (ParseException ex) {
+            System.out.println("error al convetir la fecha");
+        }
+        
+        return null;        
+    }
+     
     public String darHoraActual(){
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();

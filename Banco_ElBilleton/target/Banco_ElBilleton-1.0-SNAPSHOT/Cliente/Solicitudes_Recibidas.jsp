@@ -14,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../css/cssCliente.css">
-        <link rel="stylesheet" href="css/cssCliente.css">
+        <link rel="stylesheet" href="css/cssCliente.css"><!--esto es por la redirección del gestor, pues la hace de manera "profunda" xD-->
         <title>RequestReceived</title>
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
            Buscador buscador = new Buscador();
@@ -27,7 +27,7 @@
             response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
         }%>
         
-        <%solicitudes = buscador.buscarSolicitudes("RECIBIDAS","codigoSolicitado", (String) request.getSession().getAttribute("codigo"));%><!--aunque por el hecho de que aún no ha ido al doPost quien se encarga de cb el estado por medio del cual se sabe si aún es solicitud o no, entonces no habría problema con que estuviera antes de la redirección al gestor, pero si sale bien para evitar realizar una axn extra, eso considerando que el valor del obj solicitudes se conserva, sino pues pasalo antes del bloque de arriba xD y listo xD-->
+        <%solicitudes = buscador.buscarSolicitudes("RECIBIDAS","codigoSolicitado", (String) request.getSession().getAttribute("codigo"), false);%><!--aunque por el hecho de que aún no ha ido al doPost quien se encarga de cb el estado por medio del cual se sabe si aún es solicitud o no, entonces no habría problema con que estuviera antes de la redirección al gestor, pero si sale bien para evitar realizar una axn extra, eso considerando que el valor del obj solicitudes se conserva, sino pues pasalo antes del bloque de arriba xD y listo xD-->
          <br/>
         <%if(buscador.darTipoSituacion()==1){%>
             <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->               
@@ -84,12 +84,18 @@
             </center>
         <%}else if(buscador.darTipoSituacion()==0){%>
             <!--se muestra el msje de SIN SOLICITUDES-->
+            <center><h4>--sin SOLICITUDES recibidas--</h4></center>
         <%}else{%>
             <!--es decir que SURGIÓ UN ERROR porque estado de búsqueda ==-1 xD-->
+             <input type="text" id="tipoMsje" value="errorBusquedaSolicitudes" hidden>
+             <script src="../js/sweetError.js"></script><!--puesto que según la lógica del programa, este msje solo podrá ser mostrado momentos después de haber presionado el btn correspondiente...-->
+             <script src="js/sweetError.js"></script><!--por si acaso surgiera un error luego de haber llegado aquí por medio de la redirección del gestor...-->
         <%}%><!--si este valor fuera == null quiere decir que surgió un error en el servlet, no en mis métodos xD-->
         
         <%if(request.getAttribute("mostrarMsjeError")!=null){%>
             <!--se muestra el sweet sea qu ehalla salido bien la búsuqeda de las solicitudes o no... por ello se posiciona en una ubicación de la esquina inferior derecha en la que no tape al msje de que surgió un error al buscar... si es qu ellagara a suceder ademaś del error del registro de la soli...-->
+            <input type="text" id="tipoMsje" value="errorActualizacionEstadoSolicitud" hidden>
+             <script src="js/sweetError.js"></script><!--puesto que el gestor redireccionó hacia aquí de manera "profunda" xD-->
         <%}%>
     </body><!--solo con esto basta puesto que siempre se estará cayendo a este JSP mientras se esté interactuando con las solicitudes recibidas...-->
 </html>

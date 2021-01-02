@@ -27,6 +27,7 @@ public class GestorEnvioSolicitud extends HttpServlet{
     private Asociacion asociaciones[];
     private Asociacion asociacion;
     private Cliente cliente;
+    private int situacionBusquedaCuentaInteres=0;
     private Analizador analizador = new Analizador();
     private Registrador registrador = new Registrador();
         
@@ -37,17 +38,21 @@ public class GestorEnvioSolicitud extends HttpServlet{
         try {                      
             if(request.getParameter("cuentaBuscada")!=null){
                 asociaciones = buscador.buscarAsociaciones(Integer.parseInt((String)request.getSession().getAttribute("codigo")), request.getParameter("cuentaBuscada"));
-            
-                if(analizador.analizarSituacionSolicitudes(buscador.buscarCuentasDeDueno(Integer.parseInt((String)request.getSession().getAttribute("codigo"))),asociaciones, request.getParameter("cuentaBuscada"),buscador.darTipoSituacion())){//bien podrías haber colocado este if encerrando a todo el bloque html a mostrar en la pág y ahí buscar al cliente si cumplía con el requisito y de paso mostrar de una vez los comp con esta condición más que suficiente xD, pero por el hecho de que existen diferentes tipos de situación xD y para seguir con el estándar xD
+                situacionBusquedaCuentaInteres= buscador.darTipoSituacion();
+                
+                if(analizador.analizarSituacionSolicitudes(buscador.buscarCuentasDeDueno(Integer.parseInt((String)request.getSession().getAttribute("codigo"))),asociaciones, request.getParameter("cuentaBuscada"), situacionBusquedaCuentaInteres)){//bien podrías haber colocado este if encerrando a todo el bloque html a mostrar en la pág y ahí buscar al cliente si cumplía con el requisito y de paso mostrar de una vez los comp con esta condición más que suficiente xD, pero por el hecho de que existen diferentes tipos de situación xD y para seguir con el estándar xD
                     cliente = buscador.buscarDuenoDeCuenta(request.getParameter("cuentaBuscada"));
+                    situacionBusquedaCuentaInteres= buscador.darTipoSituacion();
+                    if(cliente!=null){
+                        request.setAttribute("cliente", cliente);
+                    }                    
                 }            
             }
             
             request.setAttribute("ubicacionGestor", "gestorEnvioSolicitud");
-            request.setAttribute("situacionBusqueda", buscador.darTipoSituacion());
+            request.setAttribute("situacionBusqueda", situacionBusquedaCuentaInteres);//esta es de la última búsqueda realizada... pero ahora por las agergaciones hechas para saber si establecer o no el atributo del cliente, siempre que el cliente sea nulo la situación será -1...
             request.setAttribute("situacionAnalizada", analizador.darTipoSituacion());
-            request.setAttribute("numeroIntentos", analizador.darNumeroIntentos()+1);
-            request.setAttribute("cliente", cliente);
+            request.setAttribute("numeroIntentos", analizador.darNumeroIntentos()+1);            
             System.out.println("Sali del get");
             request.getRequestDispatcher("Cliente/Enviar_Asociacion.jsp").forward(request, response);
             

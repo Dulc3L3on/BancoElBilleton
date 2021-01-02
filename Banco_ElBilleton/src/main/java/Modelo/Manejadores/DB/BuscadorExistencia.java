@@ -63,7 +63,7 @@ public class BuscadorExistencia {
     
    
     public boolean existenSolicitudes(String tipoSolicitud, String columnaBusqueda, String codigoDueno){
-        buscador.buscarSolicitudes(tipoSolicitud, columnaBusqueda, codigoDueno);
+        buscador.buscarSolicitudes(tipoSolicitud, columnaBusqueda, codigoDueno, true);
         int tipoSituacion = buscador.darTipoSituacion();
         
        return (tipoSituacion==1);

@@ -9,6 +9,7 @@ import Modelo.Entidades.Objetos.Asociacion;
 import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Usuario;
+import Modelo.Herramientas.Conversor;
 import Modelo.Herramientas.Transformador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,11 +22,12 @@ import java.sql.SQLException;
  */
 public class Buscador {
     private Connection conexion = ManejadorDB.darConexion();
-    private Transformador transformador = new Transformador();        
+    private Transformador transformador = new Transformador();  
+    private Conversor conversor = new Conversor();
     private int tipoSituacion;//Este será util para informar que tipo de situación surgió... especialmente cuando pueden suceder más de 2, puesto que solo se puede expresar en una de dos formas..., devolver el obj o devolver nulo, entonces de esta manera se evita la ambigüedad...    
-         
+        
     public Usuario[] buscarUsuarios(String tipo, String tipoOrden){//Este tipo está = que el nombre en la DB
-        String buscar ="SELECT * FROM "+ tipo+ " ORDER BY "+ tipoOrden;
+        String buscar ="SELECT * FROM "+ tipo+ " ORDER BY "+ tipoOrden;//no coloco ASC puesto que es el orden por default xD
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                         ResultSet.CONCUR_UPDATABLE)){
@@ -94,24 +96,26 @@ public class Buscador {
     }
     
     public Cuenta[] buscarCuentasAsociadas(String codigoCliente){
-        String buscar = "SELECT * FROM Asociacion WHERE  codigoSolicitante = "+ String.valueOf(codigoCliente)+" OR codigoSolicitado = "+ codigoCliente;
+        String buscar = "SELECT numeroCuentaSolicitado FROM Asociacion WHERE codigoSolicitante = ? AND estado = ? GROUP BY numeroCuentaSolicitado";//puesto que si el usuario en cuestión aparece como "solicitado", la cuenta que va a estar registrada en la DB será una de él, así que no xD
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
-                        ResultSet.CONCUR_UPDATABLE)){             
+                        ResultSet.CONCUR_UPDATABLE)){                     
+            instrucciones.setInt(1, Integer.parseInt(codigoCliente));            
+            instrucciones.setString(2, "aceptada");
             
             ResultSet resultado = instrucciones.executeQuery();
             if(transformador.colocarseAlPrincipio(resultado)){
-                tipoSituacion = 1;
-                return transformador.transformarACuentas(resultado);
+                tipoSituacion = 1;                
+                return conversor.convertirACuentas(resultado);//quiere decir que en este caso nunca devolverá algo nulo al entrar en este if...                                
             }else{
                 tipoSituacion=0;//quiere decir que no tiene cuentas asociadas...
             }            
-        }catch(SQLException sqlE){
-            System.out.println("Error al buscar CUENTAS ASOCIADAS: "+ sqlE.getMessage());
+        }catch(SQLException | NumberFormatException e){
+            System.out.println("Error al buscar CUENTAS ASOCIADAS: "+ e.getMessage());
             tipoSituacion=-1;
         }
         return null;               
-    }
+    }//lo que debes hacer es, buscar solo los números de ctas, agruparlos y luego buscar de manera individual opr medio de dichos números los datos de cada cta y así transformarlos [A una cta] y agergarlos al arreglo que tendrá por tamaño el mismo que el resultado devuelto al momento de buscar los números de cta... y haciendo esto se resuleve xD, y creo que tb se arreglaría la funcion JS que se encarga de mostrar los montos de las ctas xD, suena lógico xD
 
     public Cuenta buscarCuenta(String codigoCuenta){
         String buscar ="SELECT * FROM Cuenta WHERE numeroCuenta = ?";
@@ -144,11 +148,13 @@ public class Buscador {
             
             ResultSet resultado = instrucciones.executeQuery();
             if(resultado.first()){
+                tipoSituacion=1;//pues en este caso o no hay, es decir salió bien o no salió bien...
                 return (Cliente) buscarUsuario("Cliente", "codigo", String.valueOf(resultado.getInt("codigoDueno")));
             }            
         } catch (SQLException | NumberFormatException e) {
             System.out.println("Error al buscar el dueño de la cuenta -> "+e.getMessage());
         }
+        tipoSituacion=-1;
         System.out.println("No existe el número de cuenta ingresado");
         return null;            
     }       
@@ -184,15 +190,17 @@ public class Buscador {
         return null;
     }    
     
-    public Asociacion[] buscarSolicitudes(String tipoSolicitud, String columnaBusqueda, String codigoCliente){
-        String buscar ="SELECT * FROM Asociacion WHERE "+ columnaBusqueda +" = ? AND estado = ? ORDER BY fechaCreacion DESC";
+    public Asociacion[] buscarSolicitudes(String tipoSolicitud, String columnaBusqueda, String codigoCliente, boolean esParaRevisarExistencia){
+        String buscar ="SELECT * FROM Asociacion WHERE "+ columnaBusqueda +" = ?"+((esParaRevisarExistencia==false)?" AND estado = ?":"")+" ORDER BY fechaCreacion DESC";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                         ResultSet.CONCUR_UPDATABLE)){
             int cliente = Integer.parseInt(codigoCliente);
             
             instrucciones.setInt(1, cliente);
-            instrucciones.setString(2, "enEspera");
+            if(esParaRevisarExistencia==false){
+                instrucciones.setString(2, "enEspera");
+            }            
             
             ResultSet resultado = instrucciones.executeQuery();
             if(transformador.colocarseAlPrincipio(resultado)){

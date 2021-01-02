@@ -44,7 +44,7 @@ public class Modificador {
     }
     
     public boolean modificarCajero(String datosActualizar[]){
-        String modificar ="UPDATE Cajero nombre = ?, direccion = ?, password = ?, turno = ?"+((!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null)?", correo = ?":"")+" WHERE codigo = ?";
+        String modificar ="UPDATE Cajero SET nombre = ?, direccion = ?, password = ?, turno = ?"+((!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null)?", correo = ?":"")+" WHERE codigo = ?";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(modificar)){
             int codigo = Integer.parseInt(datosActualizar[0]);           
@@ -69,7 +69,7 @@ public class Modificador {
     }
   
     public boolean modificarGerente(String datosActualizar[]){
-        String modificar ="UPDATE Gerente nombre = ?, direccion = ?, password = ?, turno = ?"+((!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null)?", correo = ?":"")+" WHERE codigo = ?";
+        String modificar ="UPDATE Gerente SET nombre = ?, direccion = ?, password = ?, turno = ?"+((!datosActualizar[7].isBlank() && !datosActualizar[7].isEmpty() && datosActualizar[7]!=null)?", correo = ?":"")+" WHERE codigo = ?";
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(modificar)){
             int codigo = Integer.parseInt(datosActualizar[0]);

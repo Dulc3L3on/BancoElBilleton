@@ -40,7 +40,7 @@
         <div id="ContenedorReportes"><!--le colocaremos un layout para que se organicen de forma "automática"...-->        
             <form method="POST" action="Reportes_Gerente.jsp">
                 <center><!--asumo que por medio del nombre podré mandar a la clase que se encarga de traer los reportes [o clases, puesto que algunos requieren de tiepo s de obj que no tienen relación, si es así necesitaría 1 por cada grupo general... bueno, ya veremos xD] qué tipo de reporte es el que quiero..-->
-                    <button type ="submit" name="reporte" value="Gerente_HistorialCambiosPropios" <%=(buscadorExistencia.haRealizadoCambiosPropios((String)request.getSession().getAttribute("codigo"))?"":"disabled")%>><img  src="../../img/iconos_Billeton/Historial.png"><br/>Historial <br/>de cambios</button>
+                    <button type ="submit" name="reporte" value="Gerente_HistorialCambiosPropios" <%=(buscadorExistencia.haRealizadoCambiosPropios((String)request.getSession().getAttribute("codigo"))?"":"disabled")%>><img  src="../../img/iconos_Billeton/Historial.png"><br/>Historial <br/>de cambios<br/>propios</button>
    <!--LISTO-->     <button type ="submit" name="reporte" value="Usuario_HistorialCambiosUsuarios"><img  src="../../img/iconos_Billeton/Historial.png"><br/>Historial <br/>de cambios</button><!--por los break entonces solo tendría que colocar los case de tal forma que no llegue a afectar a otro que posea a más de un caso [en especial de usuarios] para establecer los parámetros... xD[si es de que hay otro con más de un tipo de personales xD]-->
    <!--LISTO-->     <button type ="submit" name="reporte" value="MenorMonto_ClientesConMayoresTransacciones"><img  src="../../img/iconos_Billeton/Transaccion.png"><br/>Clientes <br/>con Transacciones<br/>Mayores</button><!--Estos que involucran Clientes no le pondré una revisión previa puesto que para deshabilitarlos tendría que NO existir clientes y eso no es posible puesto que la página LOgin solicita la carga de datos y siempre se caerá a esta página si es que no se ha logeado el usuario en cuestión...-->
    <!--LISTO-->     <button type ="submit" name="reporte" value="MenorSuma_ClientesMayoresSumasTransaccionales"><img  src="../../img/iconos_Billeton/Transaccion.png"><br/>Clientes <br/>con Mayores<br/>Transacciones Sumadas</button><br/><br/>
@@ -107,10 +107,9 @@
                                 <input type="number" name="minimaSuma" value ="<%=limiteMenor%>" min="<%=montoMenor+1%>" required><br/><br/>   
                                 
                                 <input id="boton" type="submit" value="ACEPTAR">                                     
-                                <h6><i>El límite inferior para 
-                                       este reporete es mayor al
-                                       del reporte "Clientes con
-                                       Transacciones Mayores"</i></h6> 
+                                <h6><i>El límite inferior para este reporte<br/>
+                                       deberá ser mayor al del reporte<br/>
+                                       "Clientes con Transacciones Mayores"</i></h6> 
                            </form>                                                      
                        </div>
                     </center>
@@ -137,24 +136,28 @@
                     
                     <center>
                         <form id="formulario" method="POST" action="../../gestorParametrosGerente">
-                            <input type="text" id="datosUsuario" name="reporte" value="<%=request.getParameter("reporte")%>" onkeypress="esconderOtrosUsuarios(event)" hidden>
+                            <input type="text" id="datosUsuario" name="reporte" value="<%=request.getParameter("reporte")%>" hidden>
                             
-                            <h4>* Nombre ó Código del Cliente</h4>
-                            <input name="datosUsuario" type="search" list="listaClientes" required>
-                                
-                           <%if(clientes!=null){%>
-                               <datalist id="listaClientes">
+                            <h4>* Cliente</h4></br>                                                
+                           <%if(clientes!=null){%>                               
+                                <select id="listadoClientes" name="datosUsuario" onchange="mostrarCuentasDeDueno()" required>
+                                     <option disabled selected>-Seleccione al Cliente-</option>
                                     <%for(int clienteActual=0; clienteActual<clientes.length; clienteActual++){%>                                    
-                                           <option value="<%=clientes[clienteActual].getCodigo()%> <%=clientes[clienteActual].getNombre()%>"> </option> 
+                                           <option value="<%=clientes[clienteActual].getCodigo()%>"><%=clientes[clienteActual].getCodigo()%> <%=clientes[clienteActual].getNombre()%></option> 
                                     <%}%>
-                                </datalist>
+                                </select><br>
                                 
                                 <%if(cuentas!=null){%>
-                                    <select name="numeroCuenta" id="listadoCuentas"> 
+                                    <h4>* Cuenta</h4><br/>
+                                    <select name="numeroCuenta" id="listadoCuentas" required>                                         
+                                        <option disabled selected>-Seleccione No. Cuenta-</option>
+                                    </select><br/><br/>
+                                    
+                                    <select name="numeroCuentasExistentes" id="listadoCuentasAuxiliar" hidden> 
                                         <%for(int cuentaActual = 0; cuentaActual<cuentas.length; cuentaActual++){%>
                                         <option id="<%=cuentas[cuentaActual].getCodigoDuenoCuenta()%>" value="<%=cuentas[cuentaActual].getNumeroCuenta()%>"><%=cuentas[cuentaActual].getNumeroCuenta()%></option>
                                         <%}%>
-                                    </select><br/><br/>
+                                    </select>
                                 <%}%>
                             <%}%>
                             <input id="boton" type="submit" value="ACEPTAR">              
@@ -190,18 +193,24 @@
             }             
         </script>
         <script>
-            function mostrarCuentasDeDueno(event){
-                if(event.keyCode === 13){
-                    var cuentas = document.getElementById("listadoCuentas").options;
+            function mostrarCuentasDeDueno(){                
+                var cuentas = document.getElementById('listadoCuentas');
+                var cuentasExistentes = document.getElementById('listadoCuentasAuxiliar').options;
+                var clientes = document.getElementById('datosUsuario');                
+        
+                for (let opcionActual = cuentas.options.length; opcionActual >= 1; opcionActual--) {//a ver si no da un index of, por empezar por un valor = al tamaño y no por (tam -1)
+                    cuentas.remove(opcionActual);
+                }                    
                 
-                    for (var numeroCuentaActual = 0; numeroCuentaActual < cuentas.length; numeroCuentaActual++) {
-                        if(cuentas[numeroCuentaActual].id === document.getElementById("datosUsuario").value.split(" ")[0]){
-                            cuentas[numeroCuentaActual].hidden = false;                    
-                        }else{
-                            cuentas[numeroCuentaActual].hidden = true;                          
-                        }
-                    }                                                  
-                }                
+                for (let numeroCuentaActual = 0; numeroCuentaActual < cuentasExistentes.length; numeroCuentaActual++) {
+                    if(cuentasExistentes[numeroCuentaActual].id === clientes.options[clientes.selectedIndex].value.split(" ")[0]){
+                        const opcion = document.createElement('option');//para que se puedan mostar las op que corresponden xD
+                        const valor = cuentasExistentes[numeroCuentaActual].value;
+                        opcion.value = valor;
+                        opcion.text = valor;
+                        cuentas.appendChild(opcion);                            
+                    }
+                }                                                                  
             }            
         </script>     
        <%if(request.getSession().getAttribute("sinDatos")!=null){%>        

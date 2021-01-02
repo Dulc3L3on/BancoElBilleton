@@ -32,7 +32,7 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             title:'CUI repetido',            
             text: 'El CUI debe ser único para cada\n\
                    uno de los usuarios',
-            backdrop: true,
+            backdrop: false,
             position: 'center',
             icon: 'error'
         })
@@ -42,7 +42,7 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
         Swal.fire({
             title:'Error en la creación',            
             text: 'Intente nuevamente por favor',
-            backdrop: true,
+            backdrop: false,
             position: 'center',
             icon: 'error'
         })
@@ -88,7 +88,7 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             title:'Error de Búsqueda',            
             text: 'No se hallaron los datos\n\
                    del cliente correspondiente',
-            backdrop: true,
+            backdrop: false,
             position: 'center',
             icon: 'error'
         })
@@ -110,11 +110,35 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             title:'Fallo de envío',            
             text: 'Surgió un error al enviar la solicitud\n\
                    por favor intente de nuevo',
-            backdrop: true,
+            backdrop: false,
             position: 'center',
             icon: 'error'
         })    
     break;     
+    
+    case "errorBusquedaSolicitudes":
+         Swal.fire({
+            title:'Error búsqueda de solicitudes',            
+            text: 'Surgió un error al realizar la\n\
+                   búsqueda, por favor intente de nuevo',
+            backdrop: false,
+            position: 'center',
+            icon: 'error'
+        })    
+    break;    
+    
+    case "errorActualizacionEstadoSolicitud":
+        Swal.fire({
+            title:'Error en la actualización',            
+            text: 'Surgió un error que impidió\n\
+                   registrar la reacción hacia la\n\
+                   solicitud recibida, por favor\n\
+                   intente nuevamente',
+            backdrop: false,
+            position: 'center',
+            icon: 'error'
+        })
+    break;
 
     case "errorCreacionCuenta":
         Swal.fire({
@@ -137,22 +161,26 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             icon: 'error'            
         })            
     break;
-}       
-
-
-   
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    case "errorTransferencia":
+        Swal.fire({
+            title:'Transferencia fallida',           
+             text:'Surgió un error que impidió\n\
+                   la transferencia se realizara, \n\
+                   por favor intente nuevamente',           
+            position: 'center',
+            icon: 'error'            
+        })            
+    break;
+    
+     case "errorBusquedaTransacciones":
+        Swal.fire({
+            title:'Error de Búsqueda',           
+             text:'Surgió un error que impidió la\n\
+                   búsqueda exitosa de las transacciones, \n\
+                   por favor intente nuevamente',           
+            position: 'center',
+            icon: 'error'            
+        })            
+    break;
+}    

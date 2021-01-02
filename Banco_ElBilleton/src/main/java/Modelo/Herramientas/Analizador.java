@@ -25,8 +25,10 @@ public class Analizador {
     private Buscador buscador = new Buscador();
     
     public boolean analizarSituacionSolicitudes(Cuenta[] cuentasDeDueno, Asociacion[] asociaciones, String numeroCuenta, int situacionBuscador){                       
+        intentos = 0;
+        
         if(situacionBuscador>-1){
-            if(asociaciones==null){
+            if(asociaciones==null){//por si acaso la razón por la cual no hay ninguna solicitud regitrada es porque el número de cta ingresado es del cliente mismo...
                 return esCuentaPropia(cuentasDeDueno, numeroCuenta);
             }
             else{//esto es para descartar el hecho de que no se haya generado antes una solicitud de aso al número de cta en cuestión. xD..                                          
@@ -103,10 +105,12 @@ public class Analizador {
         List<Cliente> listadoClientes = new LinkedList<>();
         
         try {
-            Cliente[] clientes = (Cliente[])buscador.buscarUsuarios("Cliente", "orden");
+            Cliente[] clientes = (Cliente[])buscador.buscarUsuarios("Cliente", "codigo");
             resultado.last();
             int clientesActivos = resultado.getRow();
+            System.out.println(clientesActivos);
             int clientesExcluidos=0;
+            resultado.first();
             
             for (int clienteActual = 0; clienteActual < clientes.length; clienteActual++) {                
                 if(clientesExcluidos < clientesActivos && resultado.getInt(1) == clientes[clienteActual].getCodigo()){//Hasta donde yo recuerdo al tener un && si la primer condición resulta ser falsa, entonces ya no revisa la otra...

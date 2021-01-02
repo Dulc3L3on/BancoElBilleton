@@ -64,12 +64,14 @@
 				<reportElement x="249" y="103" width="189" height="23" forecolor="#575656" uuid="e28921fa-7889-4210-8fa7-6195dd5a4d8a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{nombreEncargado}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="249" y="80" width="189" height="23" forecolor="#575656" uuid="435b9fdd-36b8-43ad-ab80-934c9bb00d02">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{codigoEncargado}]]></textFieldExpression>
 			</textField>
 		</band>

@@ -26,12 +26,9 @@
     <body>   
         <%if(!guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Cliente")){
             response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
-        }%>
+        }
         
-        <%if(request.getAttribute("ubicacionGestor")!=null){//Aquí SÍ es necesario esto puesto que al principio se llega aquí de una forma [es decir con la dirección de forma directa...], pero después se llega aquí desde el servlet... por lo cual si cb la ubicación... a diferencia de las solicitudes recibidas [El JSP específicamente] siempre se llega a ellas desde una misma dirección...            
-            ubicacionGestor = (String) request.getAttribute("ubicacionGestor");
-            System.out.println("ubicacion gestor"+ ubicacionGestor);
-        }%>            
+        ubicacionGestor = (request.getAttribute("ubicacionGestor")!=null)?(String) request.getAttribute("ubicacionGestor"):"../gestorEnvioSolicitud";%>        
             
         <div style="margin-top: 105px;">
         <%if(request.getAttribute("mostrarMsje")==null){%>
@@ -121,7 +118,7 @@
                         <input type="text" id="tipoMsje" value="errorBusquedaDueno" hidden><!--lo quería pequeño [Es decir con el atrib toast, pero ya tenía un msje de este tipo creado, así que...-->
                         <script src="js/sweetError.js"></script>            
                         
-                        <%}else if(String.valueOf(request.getAttribute("situacionAnalizada")).equals("aceptada")){%>
+                    <%}else if(String.valueOf(request.getAttribute("situacionAnalizada")).equals("aceptada")){%>
                             <!--se muestra un msje informando que ya posee una asociación con la cuenta ingresada......-->                            
                             <input type="text" id="tipoMsje" value="solicitudAceptada" hidden>
                             <script src="js/sweetInformativo.js"></script>            

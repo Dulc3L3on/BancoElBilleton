@@ -21,7 +21,7 @@ public class Asociacion implements Serializable{
     private String estado;        
     
     public Asociacion(int elCodigoSolicitado, int laCuentaSolicitada, int elCodigoSolicitante,
-         String laFechaCreacion, String elEstado){
+         String elEstado, String laFechaCreacion){
     
         codigoSolicitado = elCodigoSolicitado;
         numeroCuentaSolicitada = laCuentaSolicitada;

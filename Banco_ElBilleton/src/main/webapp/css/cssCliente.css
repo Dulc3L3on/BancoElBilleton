@@ -9,6 +9,10 @@ and open the template in the editor.
 */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Oxygen&family=Questrial&display=swap');
 
+h1{    
+   font-family: Questrial; 
+}
+
 table{   
     text-align: left;  
     width: 800px;    
@@ -67,7 +71,7 @@ input, select{
     border:none;
 }
 
-#submit:hover{
+#submit:enabled:hover{
    /* background-color: darkgoldenrod;*/
       box-shadow: 0 10px 14px 0 rgba(0,0,0,0.24), 0 15px 35px 0 rgba(0,0,0,0.19); 
 }
@@ -98,6 +102,11 @@ input, select{
 .denegada:hover{
    border-radius: 5px;
    background-color: palevioletred;
+}
+
+#encabezado{
+    font-family: Questrial;
+    background-color:  #D9DDE0;    
 }
 
 #subencabezado{

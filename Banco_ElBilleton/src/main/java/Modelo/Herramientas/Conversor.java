@@ -12,12 +12,17 @@ import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Gerente;
 import Modelo.Entidades.Usuarios.Trabajador;
+import Modelo.Manejadores.DB.Buscador;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author phily
  */
-public class Conversor {
+public class Conversor {    
+    Buscador buscador;
+    
     public Cliente convertirACliente(String datos[], int codigo, String contrasenia, String fechaIncorporacion, String path){//al parecer el path lo recibiraás después... porque debes pensar como llamarás al otro servlet... en el que se encarga de la ... O podrías hacerlo con un dopost o un método más en este mismo servlet... pero eso implicaría tener otro para la carga de datos...
         return new Cliente(codigo, datos[0], datos[1], datos[4], datos[2], contrasenia, fechaIncorporacion, datos[5], datos[3], path);                
     }
@@ -43,6 +48,25 @@ public class Conversor {
     
     public Cuenta convertirACuenta(int numeroCuenta, int codigoDueno, double monto, String fechaCreacion){
         return new Cuenta(numeroCuenta, codigoDueno, monto, fechaCreacion, "activa");
+    }
+    
+    public Cuenta[] convertirACuentas(ResultSet resultado){
+        buscador = new Buscador();
+        
+        try {         
+            resultado.last();
+            Cuenta[] cuentas = new Cuenta[resultado.getRow()];
+            resultado.first();
+                
+            for (int cuentaActual = 0; cuentaActual < cuentas.length; cuentaActual++) {                                           
+                cuentas[cuentaActual] = buscador.buscarCuenta(String.valueOf(resultado.getInt(1)));            
+            }                  
+            return cuentas;
+        } catch (SQLException e){
+            System.out.println("Error al convertir a CUENTA los números de cuenta hallados -> "+ e.getMessage());
+        }
+        
+        return null;
     }
     
     public Transaccion convertirATransaccion(int elCodigo, int elNumeroCuenta, String elTipo, 
