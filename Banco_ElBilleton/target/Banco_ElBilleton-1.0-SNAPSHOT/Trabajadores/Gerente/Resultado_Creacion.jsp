@@ -29,7 +29,7 @@
                 <script src="js/sweetInformativo.js"></script><!--puesto que se envía desde el gestor de reportes al cual se llegó de manera "directa" por lo cual redirecciona de manera profunda...-->   
           <%}%>
         <%}else{
-            if(request.getSession().getAttribute("sinDatos")!=null){%>
+            if(request.getSession().getAttribute("sinDatos")!=null){%><!--en qué gestor [servlet] se establece este msje ?? :v no me acuerdo y no lo envuentro...-->
               <input type="text" name="tipoMsje" value="sinDatos" hidden>         
                 <script src="../../js/sweetInformativo.js"></script><!--debería funcionar xD-->            
                <%request.getSession().removeAttribute("sinDatos");
@@ -113,29 +113,29 @@
                                 <%}%>                        
                            </tr>                                           
                         </table><!--esto debería ser reemplazado por el html del JR...-->                                                                                                  
-                   
-                    <%}else if(request.getAttribute("mostrarMsje").equals("repetido")){%> 
-                        <input type="text" id="tipoMsje" value="CUIrepetido" hidden>
-                        <script src="js/sweetError.js"></script>   
+                        
+                        <form method="POST" action="gestorParametrosGerente" ><!--ahí decides si el form solo rodeará a estos btn o rodeará a todo lo que se muestra por haberlos pasado a inputs y así ahorrase espacio...-->                        
+                            <%usuario = (Usuario)request.getAttribute("usuario");%>
+                            <input type="text" name="trabajador" value="<%=request.getParameter("trabajador")%>" hidden>
+                            <input type="text" name="codigoUsuario" value="<%=usuario.getCodigo()%>" hidden>                                            
+                        
+                            <button type ="submit" id="submit" name="reporte" value="<%="encargado_ResumenCreacion"+((request.getAttribute("turno")!=null)?"Trabajador":"Cliente")%>"><img  src="img/flechitaDescarga.png" style="width: 25px; height: 25px;"> DESCARGAR</button>    
+                            <%if(!request.getAttribute("correo").equals("???")){%><!--puesto que será null cuando nunca se haya establecido este valor o el valor sea nulo xD-->                            
+                                <button type ="submit" id="submit" name="envio" value="resultadoCreacion_<%=usuario.getCodigo()+"_"+((request.getAttribute("birth")!=null)?"Cliente":"Cajero")%>" formaction="gestorEnvioEmail"><img  src="img/avionNegro.png" style="width: 25px; height: 25px;"> ENVIAR POR CORREO</button>    
+                            <%}%>
+                        </form>                         
+                    <%}else if(request.getAttribute("mostrarMsje").equals("error")){%> 
+                        <input type="text" id="tipoMsje" value="erroCreacionUsuario" hidden>
+                        <script src="js/sweetError.js"></script>                                      
                     <%}else if(request.getAttribute("mostrarMsjeEnvio")!=null){                    
                         if((boolean)request.getAttribute("mostrarMsjeEnvio") == false){%><!--tienes que revisar esto por los datos que se miestran, es decir por si acaso ya no aparecen, lo cual no debeŕia suceder y si es así entonces se debería a la "remoción" del atributo del usuario correspondiente... pero hay que ver de primero xD-->
                             <input type="text" id="tipoMsje" value="errorEnvioMail" hidden>
                             <script src="js/sweetError.js"></script>   
                       <%}%>
                     <%}else{%>    
-                        <input type="text" id="tipoMsje" value="erroCreacionUsuario" hidden>
-                        <script src="js/sweetError.js"></script>                     
-                    <%}%>
-                    <form method="POST" action="gestorParametrosGerente" ><!--ahí decides si el form solo rodeará a estos btn o rodeará a todo lo que se muestra por haberlos pasado a inputs y así ahorrase espacio...-->                        
-                        <%usuario = (Usuario)request.getAttribute("usuario");%>
-                        <input type="text" name="trabajador" value="<%=request.getParameter("trabajador")%>" hidden>
-                        <input type="text" name="codigoUsuario" value="<%=usuario.getCodigo()%>" hidden>                                            
-                        
-                        <button type ="submit" id="submit" name="reporte" value="<%="encargado_ResumenCreacion"+((request.getAttribute("turno")!=null)?"Trabajador":"Cliente")%>"><img  src="img/flechitaDescarga.png" style="width: 25px; height: 25px;"> DESCARGAR</button>    
-                        <%if(!request.getAttribute("correo").equals("???")){%><!--puesto que será null cuando nunca se haya establecido este valor o el valor sea nulo xD-->                            
-                            <button type ="submit" id="submit" name="envio" value="resultadoCreacion_<%=usuario.getCodigo()+"_"+((request.getAttribute("birth")!=null)?"Cliente":"Cajero")%>" formaction="gestorEnvioEmail"><img  src="img/avionNegro.png" style="width: 25px; height: 25px;"> ENVIAR POR CORREO</button>    
-                        <%}%>
-                    </form>                
+                        <input type="text" id="tipoMsje" value="CUIrepetido" hidden>
+                        <script src="js/sweetError.js"></script>   
+                    <%}%>                              
                 </center>           
             <%}%>
         <%}%>

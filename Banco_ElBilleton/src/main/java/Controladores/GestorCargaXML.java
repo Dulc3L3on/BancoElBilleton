@@ -24,15 +24,13 @@ import javax.servlet.http.Part;
 @MultipartConfig(location="/tmp", fileSizeThreshold=1024*1024, 
     maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
 public class GestorCargaXML extends HttpServlet{
-     public static final String BASE_PATH = "/tmp";//entonces lo guardará en la carpeta del gerente...
+     public static final String BASE_PATH = "/tmp";//no me dio error el hecho de que hubieran 2 variables estáticas con el mismo nombre... deplano que es por el hecho de que estas le pertenecen a la clase y como tienen nombres diferentes entonces por ello no sucede esto xD...
      ManejadorXML manejador;
         
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {                          
         //aquí debería ser el punto en el que se coloque el gif... pero creo que con esto redirigirás a otra página... la sel servlet...                                     
         manejador = new ManejadorXML();
-        
-      //  mostrarProcesmientoDatos(request, response);//debo ponerle un fin o tiempo a este proceso para que se mueste porque si no no pasará a lo de abajito xd DEBUGEA XD
         
         Part filePart = request.getPart("archXML");
         String fileName = getFileName(filePart); //no es necesario revisar si es null, porque es obligatorio el campo [required]       
@@ -57,25 +55,7 @@ public class GestorCargaXML extends HttpServlet{
             }
         }
         return null;
-    } 
-    
-    private void mostrarProcesmientoDatos(HttpServletRequest request, HttpServletResponse response){
-        response.setContentType("text/html"); 
-        
-         try(PrintWriter salida = response.getWriter()) {  
-             salida.println("<!DOCTYTE html>");
-             salida.println("<html>");
-             salida.println("<head><title>Processing</title></head>");
-             salida.println("<body>");
-             salida.println("<script src= \"../../js/sweetProcessing.js\">");             
-             salida.println("</script>");
-             salida.println("</body></html>");
-             salida.close();
-         } catch (IOException e){
-             System.out.println("Error al mostrar la img de carga -> "+e.getMessage());
-         }        
-    }//serpa reemplazado por la llamada al método del hilo xD 
-    
+    }      
 }
 //aquí se cargrá el arch al servidor y se iniciará el proceso de analisis, 
 //a partir del nombre y la raíz en la que fue almacenado, con los métodos 

@@ -100,18 +100,19 @@
                              }%><!--se leen los cambios bien almacenados...-->                                               
                             </table>                               
                             <%nodoDeListados = nodoDeListados.nodoSiguiente;
-                        }//fin del for para el listado de listados xD
-                    }else{%>                                    
+                        }%><!--//fin del for para el listado de listados xD-->
+
+                        <form method="POST" action="gestorParametrosGerente"><!--pendiente-->                      
+                       <%if(request.getParameter("tipoUsuario")!=null){%>
+                            <input type="text" name="tipoUsuario" value="<%=request.getParameter("tipoUsuario")%>" hidden>
+                            <input type="text" name="datosUsuario" value="<%=request.getParameter("datosUsuario")%>" hidden>                          
+                        <%}%>
+                            <input type="text" name="desdeElHistorial" value="true" hidden>                                                
+                            <button type ="submit" id="submit" name="reporte" value="<%=((request.getParameter("tipoUsuario")!=null)?"Usuario":"Gerente")+"_HistorialCambios"+((request.getParameter("tipoUsuario")!=null)?"Usuarios":"Propios")%>" style="width: 355px; height: 65px;"><img  src="img/flechitaDescarga.png" style="width: 25px; height: 25px;"> DESCARGAR HISTORIAL COMPLETO</button>    
+                        </form>     
+                  <%}else{%>                                    
                          <h3>Información intacta, sin cambios que mostrar</h3>
-                  <%}%>
-                  <form method="POST" action="gestorParametrosGerente"><!--pendiente-->                      
-                      <%if(request.getParameter("tipoUsuario")!=null){%>
-                          <input type="text" name="tipoUsuario" value="<%=request.getParameter("tipoUsuario")%>" hidden>
-                          <input type="text" name="datosUsuario" value="<%=request.getParameter("datosUsuario")%>" hidden>                          
-                      <%}%>
-                      <input type="text" name="desdeElHistorial" value="true" hidden>                                                
-                      <button type ="submit" id="submit" name="reporte" value="<%=((request.getParameter("tipoUsuario")!=null)?"Usuario":"Gerente")+"_HistorialCambios"+((request.getParameter("tipoUsuario")!=null)?"Usuarios":"Propios")%>" style="width: 355px; height: 65px;"><img  src="img/flechitaDescarga.png" style="width: 25px; height: 25px;"> DESCARGAR HISTORIAL COMPLETO</button>    
-                  </form>                 
+                  <%}%>                              
                 <%}%><!--iba a agregarle un sweet, pero es imposible que el registrador le mande un listado nulo al gerente al momento de darle los listados porque ya están inicializados, es imposible que sea null sin haber enviado el msje indicandp que salió algo mal en la actualización y por lo tanto haberse saltado el método del gerente y el establecimiento del atriubto...-->
             <%}%> 
             </center>                          

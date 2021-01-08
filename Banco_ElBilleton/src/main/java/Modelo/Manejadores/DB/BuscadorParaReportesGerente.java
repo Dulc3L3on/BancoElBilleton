@@ -55,15 +55,18 @@ public class BuscadorParaReportesGerente {
     }        
     
     public List<Cliente> buscarClientesConMayoresTransacciones(String limiteInferior){
-        Cliente[] clientes = (Cliente[])buscador.buscarUsuarios("Cliente", "codigo");
+        Cliente[] clientes = (Cliente[])buscador.buscarUsuarios("Cliente", "codigo");//en este caso por el hecho de emplear el buscador para hallar a los usaurios solo colocaremos 1 de 2 situaciones puesto que no se si el colocar el tipo de situación en ese método afecta la revisión de esa aribale en otros bloques como sucedía en el método del gestor de Transferencia o depósito o retiro xD
         List<Cliente> clientesGrandes = new LinkedList<>();
         
         if(clientes!=null){
+            tipoSituacion = 1;
             for (int clienteActual = 0; clienteActual < clientes.length; clienteActual++) {
                 if(poseeMayorTransaccion(clientes[clienteActual].getCodigo(), limiteInferior)){
                     clientesGrandes.add(clientes[clienteActual]);
                 }                
             }
+        }else{
+            tipoSituacion = -1;
         }
         return clientesGrandes;
     }
@@ -109,17 +112,20 @@ public class BuscadorParaReportesGerente {
     public List<Cliente> buscarClientesConMayoresSumasTransaccionales(String limiteInferior){
         Cliente[] clientes = (Cliente[])buscador.buscarUsuarios("Cliente", "codigo");
         List<Cliente> clientesSumasGrandes = new LinkedList<>();
-        double[] totales;
+        double[] totales;        
         
-        if(clientes!=null){
+        if(clientes != null){
+            tipoSituacion =1;
             for (int clienteActual = 0; clienteActual < clientes.length; clienteActual++) {
                 totales = poseeMayorSumaTransaccional(clientes[clienteActual].getCodigo(), limiteInferior);
                 if(totales!=null){
                     clientes[clienteActual].establecerTotalCreditos(totales[0]);
                     clientes[clienteActual].establecerTotalDebitos(totales[1]);
                     clientesSumasGrandes.add(clientes[clienteActual]);
-                }
+                }//en este caso, la situación del método de "posee>SumaTransaccional"  podría servir para mandar un msje [sweet] diciendo que "No todas las búsquedas fueron realizadas con éxito" sin importar si la situación del buscador haya sido 0 o -1...
             }
+        }else{
+            tipoSituacion = -1;
         }
         return clientesSumasGrandes;
     }
@@ -128,7 +134,7 @@ public class BuscadorParaReportesGerente {
         Cuenta[] cuentasDeDueno = buscador.buscarCuentasDeDueno(codigo);   
         double[] sumaTransacciones = {0,0};        
         
-        if(cuentasDeDueno!=null){
+        if(cuentasDeDueno!=null){//el tipo de situación de este método, por la forma en la que se emplea [Es decir por estar inmerso en otro método y este último involucra un for] no afecta todo el proceso el que hallan habido errores o no se encontrara algo para un cliente en cuestión [al menos al trabajar juto con el método para los clientes con "mayores sumas"
             try{
                 for (int tipoTransaccion = 0; tipoTransaccion < 2; tipoTransaccion++) {
                     for (int cuentaActual = 0; cuentaActual < cuentasDeDueno.length; cuentaActual++) {
@@ -141,7 +147,7 @@ public class BuscadorParaReportesGerente {
             }catch(NumberFormatException e){
                 System.out.println("Error al buscar la SUMA MAYOR Transacción -> "+ e.getMessage());
             }
-        }        
+        }     
         return null;//Sea que halla salido bien la operación o no...
     }
     
@@ -174,16 +180,21 @@ public class BuscadorParaReportesGerente {
         
             ResultSet resultado = instrucciones.executeQuery();
             if(resultado.first()){
+                tipoSituacion = 1;
                 return transformadorParaReportes.transformarAListadoClientesAdinerados(resultado);
+            }else{
+                tipoSituacion = 0;
             }            
         }catch(SQLException | NumberFormatException e){
+            tipoSituacion = -1;//ya revisé y no afecta el colocar esto xD
             System.out.println("Error al buscar a los CLIENTES MÁS ADINERADOS -> "+ e.getMessage());
-        }
+        }        
         return new LinkedList<>();
     }   
     
     public List<Cliente> clientesConCuentasAbandonadas(String fechaInicial, String fechaFinal){        
         String buscar = "SELECT codigoDueno FROM Cuenta INNER JOIN Transaccion ON Cuenta.numeroCuenta = Transaccion.numeroCuentaAfectada WHERE fecha BETWEEN ? AND ? GROUP BY codigoDueno ORDER BY codigoDueno ASC";
+        List<Cliente> listadoClientes = new LinkedList<>();
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                  ResultSet.CONCUR_UPDATABLE)){
@@ -191,12 +202,17 @@ public class BuscadorParaReportesGerente {
             instrucciones.setString(2, fechaFinal);
             
             ResultSet resultado = instrucciones.executeQuery();            
-                                
-           return analizador.hallarClientesConCuentasAbandonadas(resultado);
+           if(resultado.first()){     
+               listadoClientes = analizador.hallarClientesConCuentasAbandonadas(resultado);
+               tipoSituacion = (listadoClientes.isEmpty())?0:1;//vamos a tomar como que no hay clientes con cuentas abandonadas cuando el listado esté vacío pueso que el método para buscar los usaurios no establece un tipo de situación y es más probable que succeda esto a comparación de un fallo...
+           }else{
+               tipoSituacion = 0;
+           }           
         }catch(SQLException sqlE){
             System.out.println("Error al buscar los codigo de los CLIENTES con CTAS ABANDONADAS -> "+ sqlE.getMessage());
         }      
-        return new LinkedList<>();
+        tipoSituacion = -1;
+        return listadoClientes;
     }
         
     public List<Transaccion> buscarTransaccionesDeCliente(String numeroCuenta){
@@ -204,6 +220,7 @@ public class BuscadorParaReportesGerente {
         try{
             int cuenta = Integer.parseInt(numeroCuenta);
             listadoTransacciones = buscadorParaReportesCliente.buscarTransaccionesDeCuenta(cuenta, null, herramientas.darFechaActualString());
+            tipoSituacion = buscadorParaReportesCliente.darTipoSituacion();
             
         }catch(NumberFormatException e){
             System.out.println("Error al buscar todas las TRANSACCIONES de la cuenta -> "+e.getMessage());
@@ -213,8 +230,8 @@ public class BuscadorParaReportesGerente {
     
     public List<Cajero> buscarCajeroMasEficiente(String fechaInicial, String fechaFinal){
         List<Cajero> cajeroUnico = new LinkedList<>();
-        String buscar = "SELECT COUNT(*) AS conteo, codigoCajero FROM Transaccion WHERE fecha > ? AND fecha < ? GROUP BY codigoCajero ORDER BY conteo DESC LIMIT 1";        
-        
+        String buscar = "SELECT COUNT(*) AS conteo, codigoCajero FROM Transaccion WHERE fecha > ? AND fecha < ? GROUP BY codigoCajero ORDER BY conteo DESC LIMIT 1";//Es decir que si hay varios cajeros con la misma cantidad es escogerá el que aparezca de primero xD según los ordene mySQL XD
+        //Sería bueno colocar un WHERE conteo [o COUNT(*) por si las moscas xD] es > 0
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                  ResultSet.CONCUR_UPDATABLE)){            
             instrucciones.setString(1, fechaInicial);
@@ -227,8 +244,7 @@ public class BuscadorParaReportesGerente {
                     cajero = buscador.buscarUsuarioBancaVirtual();
                 }else{
                     cajero = (Cajero)buscador.buscarUsuario("Cajero", "codigo", String.valueOf(resultado.getInt(2)));
-                }
-                
+                }                
                 cajero.establecerNumeroTransacciones(resultado.getInt(1));
                 cajeroUnico.add(cajero);
             }

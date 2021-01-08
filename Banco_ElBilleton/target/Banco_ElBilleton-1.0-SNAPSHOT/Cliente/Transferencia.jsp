@@ -83,7 +83,7 @@
                                         <h5 id="subtitulo">* Cuenta Origen</h5>
                                     </th>
                                     <th>
-                                        <select name="origen" id="opTransferencia" class="origen" onchange="maximoMontoRetiro()" required> 
+                                        <select name="origen" id="opTransferencia" class="origen" onchange="convergencia()" required> 
                                             <option value="-Seleccione Número Cuenta-" disabled selected>-Seleccione Número Cuenta-</option>                                                                                                                                                                                 
                                             <%for(int cuentaActual=0; cuentaActual < cuentasOrigen.length; cuentaActual++){%>
                                                 <option value="<%=cuentasOrigen[cuentaActual].getNumeroCuenta()%>"><%=cuentasOrigen[cuentaActual].getNumeroCuenta()%></option><!--no creo que sea necesario poner un vacío en el valor... creo que con no declararlo basta...-->                                                                                                          
@@ -96,7 +96,7 @@
                                         <h5 id="subtitulo">* Cuenta Destino</h5>
                                     </th>                                
                                     <th>
-                                        <select name="destino" id="opTransferencia" class="destino" onclick="eliminacionRedundancia()"required> 
+                                        <select name="destino" id="opTransferencia" class="destino" required> 
                                             <option value="-Seleccione Número Cuenta-" disabled selected>-Seleccione Número Cuenta-</option>                                                                                                                                         
                                             <%for(int cuentaActual=0; cuentaActual < cuentasDestino.length; cuentaActual++){%>
                                                 <option value="<%=cuentasDestino[cuentaActual].getNumeroCuenta()%>" ><%=cuentasDestino[cuentaActual].getNumeroCuenta()%></option>                                                                                              
@@ -138,16 +138,28 @@
                  
                         function eliminacionRedundancia(){
                             var tipoDestino = document.getElementById('tipoTransferencia').value;
-                            
-                            if(tipoDestino === 'propia'){
-                                var origen = document.getElementsByClassName('origen');
-                                var opcionesDestino = document.getElementsByClassName('destino').options;                                                        
-                            
-                                for (var opcionDestionActual = 1; opcionDestionActual < opcionesDestino.length; opcionDestionActual++) {
-                                    opcionesDestino[origen.selectedIndex].disabled = false;                            
-                                }//de esta manera se habilitan todas las opciones menos el msje indicador xD
-                                opcionesDestino[origen.selectedIndex].disabled = true;//Así se deshabilita la opción que corresponde a la cta origen xD para evitar redundancIa xD                                                                
-                            }
+    
+                            if(tipoDestino !== null){
+                                if(tipoDestino === 'Propia'){
+                                    var origen = document.getElementsByClassName('origen');
+                                    var opcionesOrigen = document.getElementsByClassName('origen').options;//Esto es por si acaso quieres eliminarla en lugar de deshabilitarla... xD
+                                    var destino = document.getElementsByClassName('destino');                                    
+                                                   
+                                    for (let opcionActual = destino.options.length; opcionActual >= 1; opcionActual--) {//a ver si no da un index of, por empezar por un valor = al tamaño y no por (tam -1)
+                                        destino.remove(opcionActual);
+                                    }     
+                
+                                    for (let opcionDestinoActual = 1; opcionDestinoActual < opcionesOrigen.length; opcionDestinoActual++) {
+                                        if(origen.selectedIndex!==0 && opcionDestinoActual !== origen.selectedIndex){
+                                            const opcion = document.createElement('option');//para que se puedan mostar las op que corresponden xD
+                                            const valor = opcionesOrigen[opcionDestinoActual].value;
+                                            opcion.value = valor;
+                                            opcion.text = valor;
+                                            destino.appendChild(opcion);         
+                                        }                                        
+                                    }//de esta manera se habilitan todas las opciones menos el msje indicador xD                                    
+                                }                                
+                            }                                
                         }    
                     
                         function maximoMontoRetiro(){

@@ -26,11 +26,9 @@ public class ManejadorXML {
     
     public ManejadorXML(){
       clasificador = new ClasificadorEntidades();  
-    }
+    }    
     
-    
-    public void leerXML(String nombreArchivo){//con todo y raíz... obvi xD
-        
+    public void leerXML(String nombreArchivo){//con todo y raíz... obvi xD        
         try{
              DocumentBuilderFactory fabricaDocumento = DocumentBuilderFactory.newInstance();
              DocumentBuilder constructorDocumento = fabricaDocumento.newDocumentBuilder();
@@ -44,8 +42,7 @@ public class ManejadorXML {
             JOptionPane.showMessageDialog(null, "No puedo transformarse el archivo", "error de conversion", JOptionPane.ERROR_MESSAGE);
         }catch(IOException | SAXException exc){
             JOptionPane.showMessageDialog(null, "Ha surgido un error al\nintentar leer el XML", "error de lectura", JOptionPane.ERROR_MESSAGE);            
-        }      
-        
+        }              
     }
     
     public ListaEnlazada<String[]> darListaErrores(){

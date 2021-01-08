@@ -33,13 +33,11 @@ public class GestorCreacionCliente extends HttpServlet{
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){                                                                           
         //aqupi verificas si está en sesión...        
-        
+        usuario = null;
         String[] datosIngresados = request.getParameterValues("datosUsuario");
         esDPIunico = guardia.esDPIunico(datosIngresados[1]);//para el cajero y gerente, este valor se obtendrá por medio del parámetro de la query string qe se mandó para escoger guardar los datos y colocar el título al JSP que corresponde xD... pero por el hecho de que no debe repetirse el DPI en ningun tipo de Usuario no será necesario obtenerlo xD
         
-        if(esDPIunico){
-             usuario=null;        
-        
+        if(esDPIunico){        
             String nombreArchDPI = (String) request.getAttribute("nombreArchDPI");
                
             if(nombreArchDPI!= null){
@@ -57,9 +55,11 @@ public class GestorCreacionCliente extends HttpServlet{
         try {
             if(!esDPIunico){
                 request.setAttribute("mostrarMsje", "repetido");
+                System.out.println("DPI repetido");
             }  
             if(usuario==null){
                 request.setAttribute("mostrarMsje", "error");//solo para ser más expllícita xD            
+                System.out.println("Usuario nulo");
             }else{
            //RECUERDA!!!, cuando es setAttribute, se DEBE usar la nitación con {} sino no se podrán tomar como objetos... el getParamete todo lo toma como objetos y se emplea [o al  menos yo lo he usado xD cuando se obtiene los valorse de los componentes, como de un botón...
                 request.setAttribute("usuario", usuario);//solo para ser más expllícita xD                

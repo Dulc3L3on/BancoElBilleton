@@ -183,4 +183,15 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             icon: 'error'            
         })            
     break;
+    
+    case "errorBusqueda":
+        Swal.fire({
+            title:'Error de Búsqueda',
+            text: 'Surgió algo que impidió hallar\n\
+                   los datos a mostrar por e reporte',
+            toast: true,            
+            position: 'bottom-end',
+            icon: 'warning'
+        })
+    break;  
 }    

@@ -33,7 +33,12 @@
             <script src="../../js/sweetInformativo.js"></script><!--No se si al redireccionar con un dispatcher desde la carpeta menos profunda hasta la que se encuentra el arch JSP se estará a poca profundidad o a mucha... pero por el hecho de que no cambia la apariencia luego de haber presionado el btn odría ser que al redireccionar a partir de esa carpeta, se quede en una profundidad grande ó que por el hecho de ser una "cargaDatos" se quede en la profunidad en la que estaba la pág al redireccionar al gestor que se enciarga de cargar los datos...-->
             <script src="js/sweetInformativo.js"></script>
             <%request.getSession().removeAttribute("sinDatos");
-        }%><!--queda mejor así xD, solo hay que solucionar el problema de los sweet de no mostrarse cuando no es la primer opción...-->
+        }else{%><!--queda mejor así xD, solo hay que solucionar el problema de los sweet de no mostrarse cuando no es la primer opción...-->
+            <input type="text" name="tipoMsje" value="errorBusqueda" hidden>         
+            <script src="../../js/sweetError.js"></script>
+            <script src="js/sweetError.js"></script>
+           <%request.getSession().removeAttribute("errorBusqueda");
+       }%>             
         
         <div id="ContenedorReportes"><!--le colocaremos un layout para que se organicen de forma "automática"...-->        
             <form method="POST" action="Reportes_Cajero.jsp">

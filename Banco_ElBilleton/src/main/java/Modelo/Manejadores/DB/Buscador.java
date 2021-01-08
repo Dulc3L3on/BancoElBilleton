@@ -36,7 +36,7 @@ public class Buscador {
                         ResultSet.CONCUR_UPDATABLE)){
             
              ResultSet resultado = instrucciones.executeQuery();
-             if(transformador.colocarseAlPrincipio(resultado)){
+             if(transformador.colocarseAlPrincipio(resultado)){                
                 return transformador.transformarAUsuarios(tipo.toLowerCase(), resultado);
              }             
         }catch (SQLException e) {

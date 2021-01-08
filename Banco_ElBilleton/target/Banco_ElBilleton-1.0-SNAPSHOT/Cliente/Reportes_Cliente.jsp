@@ -93,14 +93,17 @@
                    }                                                     
                }//debes revisar esta función... según vi debería funcionar xD, pero revisa lo del hidden [es decri si así se asigna el valor y tb si es necesario colocarlo...]    DESPUÉS recuerda deshabilitar los botnes si es que no hay datos que mostrar,para evitar confusiones para el usaruio...
             </script>
-        <%if(request.getSession().getAttribute("sinDatos")==null){%>        
-            <input type="text" name="tipoMsje" value="sinDatos" hidden>
-            <!--<h2>SIN DATOS</h2>
-            <h4>No hay Registros de Transacciones realizadas
-                Para el intervalo de tiempo especificado</h4>-->
-            <script src="../js/sweetInformativo.js"></script>
+      <%if(request.getSession().getAttribute("sinDatos")==null){%>        
+            <input type="text" name="tipoMsje" value="sinDatos" hidden>            
+            <script src="../js/sweetInformativo.js"></script><!--si aparece el error era porque el titulo era muyy largo xD, sino entonces coloca la otra dirección como el los rep del Gerente xD o para una ref más cercana, como lo que se hizo para el sweet por errorBusqueda xD-->        
+            <script src="js/sweetInformativo.js"></script>
             <%request.getSession().removeAttribute("sinDatos");
-         }%><!--queda mejor así xD, solo hay que solucionar el problema de los sweet de no mostrarse cuando no es la primer opción...-->
+        }else{%><!--queda mejor así xD, solo hay que solucionar el problema de los sweet de no mostrarse cuando no es la primer opción...-->
+            <input type="text" name="tipoMsje" value="errorBusqueda" hidden>         
+            <script src="../js/sweetError.js"></script>
+            <script src="js/sweetError.js"></script>
+           <%request.getSession().removeAttribute("errorBusqueda");
+        }%>
     </body>
 </html>
 

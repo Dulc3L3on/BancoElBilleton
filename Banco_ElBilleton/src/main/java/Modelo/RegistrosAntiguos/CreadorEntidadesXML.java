@@ -26,6 +26,7 @@ public class CreadorEntidadesXML {
     private ListaEnlazada<String[]> listaErrados = new ListaEnlazada();
     private Verificador verificador = new Verificador();
     
+    //ON DUPLCATE KEY y e intsert en lugar del UPDATE, lo emplee por el hecho de que se permite cargar nuevamente el archivo si es que sucedió alguna falla o alguna tabla de la DB está vacía...
      public boolean crearCliente(String codigo, String nombre, String CUI, String direccion, String sexo, String password, String birth, String pathDPI){
         String crear = "INSERT INTO Cliente (codigo, nombre, DPI, direccion, sexo, password, birth, pathDPI, fechaIncorporacion) VALUES(?,?,?,?,?,?,?,?,?) "
                      + "ON DUPLICATE KEY UPDATE nombre = Cliente.nombre";//xD ya que no hay algo como no hagas nada y deja lo de antes...xD

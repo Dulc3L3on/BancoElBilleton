@@ -4,6 +4,8 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Entidades.Usuarios.Usuario"%>
+<%@page import="Modelo.Manejadores.DB.Buscador"%>
 <%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,7 +15,9 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
         <link rel="stylesheet" href="../../css/cssGerente.css">
         <title>CreateWork</title>
-        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();%>
+        <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
+           Buscador buscador = new Buscador();
+           Usuario[] usuarios;%>
     </head>
     <body>
         <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){%>            
@@ -23,6 +27,16 @@
             <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
             <script src="../../js/sweetInformativo.js"></script><!--recuerda que veremos cómo está la apariencia de la página cuando se redireccione ella misma hacia aquí para add o no el sweet con una dir menos profunda o no xD-->
         <%}else{%>
+             <select id="DPIsRegistrados" hidden>
+                <%for (int tipoUsuarioActual = 0; tipoUsuarioActual < 3; tipoUsuarioActual++) {                                            
+                    usuarios = buscador.buscarUsuarios(((tipoUsuarioActual==0)?"Cliente":(tipoUsuarioActual==1)?"Cajero":"Gerente"), "codigo");                  
+                    if(usuarios!=null){
+                        for(int usuarioActual=0; usuarioActual< usuarios.length; usuarioActual++){%>                    
+                            <option value="<%=usuarios[usuarioActual].getDPI()%>"></option>
+                        <%}%>
+                    <%}%>            
+                <%}%>
+            </select>                     
         
             <center>
                 <form method="POST" action="../../gestorCreacionTrabajadores">
@@ -40,6 +54,9 @@
                                 </th>
                                 <th>
                                     <h5>* CUI</h5>
+                                    <div id="aviso" style="color: red; font-size: 15px;" hidden>                                   
+                                        <h4>El CUI le pertenece a agluien más</h4>                                                                   
+                                    </div>          
                                 </th>
                             </tr>
                             <tr>                            
@@ -48,7 +65,7 @@
                                 </th>
                                 
                                 <th>
-                                    <input type="number" name="datosUsuario" id="CUI" minlength="8" maxlength="13" min="0" required><!--recuerda que 8 por el pasaporte...-->
+                                    <input type="number" name="datosUsuario" id="CUI" onblur="verificarDPIcoincidente(this)" minlength="8" maxlength="13" min="0" required><!--recuerda que 8 por el pasaporte...-->
                                 </th>
                             </tr>                                                 
                             <tr id="nombresDatos">                            
@@ -98,5 +115,22 @@
                 </form>            
             </center>                   
         <%}%>
+    
+     <script>
+        function verificarDPIcoincidente(inputDPI){
+            var DPIsRegistrados = document.getElementById("DPIsRegistrados").options;
+            
+            if(DPIsRegistrados!==null){
+                for(let dpiActual =0; dpiActual< DPIsRegistrados.length; dpiActual++){
+                    if(inputDPI.value === DPIsRegistrados[dpiActual].value){//no creo qu ede error con el hecho de que tenga valor nulo, porque de todos modos no sería igual...
+                        inputDPI.value="";
+                        document.getElementById("aviso").hidden= false;
+                        return;
+                    }                
+                } 
+                document.getElementById("aviso").hidden= true;                
+            }            
+        }
+    </script>
     </body>
 </html>

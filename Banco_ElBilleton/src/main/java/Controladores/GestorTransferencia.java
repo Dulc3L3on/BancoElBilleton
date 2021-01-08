@@ -11,8 +11,6 @@ import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.Registrador;
 import Modelo.Manejadores.DB.Tramitador;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

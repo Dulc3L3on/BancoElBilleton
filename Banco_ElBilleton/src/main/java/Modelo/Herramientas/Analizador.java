@@ -112,14 +112,16 @@ public class Analizador {
             int clientesExcluidos=0;
             resultado.first();
             
-            for (int clienteActual = 0; clienteActual < clientes.length; clienteActual++) {                
-                if(clientesExcluidos < clientesActivos && resultado.getInt(1) == clientes[clienteActual].getCodigo()){//Hasta donde yo recuerdo al tener un && si la primer condición resulta ser falsa, entonces ya no revisa la otra...
-                    resultado.next();
-                    clientesExcluidos++;
-                }else{
-                    listadoClientes.add(clientes[clienteActual]);
-                }                                       
-            }                    
+            if(clientes!=null){
+                for (int clienteActual = 0; clienteActual < clientes.length; clienteActual++) {                
+                    if(clientesExcluidos < clientesActivos && resultado.getInt(1) == clientes[clienteActual].getCodigo()){//Hasta donde yo recuerdo al tener un && si la primer condición resulta ser falsa, entonces ya no revisa la otra...
+                        resultado.next();
+                        clientesExcluidos++;
+                    }else{
+                        listadoClientes.add(clientes[clienteActual]);
+                    }                                       
+                }       
+            }                         
         } catch (SQLException | NullPointerException e) {
                 System.out.println("Error al analizar a los clientes con Cuentas ABANDONADAS -> "+e.getMessage());
         }

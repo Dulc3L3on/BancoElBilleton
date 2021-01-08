@@ -14,6 +14,7 @@ import Modelo.Manejadores.DB.BuscadorParaReportesCliente;
 import Modelo.Manejadores.DB.BuscadorPersonaEncargada;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -108,13 +109,13 @@ public class GestorParametrosCliente extends HttpServlet{
         try {
             List<Transaccion> ultimas15Transacciones = buscadorParaReportes.buscarUltimas15Transacciones((String) request.getSession().getAttribute("codigo"));
             
-            if(ultimas15Transacciones!=null && !ultimas15Transacciones.isEmpty()){
+            if(ultimas15Transacciones!=null && !ultimas15Transacciones.isEmpty()){//El método para buscar la ersona encargada no dará problemas puesto que si salió algo mal dará los ??? sino dará el nombre correspondiente, es decir solito resuleve los problemas que en él puedan surgir xD
                 ultimas15Transacciones = buscadorPersonaEncargada.buscarNombreCajeroACargo(ultimas15Transacciones);//NO es necesario que este método devuelva algo por el hecho de ser un cb por referencia y NO por valor... xD
             
                 request.getSession().setAttribute("listado", ultimas15Transacciones);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD        
                 response.sendRedirect("../gestorReportesTransaccionesYCambios");
-            }else{
-                request.getSession().setAttribute("sinDatos",true);
+            }else{//si el tipoSItuación == 0 entonces SIN DATOS sino ERROR BÚSQUEDA
+                request.getSession().setAttribute((buscadorParaReportes.darTipoSituacion()==0)?"sinDatos":"errorBusqueda", true);                
                 response.sendRedirect("Reportes_Cliente.jsp");
             }                        
         } catch (IOException e) {
@@ -131,7 +132,7 @@ public class GestorParametrosCliente extends HttpServlet{
                 request.getSession().setAttribute("listado", todasLasTransaccionesDeCuenta);
                 response.sendRedirect("gestorReportesTransaccionesYCambios");
             }else{
-                request.getSession().setAttribute("sinDatos",true);
+                request.getSession().setAttribute((buscadorParaReportes.darTipoSituacion()==0)?"sinDatos":"errorBusqueda", true);                
                 if(request.getParameter("reporte").contains("DesdeCajero")){
                     response.sendRedirect("Trabajadores/Cajero/Reportes_Cajero.jsp");
                 }else{
@@ -147,17 +148,19 @@ public class GestorParametrosCliente extends HttpServlet{
     private void establecerListadoCuentaConMasDinero(HttpServletRequest request, HttpServletResponse response){
         try {
             int cuentaConMasDinero = buscadorParaReportes.buscarCuentaConMasDinero((String) request.getSession().getAttribute("codigo"));
-            List<Transaccion> listadoTransacciones;
+            List<Transaccion> listadoTransacciones = new LinkedList<>();
             
             if(cuentaConMasDinero!=-1){//par mi que debería ser !=-1 puesto que cuando es así todo salió bien... pero ya lo había modificado y terminé dejándolo así, no se por qué :v
                 listadoTransacciones = buscadorParaReportes.buscarTransaccionesDeCuenta(cuentaConMasDinero, request.getParameter("fechaInicial"), request.getParameter("fechaFinal"));
-                listadoTransacciones = buscadorPersonaEncargada.buscarNombreCajeroACargo(listadoTransacciones);
+                listadoTransacciones = buscadorPersonaEncargada.buscarNombreCajeroACargo(listadoTransacciones);//también tendría que haber colocado para las transacciones pero si se hace todo como se debe y no se borran los registros de las trasnacciones de la base de datos, no tendría por qué suceder...                
+            }
+            if(listadoTransacciones.isEmpty()){//puesto que si el error se da al buscar la cuenta, el listado estará vacío y si el error surge al buscar el listado de transacciones el método devolverá una lista vacía xD así que pum xD 2 pájaros de un tiro xD
+                request.getSession().setAttribute((buscadorParaReportes.darTipoSituacion()==-1 || cuentaConMasDinero==-1)?"errorBusqueda":"sinDatos", true);                
+                response.sendRedirect("Cliente/Reportes_Cliente.jsp");
+            }else{
                 request.getSession().setAttribute("listado", listadoTransacciones);
                 response.sendRedirect("gestorReportesTransaccionesYCambios");
-            }else{
-                request.getSession().setAttribute("sinDatos",true);
-                response.sendRedirect("Cliente/Reportes_Cliente.jsp");
-            }            
+            }        
         } catch (IOException e) {
             System.out.println("Error al establecer el listado de la CUENTAS CON MÁS DINERO -> "+ e.getMessage());
         }
@@ -178,7 +181,7 @@ public class GestorParametrosCliente extends HttpServlet{
                 request.getSession().setAttribute("listado", listadoSolicitudes);                    
                 response.sendRedirect("../gestorReportesAsociaciones");
             }else{
-                request.getSession().setAttribute("sinDatos",true);
+                request.getSession().setAttribute((buscador.darTipoSituacion()==-1)?"errorBusqueda":"sinDatos", true);                
                 response.sendRedirect("Reportes_Cliente.jsp");
             }//aunque, pensando bien, es redundante puesto que deshabilito el btn si es que no existen el tipo de solicitudes que el reporte en cuestión muestra...
         } catch (IOException e) {

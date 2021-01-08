@@ -45,7 +45,7 @@ public class BuscadorParaReportesCliente {
         }catch(SQLException | NumberFormatException e){
             System.out.println("Error al buscar Cta con + dinero -> "+e.getMessage());
         }
-        return -1;
+        return -1;//esto si hubo error o no hay cuenta con más dinero...
     }
     
     public int[] buscarNumerosDeCuentasDeDueno(String codigoDueno){
@@ -75,20 +75,22 @@ public class BuscadorParaReportesCliente {
         int[] numeroCuentas = buscarNumerosDeCuentasDeDueno(codigoDueno);
         List<Transaccion> listaTransaccionesTodasLasCuentas = new LinkedList<>();
        
-        for (int cuentaActual = 0; cuentaActual < numeroCuentas.length; cuentaActual++) {
-            List<Transaccion> listaTransaccionesHalladas = buscarTransaccionesDeCuenta(numeroCuentas[cuentaActual], String.valueOf(herramientas.darAnioActual())+"-01-01", herramientas.darFechaActualString());//lo hago así por el hecho de que no existirán transcciones de días que aún no hayan pasado :v xD
+        if(tipoSituacion == 1){
+            for (int cuentaActual = 0; cuentaActual < numeroCuentas.length; cuentaActual++) {
+                List<Transaccion> listaTransaccionesHalladas = buscarTransaccionesDeCuenta(numeroCuentas[cuentaActual], String.valueOf(herramientas.darAnioActual())+"-01-01", herramientas.darFechaActualString());//lo hago así por el hecho de que no existirán transcciones de días que aún no hayan pasado :v xD
             
-            for (int transaccionActual = 0; transaccionActual < ((listaTransaccionesHalladas.size()<=15)?listaTransaccionesHalladas.size():15); transaccionActual++) {
-                listaTransaccionesTodasLasCuentas.add(listaTransaccionesHalladas.get(transaccionActual));
-            }                        
-        }
-        return listaTransaccionesTodasLasCuentas;                       
+                for (int transaccionActual = 0; transaccionActual < ((listaTransaccionesHalladas.size()<=15)?listaTransaccionesHalladas.size():15); transaccionActual++) {
+                    listaTransaccionesTodasLasCuentas.add(listaTransaccionesHalladas.get(transaccionActual));
+                }                        
+            }
+        }        
+        return listaTransaccionesTodasLasCuentas;//si no salió bien regresará una lista vacía
     }
     
     public List<Transaccion> buscarTodasLasTransacciones(String numeroCuenta, String fechaInicial, String fechaFinal){
         int numeroDeCuenta = Integer.parseInt(numeroCuenta);
         List<Transaccion> transaccionesDeCuenta = buscarTransaccionesDeCuenta(numeroDeCuenta, fechaInicial, fechaFinal);
-        
+        //aquí no coloqué ningún if por el hecho de que al devolver un alista vacía simplemente el método no se exe y por ello NO PROBLEM XD
         double saldoActual = buscarSaldoActual(numeroDeCuenta);
         return analizador.hallarSaldosPorTransacciones(saldoActual, numeroDeCuenta, transaccionesDeCuenta);            
     }//ya solo faltaría introducirlo en el método para hallar el nombre de los cajeros responsables de la transacción...       

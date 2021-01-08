@@ -41,7 +41,7 @@
             <form method="POST" action="Reportes_Gerente.jsp">
                 <center><!--asumo que por medio del nombre podré mandar a la clase que se encarga de traer los reportes [o clases, puesto que algunos requieren de tiepo s de obj que no tienen relación, si es así necesitaría 1 por cada grupo general... bueno, ya veremos xD] qué tipo de reporte es el que quiero..-->
                     <button type ="submit" name="reporte" value="Gerente_HistorialCambiosPropios" <%=(buscadorExistencia.haRealizadoCambiosPropios((String)request.getSession().getAttribute("codigo"))?"":"disabled")%>><img  src="../../img/iconos_Billeton/Historial.png"><br/>Historial <br/>de cambios<br/>propios</button>
-   <!--LISTO-->     <button type ="submit" name="reporte" value="Usuario_HistorialCambiosUsuarios"><img  src="../../img/iconos_Billeton/Historial.png"><br/>Historial <br/>de cambios</button><!--por los break entonces solo tendría que colocar los case de tal forma que no llegue a afectar a otro que posea a más de un caso [en especial de usuarios] para establecer los parámetros... xD[si es de que hay otro con más de un tipo de personales xD]-->
+   <!--LISTO-->     <button type ="submit" name="reporte" value="Usuario_HistorialCambiosUsuarios"><img  src="../../img/iconos_Billeton/Historial.png"><br/>Historial <br/>de cambios<br/>demás usuarios</button><!--por los break entonces solo tendría que colocar los case de tal forma que no llegue a afectar a otro que posea a más de un caso [en especial de usuarios] para establecer los parámetros... xD[si es de que hay otro con más de un tipo de personales xD]-->
    <!--LISTO-->     <button type ="submit" name="reporte" value="MenorMonto_ClientesConMayoresTransacciones"><img  src="../../img/iconos_Billeton/Transaccion.png"><br/>Clientes <br/>con Transacciones<br/>Mayores</button><!--Estos que involucran Clientes no le pondré una revisión previa puesto que para deshabilitarlos tendría que NO existir clientes y eso no es posible puesto que la página LOgin solicita la carga de datos y siempre se caerá a esta página si es que no se ha logeado el usuario en cuestión...-->
    <!--LISTO-->     <button type ="submit" name="reporte" value="MenorSuma_ClientesMayoresSumasTransaccionales"><img  src="../../img/iconos_Billeton/Transaccion.png"><br/>Clientes <br/>con Mayores<br/>Transacciones Sumadas</button><br/><br/>
    <!--LISTO-->     <button type ="submit" name="reporte" value="Nada_ClientesMasDinero"><img  src="../../img/iconos_Billeton/Dinero.png"><br/>Clientes <br/>con Más<br/>Dinero</button><!--Si basta con enviar un MAP NULL cuando un rep no requiera de paráms xD xD, imagino que es porque como no teiene nada que revisar entonces ni siquiera se da cta que el map es null xD, pero como debe enviarse algo entonces por eso se agrega xD bueno aunque eso permite que se pueda generalizar xD... pero si AHORA QUE RECUERDO no enviaste un map null por la horaActual :0 entonces puede que no se arregle con enviar un map null cuando no se requieran paráms :v-->
@@ -62,7 +62,7 @@
                             <form id="formulario" action="../../gestorParametrosGerente" method="POST">
                                 <input type="text" name="reporte" value="<%=request.getParameter("reporte")%>" hidden>                                
                                 
-                                <input type="radio" name="tipoUsuario" value ="Cliente" id="radio1" class="tipoUsuario" checked onclick="esconderOtrosUsuarios()">
+                                <input type="radio" name="tipoUsuario" value ="Cliente" id="radio1" class="tipoUsuario" onclick="esconderOtrosUsuarios()" checked>
                                 <label for="radio1">Cliente</label> 
                             
                                 <input type="radio" name="tipoUsuario" value ="Cajero" id="radio2" class="tipoUsuario" onclick="esconderOtrosUsuarios()">
@@ -70,11 +70,13 @@
                                 
                                 <h4>* Código o Nombre de Usuario</h4>
                                 <input type="search" list="listaUsuarios" name="datosUsuario" required><!--No asocie la lista porque en google se mira feo... pues siempre muestra el listado completo y eso no es lo que quiero, sino que sea como en firefox, muestra el listado de las coincidencias cuando se ha escrito algo, de lo contrario no...-->                                
-                                <datalist id="listaUsuarios">                                  
+                                <select id="usuariosExistentes" hidden>                                        
                                     <%for(int usuarioActual=0; usuarioActual<buscadorParaReportesTrabajador.darNumeroDeClientes(); usuarioActual++){%>                                    
-                                         <option id="<%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"Cliente":"Cajero"%>" value="<%=listadoUsuarios.get(usuarioActual).getCodigo()%> <%=listadoUsuarios.get(usuarioActual).getNombre()%>" <%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"":"hidden"%>> </option>                                       
-                                    <%}%>
-                                </datalist><br/><br/>                                                             
+                                        <option id="<%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"Cliente":"Cajero"%>" value="<%=listadoUsuarios.get(usuarioActual).getCodigo()%> <%=listadoUsuarios.get(usuarioActual).getNombre()%>"> </option>                                       
+                                   <%}%>
+                                </select>
+                                
+                                <datalist id="listaUsuarios"></datalist><br/><br/>                                                             
                                 <input id="boton" type="submit" value="ACEPTAR">                                     
                            </form>                                                      
                        </div>
@@ -181,14 +183,21 @@
             }//NICE XD
         
              function esconderOtrosUsuarios(){
-                var usuarios = document.getElementById("listaUsuarios").options;                
-                var seleccionado = (document.getElementByName("tipoUsuario")[0].checked)?document.getElementByName("tipoUsuario")[0]: document.getElementByName("tipoUsuario")[1];                
+                var usuariosExistentes = document.getElementById('usuariosExistentes').options;                
+                var seleccionado = (document.getElementByName('tipoUsuario')[0].checked)?document.getElementByName('tipoUsuario')[0]: document.getElementByName('tipoUsuario')[1];                
+                var usuariosAMostrar = document.getElementById('listaUsuarios');
                 
-                for (var elementoActual = 0; elementoActual < usuarios.length; elementoActual++) {
-                    if(usuarios[elementoActual].id!== seleccionado.value){
-                        usuarios[elementoActual].hidden = true;                        
-                    }else{
-                        usuarios[elementoActual].hidden = false;                                               
+                for (let opcionActual = cuentas.options.length; opcionActual >= 0; opcionActual--) {//a ver si no da un index of, por empezar por un valor = al tamaño y no por (tam -1)
+                    usuariosAMostrar.remove(opcionActual);
+                }         
+                
+                for (let elementoActual = 0; elementoActual < usuariosExistentes.length; elementoActual++) {
+                    if(usuariosExistentes[elementoActual].id === seleccionado.value){
+                        const opcionUsuario = document.createElement('option');//para que se puedan mostar las op que corresponden xD
+                        const valorUsuario = usuariosExistentes[elementoActual].value;
+                        opcionUsuario.value = valorUsuario;
+                        opcionUsuario.text = valorUsuario;
+                        usuariosAMostrar.appendChild(opcionUsuario);                            
                     }
                 }//y así debería hacer invisibles las opciones de los usuarios que no necesito x|
             }             
@@ -218,6 +227,12 @@
             <script src="../../js/sweetInformativo.js"></script>
             <script src="js/sweetInformativo.js"></script>
            <%request.getSession().removeAttribute("sinDatos");
-       }%>        
+       }else{%>        
+            <input type="text" name="tipoMsje" value="errorBusqueda" hidden>         
+            <script src="../../js/sweetError.js"></script>
+            <script src="js/sweetError.js"></script>
+           <%request.getSession().removeAttribute("errorBusqueda");
+       }%>
+       
     </body>
 </html>

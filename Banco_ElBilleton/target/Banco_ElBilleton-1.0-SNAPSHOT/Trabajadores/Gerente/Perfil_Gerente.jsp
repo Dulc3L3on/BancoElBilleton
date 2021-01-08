@@ -43,10 +43,10 @@
                             </tr>
                             <tr>
                                 <th>
-                                    <input type="text" id="datosUsuario"  name="datosActualizar" placeholder="Nombre" value="<%=(gerente!=null)?gerente.getNombre():""%>"  required>
+                                    <input type="text" id="datosUsuario"  name="datosActualizar" placeholder="Nombre" value="<%=(gerente!=null)?gerente.getNombre():""%>" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"readonly"%>  required>
                                 </th>
                                 <th>
-                                    <input type="text" id="datosUsuario" name="datosActualizar" placeholder="Contraseña" value="<%=(gerente!=null)?gerente.getPassword():""%>"><!--por ser gerente se le dará el privilegio de poder crear una contraseña personalizada para él xD-->
+                                    <input type="text" id="datosUsuario" name="datosActualizar" placeholder="Contraseña" value="<%=(gerente!=null)?gerente.getPassword():""%>" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"readonly"%>><!--por ser gerente se le dará el privilegio de poder crear una contraseña personalizada para él xD-->
                                 </th>                                  
                             </tr>
                                 <tr> 
@@ -62,7 +62,7 @@
                                         <input type="number" id="DPI"  name="datosActualizar" placeholder="DPI" maxlength="13" value="<%=(gerente!=null)?gerente.getDPI():""%>" style="width: 275px; height: 35px;" readonly>
                                     </th>                                
                                     <th>
-                                        <input type="text" id="datosUsuario"  name="datosActualizar" placeholder="Direccion" value="<%=(gerente!=null)?gerente.getDireccion():""%>" required>
+                                        <input type="text" id="datosUsuario"  name="datosActualizar" placeholder="Direccion" value="<%=(gerente!=null)?gerente.getDireccion():""%>" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"readonly"%> required>
                                     </th>                                   
                                 </tr>
                                 <tr>
@@ -78,7 +78,7 @@
                                         <input type="text" id="datosUsuario" name="datosActualizar" placeholder="Genero" value="<%=(gerente!=null)?gerente.getSexo():""%>" readonly> 
                                     </th>                             
                                     <th>
-                                        <select name="datosActualizar" id="turno" style="width: 293px; height: 40px;">
+                                        <select name="datosActualizar" id="turno" style="width: 293px; height: 40px;" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"disabled"%>>
                                             <option value="matutino" <%=(gerente!=null)?(gerente.getTurno().equals("matutino")?"selected":""):""%>>Matutino</option><!--no creo que sea necesario poner un vacío en el valor... creo que con no declararlo basta...-->                                    
                                             <option value="vespertino" <%=(gerente!=null)?(gerente.getTurno().equals("vespertino")?"selected":""):""%>>Vespertino</option>
                                         </select><!--el turno que tiene asignado en ese momento lo mostrarás por medio del dato almacenado en la DB, de tal forma que si es == a matutino [p.ej] entonces que ese adquiera el valor selected si no pues nada es decir ""... simi a lo que hiciste para dejar marcada la opción del menú seleccionada de las páginas principales... [es decir con un ternario...]-->
@@ -90,7 +90,7 @@
                                     </th>                                    
                                 </tr>
                                 <th>
-                                    <input type="email" id="datosUsuario" name="datosActualizar" placeholder="Correo electrónico" value="<%=(gerente!=null)?(gerente.getCorreo().equals("???")?"":gerente.getCorreo()):""%>" required> 
+                                    <input type="email" id="datosUsuario" name="datosActualizar" placeholder="Correo electrónico" value="<%=(gerente!=null)?(gerente.getCorreo().equals("???")?"":gerente.getCorreo()):""%>" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"readonly"%> required> 
                                 </th>                             
                                 <tr>
                                     <th colspan="2">
@@ -100,7 +100,7 @@
                                 <tr>
                                     <th colspan="2">
                                         <%if(gerente!=null){%>
-                                            <input type="submit" id="acciones" name="accion"  value="MODIFICAR">          
+                                        <input type="submit" id="acciones" name="accion"  value="MODIFICAR" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"hidden"%>>          
                                         <%}%>
                                     </th>
                                 </tr>

@@ -79,7 +79,7 @@ public class GestorParametrosCajero extends HttpServlet{
                 request.getSession().setAttribute("listado", transaccionesAtendidas);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD                        
                 response.sendRedirect((request.getParameter("reporte").contains("Intervalo"))?"gestorReportesTransaccionesYCambios":"../../gestorReportesTransaccionesYCambios");
             }else{
-                request.getSession().setAttribute("sinDatos",true);
+                request.getSession().setAttribute((buscadorParaReportes.darTipoSituacion()==0)?"sinDatos":"errorBusqueda", true);                
                 if(tipoListado.contains("Intervalo")){
                     response.sendRedirect("Trabajadores/Cajero/Reportes_Cajero.jsp");//supongo, puesto que con el gerente fue necesario, al igual que ocn el CLiente, ya que aquí se hace una redirección con el response a partir de una redirección previa para mostrar el form...
                 }else{

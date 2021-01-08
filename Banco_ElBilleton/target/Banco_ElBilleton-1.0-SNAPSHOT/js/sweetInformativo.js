@@ -85,13 +85,11 @@ switch(document.getElementById("tipoMsje").value){
             position: 'center',
             icon: 'warning'
         })
-    break;
-    
-    
+    break;      
     
     case "sinDatos":
         Swal.fire({
-            title:'No existen registros de transacciones\n\
+            text:'No existen registros de transacciones\n\
                    para el intervalo de tiempo especificado',
             toast: true,            
             position: 'bottom-end',

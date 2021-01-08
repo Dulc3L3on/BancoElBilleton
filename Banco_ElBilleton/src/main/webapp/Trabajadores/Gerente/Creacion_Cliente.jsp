@@ -30,14 +30,15 @@
         <%}else{%>
         
             <select id="DPIsRegistrados" hidden>
-                <%usuarios = buscador.buscarUsuarios("Cliente", "codigo");
+                <%for (int tipoUsuarioActual = 0; tipoUsuarioActual < 3; tipoUsuarioActual++) {                                            
+                    usuarios = buscador.buscarUsuarios(((tipoUsuarioActual==0)?"Cliente":(tipoUsuarioActual==1)?"Cajero":"Gerente"), "codigo");                  
                     if(usuarios!=null){
                         for(int usuarioActual=0; usuarioActual< usuarios.length; usuarioActual++){%>                    
                             <option value="<%=usuarios[usuarioActual].getDPI()%>"></option>
                         <%}%>
                     <%}%>            
-            </select>
-            <input type="text" id="msjeDPIrepetido" value="El CUI ingresado se encuentra registrado!" style="color: red; font-size: 15px; position: relative; margin-right: 15px; margin-top: 165px;" hidden>                
+                <%}%>
+            </select>                                    
             
             <center>
                 <form method="POST" enctype="multipart/form-data" action="../../cargaDPI">
@@ -54,6 +55,9 @@
                                 </th>
                                 <th>
                                     <h5>* CUI</h5>
+                                    <div id="aviso" style="color: red; font-size: 15px;" hidden>                                   
+                                        <h4>El CUI le pertenece a agluien más</h4>                                                                   
+                                    </div>          
                                 </th>
                             </tr>
                             <tr>                            
@@ -62,7 +66,7 @@
                                 </th>
 
                                 <th>
-                                    <input type="number" name="datosUsuario" id="CUI" onblur="verificarDPIcoincidente(this)" minlength="8" maxlength="13" min="0" required><!--yo recuerdo que el pasaporte tiene como mínimo 8#...-->
+                                    <input type="number" name="datosUsuario" id="CUI" onblur="verificarDPIcoincidente(this)" minlength="8" maxlength="13" min="0" required><!--yo recuerdo que el pasaporte tiene como mínimo 8#...-->                                    
                                 </th>
                             </tr>
                             <tr id="nombresDatos">                            
@@ -103,7 +107,7 @@
                             <tr id="nombresDatos">                            
                                 <th>
                                     <h5>* PDF DPI</h5>
-                                </th>                            
+                                </th>                                   
                             </tr>
                             <tr>                            
                                 <th>
@@ -118,17 +122,17 @@
         <%}%>
     <script>
         function verificarDPIcoincidente(inputDPI){
-            var DPIsRegistrados = document.getElementById("DPIsRegistrados");
+            var DPIsRegistrados = document.getElementById("DPIsRegistrados").options;
             
-            if(DPISRegistrados!==null){
-                for(int dpiActual =0; dpiActual< DPIsRegistrados.length; dpiActual++){
-                    if(inputDPI.value === DPIsRegistrados.value){//no creo qu ede error con el hecho de que tenga valor nulo, porque de todos modos no sería igual...
+            if(DPIsRegistrados!==null){
+                for(let dpiActual =0; dpiActual< DPIsRegistrados.length; dpiActual++){
+                    if(inputDPI.value === DPIsRegistrados[dpiActual].value){//no creo qu ede error con el hecho de que tenga valor nulo, porque de todos modos no sería igual...
                         inputDPI.value="";
-                        document.getElementById("msjeDPIrepetido").hidden="false";
+                        document.getElementById("aviso").hidden= false;
                         return;
                     }                
                 } 
-                document.getElementById("msjeDPIrepetido").hidden="true";                
+                document.getElementById("aviso").hidden= true;                
             }            
         }
     </script>

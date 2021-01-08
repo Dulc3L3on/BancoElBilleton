@@ -129,7 +129,7 @@ public class GestorParametrosDelGerente extends HttpServlet{
             List<Cambio> listadoCambios = buscadorParaReportesGerente.buscarCambios((tipoListado.contains("Propios"))?"Gerente":request.getParameter("tipoUsuario"),
                     (request.getParameter("datosUsuario")!=null?request.getParameter("datosUsuario").split(" ")[0]: (String)request.getSession().getAttribute("codigo")));
             
-            if(listadoCambios!=null && !listadoCambios.isEmpty()){
+            if(buscadorParaReportesGerente.darTipoSituacion()==1){
                 if(request.getParameter("datosUsuario")!=null){
                     buscadorPersonaEncargada.buscarGerenteACargo(listadoCambios);//NO es necesario que este método devuelva algo por el hecho de ser un cb por referencia y NO por valor... xD
                 }                
@@ -137,7 +137,7 @@ public class GestorParametrosDelGerente extends HttpServlet{
                 request.getSession().setAttribute("listado", listadoCambios);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD        
                 response.sendRedirect(((request.getParameter("desdeElHistorial")!=null || tipoListado.contains("Usuarios"))?"gestorReportesTransaccionesYCambios":"../../gestorReportesTransaccionesYCambios"));//esto será para probar si funciona lo que se hizo con el instanceof, para reducir el número de clases para establecer el listado...
             }else{
-                request.getSession().setAttribute("sinDatos",true);
+                request.getSession().setAttribute((buscadorParaReportesGerente.darTipoSituacion()==0)?"sinDatos":"errorBusqueda", true);                
                 response.sendRedirect((request.getParameter("desdeElHistorial")!=null)?"Trabajadores/Gerente/Historial.jsp":((tipoListado.contains("Propios"))?"Reportes_Gerente.jsp":"Trabajadores/Gerente/Reportes_Gerente.jsp"));//esta dir está bien puesto que no tiene subform como para que le hayn reducido la profundidad
             }                                           
          }catch(IOException e) {
@@ -160,10 +160,10 @@ public class GestorParametrosDelGerente extends HttpServlet{
             }                
             
             if(!listadoClientes.isEmpty()){
-              request.getSession().setAttribute("listado", listadoClientes);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD        
+                request.getSession().setAttribute("listado", listadoClientes);//recuerda que todos los atrib del listado deben llamarse igual porque solo habrá 1 gestor para enviar los datos al JR... xD        
                 response.sendRedirect((tipoListado.contains("Dinero"))?"../../gestorReportesUsuarios":"gestorReportesUsuarios");//esto será para probar si funciona lo que se hizo con el instanceof, para reducir el número de clases para establecer el listado...
             }else{//creo que tendré que ocolocar un operador ternario para establecer la dirección con la profundidad que requiere, puesto que los clientes con más dinero no requieren de un subform...
-                request.getSession().setAttribute("sinDatos",true);
+                request.getSession().setAttribute((buscadorParaReportesGerente.darTipoSituacion()==0)?"sinDatos":"errorBusqueda", true);
                 response.sendRedirect((tipoListado.contains("Dinero"))?"Reportes_Gerente.jsp":"Trabajadores/Gerente/Reportes_Gerente.jsp");
             }//lo mismo digo par este xD, porque puede que funcione para todos los que usan subfiorm pero para el que no [clientes + Dinero] no xD                        
          }catch(IOException e){
@@ -179,7 +179,7 @@ public class GestorParametrosDelGerente extends HttpServlet{
                 request.getSession().setAttribute("listado", listadoTransaccionesRealizadas);
                 response.sendRedirect("gestorReportesTransaccionesYCambios");
              }else{
-                request.getSession().setAttribute("sinDatos",true);
+                request.getSession().setAttribute((buscadorParaReportesGerente.darTipoSituacion()==0)?"sinDatos":"errorBusqueda", true);
                 response.sendRedirect("Trabajadores/Gerente/Reportes_Gerente.jsp");
             }                          
          }catch(IOException e){
@@ -193,8 +193,8 @@ public class GestorParametrosDelGerente extends HttpServlet{
             if(!cajeroUnico.isEmpty()){
                 request.getSession().setAttribute("listado", cajeroUnico);
                 response.sendRedirect("gestorReportesUsuarios");
-             }else{
-                request.getSession().setAttribute("sinDatos",true);
+             }else if(cajeroUnico.isEmpty() || cajeroUnico.get(0)== null){//puesto que aunque hubieran varios con una misma cantidad devolvería el primero...
+                request.getSession().setAttribute("errorBusqueda",true);
                 response.sendRedirect("Trabajadores/Gerente/Reportes_Gerente.jsp");
             }                         
          }catch(IOException e){
@@ -226,7 +226,7 @@ public class GestorParametrosDelGerente extends HttpServlet{
                 request.getSession().setAttribute("listado", listadoDeTrabajador);
                 response.sendRedirect("gestorReportesUsuarios");                
              }else{
-                request.getSession().setAttribute("sinDatos",true);
+                request.getSession().setAttribute("errorBusqueda",true);//puesto que es un hecho que siempre que se haya redireccionado al JSP del resumen de Creación es un hecho de que el JR no debe salir vacío...
                 response.sendRedirect("Trabajadores/Gerente/Resultado_Creacion.jsp");
              }                          
          }catch(IOException e){
