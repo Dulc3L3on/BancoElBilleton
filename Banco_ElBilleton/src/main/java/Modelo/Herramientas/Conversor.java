@@ -59,7 +59,8 @@ public class Conversor {
             resultado.first();
                 
             for (int cuentaActual = 0; cuentaActual < cuentas.length; cuentaActual++) {                                           
-                cuentas[cuentaActual] = buscador.buscarCuenta(String.valueOf(resultado.getInt(1)));            
+                cuentas[cuentaActual] = buscador.buscarCuenta(String.valueOf(resultado.getInt(1)));         
+                resultado.next();
             }                  
             return cuentas;
         } catch (SQLException e){

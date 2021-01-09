@@ -140,7 +140,7 @@
                             var tipoDestino = document.getElementById('tipoTransferencia').value;
     
                             if(tipoDestino !== null){
-                                if(tipoDestino === 'Propia'){
+                                if(tipoDestino === 'propia'){//este es el valor del input text en el que se almacena el tipo de de cta destino seleccionada antes de mostrar los demás detalles de la transferncia...
                                     var origen = document.getElementsByClassName('origen');
                                     var opcionesOrigen = document.getElementsByClassName('origen').options;//Esto es por si acaso quieres eliminarla en lugar de deshabilitarla... xD
                                     var destino = document.getElementsByClassName('destino');                                    
