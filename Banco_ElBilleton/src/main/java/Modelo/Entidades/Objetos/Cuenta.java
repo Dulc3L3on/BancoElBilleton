@@ -19,6 +19,7 @@ public class Cuenta implements Serializable{
     private double monto;
     private String fechaCreacion;
     private String estado;
+    private String tipo;
     
     public Cuenta(int elNumeroCuenta, int elCodigoDueno, double elMonto, String laFechaCreacion, String elEstado){
         numeroCuenta = elNumeroCuenta;
@@ -65,4 +66,7 @@ public class Cuenta implements Serializable{
         return fechaCreacion;
     }
     
+    public String getTipo(){
+        return "ahorro";
+    }
 }

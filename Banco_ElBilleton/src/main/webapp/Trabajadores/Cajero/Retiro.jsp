@@ -78,7 +78,7 @@
                                 <tr>
                                     <th colspan="2">     
                                     <center>
-                                         <iframe src="<%=GestorCargaDPI.BASE_PATH+"/"+cliente.getPathDPI()%>" width="780px" height="300px"></iframe>                                                                              
+                                         <iframe src="<%="/Banco_ElBilleton/Trabajadores/Gerente/DPIsClientes/"+cliente.getPathDPI()%>" width="780px" height="300px"></iframe><!--no es necesario colocar operadores ternarios por si acaso el obj llegara a ser null puesto que ya se tiene la condi de que ctas != null y eso implica que el cliente haya sido != null xD-->
                                     </center>                                
                                 </th>
                                 </tr>                            

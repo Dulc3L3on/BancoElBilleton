@@ -5,9 +5,12 @@
  */
 package Controladores;
 
+import Modelo.Entidades.Objetos.Cambio;
 import Modelo.Entidades.Usuarios.Cajero;
 import Modelo.Entidades.Usuarios.Gerente;
+import Modelo.Herramientas.CuerpoEmail;
 import Modelo.Herramientas.Kit;
+import Modelo.ListaEnlazada;
 import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.Modificador;
 import java.io.IOException;
@@ -29,6 +32,9 @@ public class GestorModificacionCajero extends HttpServlet{
     boolean fueActualizado=false;      
     String[] datos;        
     Kit herramienta = new Kit();
+    GestorEnvioEmail envioMail = new GestorEnvioEmail();//si no funciona entonces igual que en el resumen de creación colocarás un btn para que el gerente lo presione para realizar el envío... [digo esto por el hecho de que la clase es un servlet...]
+    CuerpoEmail cuerpo = new CuerpoEmail();//sea que funcione usando una instancia del gestor que envía los mails o no xD esto si debe hacerse aquí pues si no, solo podrá enviar un tipo de correo este gestor, y así no debería ser xD
+    ListaEnlazada<ListaEnlazada<Cambio>> listaDeListadosDeCambio;
     
      @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){                                                                           
@@ -48,7 +54,18 @@ public class GestorModificacionCajero extends HttpServlet{
                 //Aquí tendría que ir el if para revisar si el valor del checkbox !=null para llamar al método de creación aleatoria y de esa forma la posición en datos que contenía la antigua, actualice su valor para hacer bien la comparación...               
                 gerente = (Gerente) buscador.buscarUsuario("Gerente", "codigo", (String)request.getSession().getAttribute("codigo"));//el id que devuelve es el id de la sesión... pero aquí se requiere el de la DB... [quizá el otro sea útil para evitar que abra seasión más de una vez...]
                 gerente.hallarCambiosCajero((Cajero) request.getSession().getAttribute("usuarioBuscado_"+ request.getParameter("tipoTrabajador")), datos);//y así por medio del usuario vuelto atributo de sesión, se obtienen lso datos del usuario antiguo... en este caso los del cajero...            
-                request.setAttribute("cambios", gerente.darListaListados());                
+                listaDeListadosDeCambio = gerente.darListaListados(); 
+                request.getSession().setAttribute("redireccionPorEnvioMail", "???");//debe hacerse así puesto que para este envío de mail en específico puede darse o no darse pero sin importar si se envíe o no un correo DEBE! mostrarse el JSP de historial xD [lo mismo para todas aquellas pag que tengan que no tengan seguro el hecho de que se llegue al gestor para el enío de mail cuando el usuario posea un correo electrónmico y deba redireccionar a aguna página xD es decir y no se quiera que se quede en blanco la página [y el usuario no sepa que sucedió xD] cuando no se envíe el correo xD
+                
+                //el primero en addse es el de exitos xD
+                if(!listaDeListadosDeCambio.estaVacia()){
+                    if(listaDeListadosDeCambio.obtnerPrimerNodo().contenido.obtenerNombre().equals("exitosos")){    //puesto que no tiene histe que se le envíe un correo por haber surgido puros fallos xD 
+                        request.getSession().setAttribute("cuerpo", cuerpo.darCuerpoPorModificacion(listaDeListadosDeCambio.obtnerPrimerNodo().contenido));
+                        envioMail.doPost(request, response);//tambbién puede que de error por el hecho de que el gestor de envío de mail redirige al resultado de creacion del gernete xD pero eso se puede componer xD estableciencod otro atributo xD y agarrandolo, pum xD                
+                    }//si por el hecho de haberse determinado la clase como un servlet se queda allá y ya no regresa [por no usar un dispatcher para regresar acá por así decirlo] entonces en lugar de mandar los ??? tendrás que mandar la dirección a la que se redireccionaba desde aquí y establecer el atributo con el listado antes de llegar al bloque del if xD
+                }                
+                
+                request.setAttribute("cambios", listaDeListadosDeCambio);                
                 request.getSession().removeAttribute("usuarioBuscado_"+ request.getParameter("tipoTrabajador"));//esto lo había colocardo para que no se mostran los datos del recien modificado cuando todo saliera bien...
             }else{                                                                                                                                  
                 request.setAttribute("mostrarError", true);//puesto que cuando no se agregue correctamente un cambio, será agregado uno por uno a la página...                

@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.CuerpoEmail"%>
 <%@page import="Modelo.Entidades.Usuarios.Usuario"%>
 <%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,7 +17,8 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
         <link rel="icon" href="img/Logos/Favicon_Banco_ElBilleton.ico"><!--se que no se mostrará puesto que no se mostrará por el hecho de ser una página interna, pero mejor se lo agrego xD-->        
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
-           Usuario usuario;%>
+           Usuario usuario;
+           CuerpoEmail cuerpo = new CuerpoEmail();%>
         
         <title>ResultCreation</title>
     </head>
@@ -26,7 +28,7 @@
         }else if(request.getAttribute("mostrarMsjeEnvio")!= null){
             if((boolean)request.getAttribute("mostrarMsjeEnvio") == true){%>
                 <input type="text" id="tipoMsje" value="exitoEnvioMail" hidden>
-                <script src="js/sweetInformativo.js"></script><!--puesto que se envía desde el gestor de reportes al cual se llegó de manera "directa" por lo cual redirecciona de manera profunda...-->   
+                <script src="js/sweetInformativo.js"></script><!--puesto que se envía desde el gestor de reportes al cual se llegó de manera "directa" por lo cual redirecciona de manera profunda...ammm creo que este comentario no corresponde a l alínea asignada xD-->   
           <%}%>
         <%}else{
             if(request.getSession().getAttribute("sinDatos")!=null){%><!--en qué gestor [servlet] se establece este msje ?? :v no me acuerdo y no lo envuentro...-->
@@ -120,7 +122,9 @@
                             <input type="text" name="codigoUsuario" value="<%=usuario.getCodigo()%>" hidden>                                            
                         
                             <button type ="submit" id="submit" name="reporte" value="<%="encargado_ResumenCreacion"+((request.getAttribute("turno")!=null)?"Trabajador":"Cliente")%>"><img  src="img/flechitaDescarga.png" style="width: 25px; height: 25px;"> DESCARGAR</button>    
-                            <%if(!request.getAttribute("correo").equals("???")){%><!--puesto que será null cuando nunca se haya establecido este valor o el valor sea nulo xD-->                            
+                            <%if(!request.getAttribute("correo").equals("???")){//<!--puesto que será null cuando nunca se haya establecido este valor o el valor sea nulo xD-->                            
+                                request.getSession().setAttribute("redireccionPorEnvioMail", "Trabajadores/Gerente/Resultado_Creacion.jsp");
+                                request.getSession().setAttribute("cuerpo", cuerpo.darCuerpoPorCreacion(((request.getAttribute("birth")!=null)?"Cliente":"Cajero"), usuario));%>
                                 <button type ="submit" id="submit" name="envio" value="resultadoCreacion_<%=usuario.getCodigo()+"_"+((request.getAttribute("birth")!=null)?"Cliente":"Cajero")%>" formaction="gestorEnvioEmail"><img  src="img/avionNegro.png" style="width: 25px; height: 25px;"> ENVIAR POR CORREO</button>    
                             <%}%>
                         </form>                         

@@ -5,7 +5,6 @@
  */
 package Modelo.Manejadores;
 
-import Modelo.Herramientas.ControladorIndices;
 import Modelo.ListaEnlazada;
 import Modelo.RegistrosAntiguos.ClasificadorEntidades;
 import java.io.File;

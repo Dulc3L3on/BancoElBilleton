@@ -8,7 +8,6 @@ package Controladores;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Trabajador;
 import Modelo.Entidades.Usuarios.Usuario;
-import Modelo.Herramientas.CuerpoEmail;
 import Modelo.Manejadores.DB.Buscador;
 import java.io.IOException;
 import java.util.Date;
@@ -35,12 +34,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/gestorEnvioEmail")
 public class GestorEnvioEmail extends HttpServlet{
-    private Buscador buscador = new Buscador();
-    private CuerpoEmail cuerpo = new CuerpoEmail();
+    private Buscador buscador = new Buscador();    
     private Usuario usuario;
     
    @Override
-   public void doPost(HttpServletRequest request, HttpServletResponse response) {
+   public void doPost(HttpServletRequest request, HttpServletResponse response) {//0-> asunto [tipoCorreo],  1-> codigoUsuario, -> tipoUsuario [cliente/ trabajador]
         try {
             String[] datosSubmit = request.getParameter("envio").split("_");
             
@@ -49,8 +47,15 @@ public class GestorEnvioEmail extends HttpServlet{
             }else{
                 usuario = (Trabajador) buscador.buscarUsuario(datosSubmit[2], "codigo", datosSubmit[1]);
             }            
-            request.setAttribute("mostrarMsjeEnvio", (enviarConGMail(usuario.getCorreo(), datosSubmit[0], cuerpo.darCuerpo(usuario, datosSubmit[0], datosSubmit[2]))));//se envía msje de éxito :) o fracaso :( xD
-            request.getRequestDispatcher("Trabajadores/Gerente/Resultado_Creacion.jsp").forward(request, response);//para no redireccionar a la otra pag solo par mostra eso xD, sino se puede, deplano que se tendrá que hacer así xD        
+            
+            if(!usuario.getCorreo().equals("???")){//puesto que después no será posibe ingresar un dato que no posea el formato que corresponde a los correos xD, y recuerda que basta con eso, es decir no es necesario que se haya ingresado uno real, solo uno válido xD
+                request.setAttribute("mostrarMsjeEnvio", (enviarConGMail(usuario.getCorreo(), datosSubmit[0], (String)request.getSession().getAttribute("cuerpo"))));//se envía msje de éxito :) o fracaso :( xD
+                request.getSession().removeAttribute("cuerpo");
+            
+                if(!request.getSession().getAttribute("redireccionPorEnvioMail").equals("???")){                
+                    request.getRequestDispatcher((String) request.getSession().getAttribute("redireccionPorEnvioMail")).forward(request, response);//para no redireccionar a la otra pag solo par mostra eso xD, sino se puede, deplano que se tendrá que hacer así xD        
+                }//no da problema el hecho de no removerlos puesto que siempre que se requieran, poseerán el valor correcto xD                        
+            }
             
         } catch (ServletException | IOException e) {
             System.out.println("Error al intentar ENVIAR el email -> "+e.getMessage());

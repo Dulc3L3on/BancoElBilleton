@@ -95,13 +95,13 @@ input, select{
 }
 
 .aceptada:hover{
-   border-radius: 5px;
+   border-radius: 3px;
    background-color: #D3EAD2; 
 }
 
 .denegada:hover{
-   border-radius: 5px;
-   background-color: palevioletred;
+   border-radius: 3px;
+   background-color: #E3A9B6;/*Rojito XD*/
 }
 
 #encabezado{

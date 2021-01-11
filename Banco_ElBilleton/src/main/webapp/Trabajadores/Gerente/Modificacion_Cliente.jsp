@@ -37,8 +37,8 @@
                       
                     <form method="POST" enctype="multipart/form-data" action="../../recargaDPI">
                         <center>
-                            <%if(cliente!=null){%>
-                                <iframe src="<%=(cliente!=null)?"/Banco_ElBilleton/Trabajadores/Gerente/DPIsClientes/"+cliente.getPathDPI():""%>" style="width:750px; height:270px; border: solid;"></iframe><!--pendiente-->
+                            <%if(cliente!=null){%><!--no es necesario este if xD por el operador ternario xD-->
+                                <iframe src="<%=(cliente!=null)?"/Banco_ElBilleton/Trabajadores/Gerente/DPIsClientes/"+cliente.getPathDPI():""%>" style="width:750px; height:270px; border: solid;"></iframe>
                             <%}%>
                         </center>  
                         <div id="contenedorGeneral">
@@ -133,7 +133,9 @@
                                     </th>
                                 </tr>
                             </table>
+                            
                             <%if(request.getSession().getAttribute("usuarioBuscado_Cliente")!=null){%>  
+                                <input type="text" name="envio" value="datosModificados_ <%=cliente.getCodigo()%>_Cliente" hidden>
                                 <input type="text" name="tipoUsuario" value="Cliente" hidden>
                                 <input type="text" name="datosUsuario" value="<%=cliente.getCodigo()%>" hidden>
                                 <input type="submit" id="submit" name="modificar" value="MODIFICAR CLIENTE">

@@ -27,7 +27,7 @@
     <body>
         <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){%>            
             <%response.sendRedirect(request.getContextPath() + "/Login.jsp");//el context, es para obtener la dirección raiz, es decir la que tiene solo el nombre del proyecto y el servidor... [o cviceversa mejor dicho xD]            
-        }else if(request.getSession().getAttribute("sinDatos")!=null){%>        
+        }else if(request.getSession().getAttribute("sinDatos")!=null){%><!--creo que este se colocó de más, porque aquí solo se llega desde los gestores de modificacion de cliente, cajero y gerente y en ninguno de ellos se estableció este atrib...-->
                 <input type="text" name="tipoMsje" value="sinDatos" hidden>         
                 <script src="../../js/sweetInformativo.js"></script>                
                <%request.getSession().removeAttribute("sinDatos");
@@ -114,6 +114,17 @@
                          <h3>Información intacta, sin cambios que mostrar</h3>
                   <%}%>                              
                 <%}%><!--iba a agregarle un sweet, pero es imposible que el registrador le mande un listado nulo al gerente al momento de darle los listados porque ya están inicializados, es imposible que sea null sin haber enviado el msje indicandp que salió algo mal en la actualización y por lo tanto haberse saltado el método del gerente y el establecimiento del atriubto...-->
+                  
+                <%if(request.getAttribute("mostrarMsjeEnvio")!=null){                    
+                        if((boolean)request.getAttribute("mostrarMsjeEnvio") == false){%><!--tienes que revisar esto por los datos que se miestran, es decir por si acaso ya no aparecen, lo cual no debeŕia suceder y si es así entonces se debería a la "remoción" del atributo del usuario correspondiente... pero hay que ver de primero xD-->
+                            <input type="text" id="tipoMsje" value="errorEnvioMail" hidden>
+                            <script src="js/sweetError.js"></script>   
+                      <%}else{%>
+                            <input type="text" id="tipoMsje" value="exitoEnvioMail" hidden>
+                            <script src="js/sweetInformativo.js"></script>
+                      <%}%>
+                <%}%>
+                
             <%}%> 
             </center>                          
        <%}%>      

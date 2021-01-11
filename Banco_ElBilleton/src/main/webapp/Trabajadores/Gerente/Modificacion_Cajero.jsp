@@ -124,8 +124,9 @@
                                     </th>
                                 </tr>
                             </table>
-                                        
+                            
                             <%if(request.getSession().getAttribute("usuarioBuscado_Cajero")!=null){%> 
+                                <input type="text" name="envio" value="datosModificados_ <%=cajero.getCodigo()%>_Cajero" hidden>            
                                 <input type="text" name="tipoUsuario" value="Cajero" hidden>
                                 <input type="text" name="datosUsuario" value="<%=cajero.getCodigo()%>" hidden>
                                 <input type="submit" id="submit" name="modificar" value="MODIFICAR CAJERO">

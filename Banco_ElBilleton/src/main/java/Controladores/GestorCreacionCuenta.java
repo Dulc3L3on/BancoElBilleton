@@ -33,6 +33,8 @@ public class GestorCreacionCuenta extends HttpServlet{
             cuenta = creador.crearCuenta(request.getParameterValues("datosCuenta"));
             if(cuenta!=null){
                 request.setAttribute("mostrarMsje", "correcto");
+                
+                
             }else{
                 request.setAttribute("mostrarMsje", "erroneo");
             }
@@ -44,8 +46,8 @@ public class GestorCreacionCuenta extends HttpServlet{
             System.out.println("Error al crear la CUENTA "+ ex.getMessage());
         }   
         
-    }
+    }    
     
-    
-    
+    //lo que debes hacer es hace rel intento de enviar el correo [digo así por el hecho de que puede o no tener correo] luego enviar el reporte y desde ahí redireccionar a la página de creación de cuentas después de haber cargado el archivo, aunque no se si funcione xD porque no se si cuadno se llega al gestor que exporta el reporte se puede regresar aquí habiendo instanciado el gestor de los parámetros del cliente... xD        
+    //en resumen con el envío del correo no hay problema, pero hay que ver si funciona así como dijiste [instanciando] el ggestor Parmas cliente y si no,entonces pribeas redireccionadndo desde ahí hacia l apágina de creación de cuentas xD si es que no da problemas con la carga del arch y si es que se lee después de haber echo el flush xD, sino, pues toca hacer el jsp para mostrar el resumen de creación xD aunque creo que da lo mismo, mejor ve a cenar xD
 }
