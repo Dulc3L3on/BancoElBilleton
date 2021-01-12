@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
  * @author phily
  */
 public class ClasificadorEntidades {    
-    CreadorEntidadesXML creadorEntidades = new CreadorEntidadesXML();
+    private CreadorEntidadesXML creadorEntidades = new CreadorEntidadesXML();
     
    public void clasificar(Document documento){//el XML está formado por raiz [hospital], categorias [admin, labo, pac...] y atribitos                          
        leerGerente(documento.getElementsByTagName("GERENTE"));//con esto se obtiene a todos los nodos que correspondan a la categoría "admin" en este caso...                                 

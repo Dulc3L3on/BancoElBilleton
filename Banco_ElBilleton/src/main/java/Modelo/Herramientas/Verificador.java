@@ -13,9 +13,9 @@ import Modelo.Nodo;
  * @author phily
  */
 public class Verificador {      
-    ListaEnlazada<String> listadoDPIs = new ListaEnlazada();    
-    ListaEnlazada<String> listadoCodigosUnaEntidad = new ListaEnlazada();//puesto que haré la revisión se hace de primero de un usuario, luego de otro y al terminar este el útimo [pues en este caso son 3 xD] entonces el listado vivirá mientras se esté en un usuario xD lo hago así pues eso es lo que necesito ya que si podrían haber codigos iguales en otras tablas pero ese es otro ambiente, a diferencia del DPI que si solo puede haber 1 sin importar que tipo de Usuario sea...
-    ListaEnlazada<String> listadoNumerosCuenta = new ListaEnlazada();
+    private ListaEnlazada<String> listadoDPIs = new ListaEnlazada();    
+    private ListaEnlazada<String> listadoCodigosUnaEntidad = new ListaEnlazada();//puesto que haré la revisión se hace de primero de un usuario, luego de otro y al terminar este el útimo [pues en este caso son 3 xD] entonces el listado vivirá mientras se esté en un usuario xD lo hago así pues eso es lo que necesito ya que si podrían haber codigos iguales en otras tablas pero ese es otro ambiente, a diferencia del DPI que si solo puede haber 1 sin importar que tipo de Usuario sea...
+    private ListaEnlazada<String> listadoNumerosCuenta = new ListaEnlazada();
     
     public String verificarDatosCompletosUsuario(String codigo, String CUI, String nombre, String genero, String turno, String path){                    
         String resultadoVerificacion = verificarUnicidadCodigo(codigo, false);

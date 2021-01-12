@@ -15,8 +15,8 @@ import java.sql.SQLException;
  * @author phily
  */
 public class Modificador {
-    Connection conexion = ManejadorDB.darConexion();    
-    Kit herramienta = new Kit();
+    private Connection conexion = ManejadorDB.darConexion();    
+    private Kit herramienta = new Kit();
     
     public boolean modificarCliente(String datosActualizar[]){
         String modificar="UPDATE Cliente SET nombre = ?, direccion = ?, password = ?,  pathDPI = ?"+((!datosActualizar[8].isBlank() && !datosActualizar[8].isEmpty() && datosActualizar[8]!=null)?", correo = ?":"")+" WHERE codigo = ?";

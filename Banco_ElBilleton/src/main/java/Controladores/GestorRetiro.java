@@ -6,7 +6,6 @@
 package Controladores;
 
 import Modelo.Entidades.Objetos.Transaccion;
-import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.Registrador;
 import Modelo.Manejadores.DB.Tramitador;
 import java.io.IOException;
@@ -24,8 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GestorRetiro extends HttpServlet{
     Tramitador tramitador = new Tramitador();    
     Transaccion transaccion;   
-    Registrador registrador = new Registrador();
-    Buscador buscador = new Buscador();
+    Registrador registrador = new Registrador();    
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){

@@ -66,17 +66,7 @@ public class ManejadorDeNavegacion {
         }        
         return "ListadoUsuarios.jsp?pagina=Modificacion_Cliente.jsp";         
     }
-    
-    public void darPaginasReportes(){
-    
-    }//Creo que si se usará xd, pero variará un poquito, por el hecho de que se tiene que [mira abajo xD]
-       /* 1. llamar al método para que realice la búsqueda de los datos [esto equivalente a la búsuqeda de la página]
-          2. revisar si fue exitosa
-            2. 1 enviar el objeto al parámetro para mandarlo al JSP [la "fusión", como la que hixo el auxi en e lservlet]
-                2.1.1 enviar la URL con el formato del reporte con este método, a la parte donde la necesita el servlet...
-            2. 2 sino entonces mostrar la página de error que es universal [o en todo caso el msje xD}
-        */
-    
+   
     public String darPaginasAlCajero(String opcionSeleccionada){
         if(opcionSeleccionada!=null){
             switch(opcionSeleccionada){

@@ -24,7 +24,7 @@ import javax.servlet.http.Part;
     maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
 public class GestorCargaXML extends HttpServlet{
      public static final String BASE_PATH = "/tmp";//no me dio error el hecho de que hubieran 2 variables estáticas con el mismo nombre... deplano que es por el hecho de que estas le pertenecen a la clase y como tienen nombres diferentes entonces por ello no sucede esto xD...
-     ManejadorXML manejador;
+     private ManejadorXML manejador;
         
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {                          

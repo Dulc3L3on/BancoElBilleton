@@ -28,11 +28,11 @@ public class GestorTransferencia extends HttpServlet{
     Tramitador tramitador = new Tramitador();    
     Transaccion transacciones[];   
     Registrador registrador = new Registrador();
-    Buscador buscador = new Buscador();
-    GestorEnvioEmail gestorEnvioEmail = new GestorEnvioEmail();
-    CuerpoEmail cuerpo = new CuerpoEmail();
-    Cliente remitente;
-    Cliente receptor;
+    private Buscador buscador = new Buscador();
+    private GestorEnvioEmail gestorEnvioEmail = new GestorEnvioEmail();
+    private CuerpoEmail cuerpo = new CuerpoEmail();
+    private Cliente remitente;
+    private Cliente receptor;
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){

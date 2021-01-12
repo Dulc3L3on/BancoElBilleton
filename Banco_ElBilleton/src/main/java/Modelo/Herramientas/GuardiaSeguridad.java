@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author phily
  */
 public class GuardiaSeguridad {
-    Buscador buscador = new Buscador();
-    BuscadorExistencia buscadorExistencia = new BuscadorExistencia();
-    Connection conexion = ManejadorDB.darConexion();
-    Usuario usuario;
-    Kit herramienta = new Kit();
+    private Buscador buscador = new Buscador();
+    private BuscadorExistencia buscadorExistencia = new BuscadorExistencia();
+    private Connection conexion = ManejadorDB.darConexion();
+    private Usuario usuario;
+    private Kit herramienta = new Kit();
     
     public boolean estanTodasLlenas(){
         for(int entidadActual =0; entidadActual<5; entidadActual++){
