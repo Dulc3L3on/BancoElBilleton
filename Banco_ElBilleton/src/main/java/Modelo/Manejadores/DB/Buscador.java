@@ -46,7 +46,7 @@ public class Buscador {
     }  
     
     public Usuario buscarUsuario(String tipo, String columnaBusqueda, String datoBuscar){//Este tipo está = que el nombre en la DB
-        String buscar ="SELECT * FROM "+ tipo+ " WHERE "+ columnaBusqueda +" = "+ datoBuscar;
+        String buscar ="SELECT * FROM "+ tipo+ " WHERE "+ columnaBusqueda +" = "+ datoBuscar;//debe ser así puesto que puedes buscar sin importar el tipo de columna y algunos son numéricos.. :| xD
         
         try(PreparedStatement instrucciones = conexion.prepareStatement(buscar, ResultSet.TYPE_SCROLL_SENSITIVE, 
                         ResultSet.CONCUR_UPDATABLE)){

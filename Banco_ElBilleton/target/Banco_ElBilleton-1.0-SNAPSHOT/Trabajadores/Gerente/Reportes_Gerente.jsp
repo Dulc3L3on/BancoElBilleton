@@ -57,26 +57,27 @@
                 <%if(request.getParameter("reporte").equals("Usuario_HistorialCambiosUsuarios")){%>
                     <%listadoUsuarios = buscadorParaReportesTrabajador.buscarUsuariosNoGerentes();%>                                
                     <center>   
-                       <div id="form">
-                           
+                       <div id="form">                           
                             <form id="formulario" action="../../gestorParametrosGerente" method="POST">
                                 <input type="text" name="reporte" value="<%=request.getParameter("reporte")%>" hidden>                                
                                 
-                                <input type="radio" name="tipoUsuario" value ="Cliente" id="radio1" class="tipoUsuario" onclick="esconderOtrosUsuarios()" checked>
-                                <label for="radio1">Cliente</label> 
-                            
-                                <input type="radio" name="tipoUsuario" value ="Cajero" id="radio2" class="tipoUsuario" onclick="esconderOtrosUsuarios()">
-                                <label for="radio2">Cajero</label>                                   
+                                <select name="tipoUsuario" class="tipoDeUsuarioACambiar" onchange="esconderOtrosUsuarios()">
+                                    <option disabled selected>-Seleccione el tipo de Usuario-</option>
+                                    <option value="Cliente">Cliente</option>
+                                    <option value="Cajero">Cajero</option>
+                                </select>      
                                 
-                                <h4>* Código o Nombre de Usuario</h4>
-                                <input type="search" list="listaUsuarios" name="datosUsuario" required><!--No asocie la lista porque en google se mira feo... pues siempre muestra el listado completo y eso no es lo que quiero, sino que sea como en firefox, muestra el listado de las coincidencias cuando se ha escrito algo, de lo contrario no...-->                                
-                                <select id="usuariosExistentes" hidden>                                        
-                                    <%for(int usuarioActual=0; usuarioActual<buscadorParaReportesTrabajador.darNumeroDeClientes(); usuarioActual++){%>                                    
+                                <select class="datosUsuario" name="datosUsuario">
+                                    <option  disabled selected>-Seleccione al usuario-</option>
+                                </select><br/><br/>             
+                             
+                                <select id="usuariosExistentes" hidden>
+                                    <%System.out.println(listadoUsuarios.size());
+                                      System.out.println(buscadorParaReportesTrabajador.darNumeroDeClientes());
+                                        for(int usuarioActual=0; usuarioActual<listadoUsuarios.size(); usuarioActual++){%>                                    
                                         <option id="<%=(usuarioActual< buscadorParaReportesTrabajador.darNumeroDeClientes())?"Cliente":"Cajero"%>" value="<%=listadoUsuarios.get(usuarioActual).getCodigo()%> <%=listadoUsuarios.get(usuarioActual).getNombre()%>"> </option>                                       
                                    <%}%>
-                                </select>
-                                
-                                <datalist id="listaUsuarios"></datalist><br/><br/>                                                             
+                                </select>                                                                                                                                   
                                 <input id="boton" type="submit" value="ACEPTAR">                                     
                            </form>                                                      
                        </div>
@@ -184,15 +185,15 @@
         
              function esconderOtrosUsuarios(){
                 var usuariosExistentes = document.getElementById('usuariosExistentes').options;                
-                var seleccionado = (document.getElementByName('tipoUsuario')[0].checked)?document.getElementByName('tipoUsuario')[0]: document.getElementByName('tipoUsuario')[1];                
-                var usuariosAMostrar = document.getElementById('listaUsuarios');
+                var seleccionado = document.getElementsByClassName('tipoDeUsuarioACambiar');                
+                var usuariosAMostrar = document.getElementsByClassName('datosUsuario');
                 
-                for (let opcionActual = cuentas.options.length; opcionActual >= 0; opcionActual--) {//a ver si no da un index of, por empezar por un valor = al tamaño y no por (tam -1)
+                for (let opcionActual = usuariosAMostrar.options.length; opcionActual >= 1; opcionActual--) {//a ver si no da un index of, por empezar por un valor = al tamaño y no por (tam -1)
                     usuariosAMostrar.remove(opcionActual);
                 }         
                 
                 for (let elementoActual = 0; elementoActual < usuariosExistentes.length; elementoActual++) {
-                    if(usuariosExistentes[elementoActual].id === seleccionado.value){
+                    if(usuariosExistentes[elementoActual].id === seleccionado.options[seleccionado.selectedIndex].value){
                         const opcionUsuario = document.createElement('option');//para que se puedan mostar las op que corresponden xD
                         const valorUsuario = usuariosExistentes[elementoActual].value;
                         opcionUsuario.value = valorUsuario;
@@ -200,7 +201,7 @@
                         usuariosAMostrar.appendChild(opcionUsuario);                            
                     }
                 }//y así debería hacer invisibles las opciones de los usuarios que no necesito x|
-            }             
+            }                 
         
             function mostrarCuentasDeDueno(){                
                 var cuentas = document.getElementById('listadoCuentas');

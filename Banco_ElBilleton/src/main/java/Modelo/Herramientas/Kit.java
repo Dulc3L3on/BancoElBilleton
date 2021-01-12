@@ -107,7 +107,7 @@ public class Kit {
             desencriptada = new String(plainText, "UTF-8");
 
         } catch (Exception ex) {
-            System.out.println("surgió un error al descifrar\nla contrasenia\n"+ex.getMessage());
+            System.out.println("surgió un error al descifrar\nla contrasenia ->"+ex.getMessage());
             desencriptada = null;
         }
         return desencriptada;        

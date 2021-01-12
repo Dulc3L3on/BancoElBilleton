@@ -33,5 +33,5 @@ ALTER TABLE Cambios_Gerente ADD FOREIGN KEY (gerenteCambiado) REFERENCES Gerente
 
 CREATE TABLE Setting (limiteMayorMonto double(22,2) DEFAULT 150, limiteMayorSumaMonto double(22,2) DEFAULT 250, contraseniaRemitente varchar(150));
 
-INSERT INTO Cajero (codigo, nombre, DPI, direccion, sexo, password, turno, fechaIncorporacion) VALUES(101, "Banca Virtual","101", "---", "---", "8cX7%%tedj4!yJm4", "completo", "???");
+INSERT INTO Cajero (codigo, nombre, DPI, direccion, sexo, password, turno, fechaIncorporacion) VALUES(101, "Banca Virtual","101", "---", "---", "+Vu6VYEGULbHIAkRxeGzYAYxJZ3gVvm7", "completo", "???");
 INSERT INTO Setting (contraseniaRemitente) VALUES ("|ng3n1os");

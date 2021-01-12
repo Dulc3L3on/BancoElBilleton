@@ -59,7 +59,10 @@ public class BuscadorParaReportesTrabajador {
             Usuario[] usuarios = buscador.buscarUsuarios((usuarioBuscado==0)?"Cliente":"Cajero", "nombre");            
             
             if(usuarios!=null){
-                numeroClientes = (usuarioBuscado == 1)?usuarios.length:numeroClientes;//con tal de no poner un if y agrandar más la cosa xD
+                if(usuarioBuscado==0){
+                    numeroClientes= usuarios.length;
+                }
+                
                 for (int usuarioActual = 0; usuarioActual < usuarios.length; usuarioActual++) {            
                     listadoUsuarios.add(usuarios[usuarioActual]);
                 }                             

@@ -90,7 +90,7 @@
                                     </th>                                    
                                 </tr>
                                 <th>
-                                    <input type="email" id="datosUsuario" name="datosActualizar" placeholder="Correo electrónico" value="<%=(gerente!=null)?(gerente.getCorreo().equals("???")?"":gerente.getCorreo()):""%>" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"readonly"%> required> 
+                                    <input type="email" id="datosUsuario" name="datosActualizar" placeholder="Correo electrónico" value="<%=(gerente!=null)?(gerente.getCorreo().equals("???")?"":gerente.getCorreo()):""%>" <%=(guardia.estaEnHorario("Gerente", String.valueOf(gerente.getCodigo())))?"":"readonly"%>> 
                                 </th>                             
                                 <tr>
                                     <th colspan="2">

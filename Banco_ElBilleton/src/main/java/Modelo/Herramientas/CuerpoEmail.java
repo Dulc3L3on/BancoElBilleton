@@ -126,7 +126,7 @@ public class CuerpoEmail {
         return cuerpo;
     }
     
-    public String darCuerpoPorCreacionCuenta(int codigoCliente){
+    public String darCuerpoPorCreacionCuenta(int codigoCliente, int nuevoNumeroCuenta){
         Buscador buscador = new Buscador();
         Cuenta[] cuentas = buscador.buscarCuentasDeDueno(codigoCliente);
         String cuerpo = null;
@@ -167,7 +167,17 @@ public class CuerpoEmail {
                     "</tr>";
             }
             
-          cuerpo+= "         </table>"
+          cuerpo+="<tr>" +
+                    "   <th><h5>"+java.time.LocalDate.now()+"</h5>" +
+                    "   </th>" +
+                    "   <th><h5>"+nuevoNumeroCuenta+"</h5>" +
+                    "   </th>" +
+                    "   <th><h5>ahorro</h5>" +
+                    "   </th>" +
+                    "   <th><h5>activa</h5>" +
+                    "   </th>" +
+                    "</tr>"
+                + "         </table>"
                 + "    </body>"
                 + "</html>";
         }

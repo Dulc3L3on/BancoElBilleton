@@ -20,7 +20,8 @@
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
            ControladorIndices controlador = new ControladorIndices();
            Cliente cliente;
-           CuerpoEmail cuerpo = new CuerpoEmail();%>
+           CuerpoEmail cuerpo = new CuerpoEmail();
+           int nuevoNuemeroCuenta;%>
     </head>
     <body>
        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){%>            
@@ -31,7 +32,8 @@
             <script src="../../js/sweetInformativo.js"></script><!--recuerda que veremos cómo está la apariencia de la página cuando se redireccione ella misma hacia aquí para add o no el sweet con una dir menos profunda o no xD-->
         <%}else{%>                    
             <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->                                   
-               <%cliente = (Cliente)request.getSession().getAttribute("usuarioBuscado_Cliente");%>            
+               <%cliente = (Cliente)request.getSession().getAttribute("usuarioBuscado_Cliente");
+                 nuevoNuemeroCuenta = controlador.autoincrementarEntidad("numeroCuenta", 4);%>            
                     <form method="POST" action="../../gestorCreacionCuenta">
                         <div id="contenedorGeneral">
                             <table>                        
@@ -66,7 +68,7 @@
                                         <h5 id="subtitulo">Número:</h5>
                                     </th>
                                     <th>
-                                        <input type="number" name="datosCuenta" id="numeroCuenta" min="0" value="<%=(cliente!=null)?controlador.autoincrementarEntidad("numeroCuenta", 4):""%>" readonly><!--Sino cada vez estaría aparenciendo un número de cuenta [diferente o no, dependiendo de si se han creado más cuentas o no...]aunque no se tenga ningún solo dato... xD-->
+                                        <input type="number" name="datosCuenta" id="numeroCuenta" min="0" value="<%=(cliente!=null)?nuevoNuemeroCuenta:""%>" readonly><!--Sino cada vez estaría aparenciendo un número de cuenta [diferente o no, dependiendo de si se han creado más cuentas o no...]aunque no se tenga ningún solo dato... xD-->
                                     </th>
                                     
                                 </tr>
@@ -83,7 +85,7 @@
                             </table>
                             <%if(request.getSession().getAttribute("usuarioBuscado_Cliente")!=null){
                                 request.getSession().setAttribute("redireccionPorEnvioMail", "???");
-                                request.getSession().setAttribute("cuerpo", cuerpo.darCuerpoPorCreacionCuenta(cliente.getCodigo()));%>
+                                request.getSession().setAttribute("cuerpo", cuerpo.darCuerpoPorCreacionCuenta(cliente.getCodigo(), nuevoNuemeroCuenta));%>
                                 
                                 <input type="text" name="envio" value="cuentaCreada_<%=cliente.getCodigo()%>_Cliente" hidden>                                
                                 <input type="submit" id="submit" name="crearCuenta" value="CREAR CUENTA">
