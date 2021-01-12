@@ -14,6 +14,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
         <link rel="stylesheet" href="css/cssCliente.css">
         <title>JSP Page</title>
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
@@ -58,10 +59,20 @@
                   }else{%>                    
                         <input type="text" value="errorBusquedaTransacciones" hidden>
                         <script src="js/sweetError.js"></script>
-                <%}%>
-        
-            </center>        
-        <%}else{%>            
+                <%}%>        
+            </center>
+            
+            <%if(request.getAttribute("mostrarMsjeEnvio")!=null){
+                if((boolean)request.getAttribute("mostrarMsjeEnvio")==true){%>
+                    <input type="text" value="avisoTransferenciaExitoso" hidden><!--quizá se perdieron los atributos en el camino... aunque lo dudo xD-->
+                    <script src="js/sweetInformativo.js"></script>
+              <%}else{%>
+                    <input type="text" value="errorAvisoTransferencia" hidden>
+                    <script src="js/sweetError.js"></script>
+              <%}
+              request.removeAttribute("mostrarMsjeEnvio");
+            }//recuerda qu elos atributos se pierde luego de usar un response...
+        }else{%>            
             <input type="text" value="errorTransferencia" hidden>
             <script src="js/sweetError.js"></script>
         <%}%>

@@ -33,7 +33,8 @@ public class Usuario {
        password = herramienta.desencriptarContrasenia(elPassword);
        fechaIncorporacion = laFechaIncorporacion;
         System.out.println(elCorreo);
-       correo = (elCorreo!=null && !elCorreo.isBlank() && !elCorreo.isEmpty())?elCorreo:correo;
+       correo = (elCorreo!=null && !elCorreo.isBlank() && !elCorreo.isEmpty())?elCorreo:correo;//quiere decir que al buscar a un usuario en la DB el atrib de correo poseerá los ??? porque no está vacío, ni en blanco y tampoc es null sino ??? xD
+        System.out.println("atrib correo: "+correo);
     }
     
     //los coloco así por el hecho de que JR no reconoce los métodos a menos que tengan la palabra get y el nombre del atributo implicado...

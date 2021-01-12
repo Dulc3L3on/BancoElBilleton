@@ -40,7 +40,14 @@ public class GestorEnvioEmail extends HttpServlet{
    @Override
    public void doPost(HttpServletRequest request, HttpServletResponse response) {//0-> asunto [tipoCorreo],  1-> codigoUsuario, -> tipoUsuario [cliente/ trabajador]
         try {
-            String[] datosSubmit = request.getParameter("envio").split("_");
+            String[] datosSubmit; 
+            
+            if(request.getAttribute("datosEnvio")==null){
+                datosSubmit = request.getParameter("envio").split("_");
+            }else{
+                String datos = (String)request.getAttribute("datosEnvio");
+                datosSubmit = datos.split("_");//hay que probar si funciona, porque hasta donde yo recuerdo, con esto debe hacerse una conversion y no usar un INteger o ne este caso String.valueOf...
+            }            
             
             if(datosSubmit[2].equals("Cliente")){
                 usuario =(Cliente) buscador.buscarUsuario(datosSubmit[2], "codigo", datosSubmit[1]);
@@ -48,8 +55,8 @@ public class GestorEnvioEmail extends HttpServlet{
                 usuario = (Trabajador) buscador.buscarUsuario(datosSubmit[2], "codigo", datosSubmit[1]);
             }            
             
-            if(!usuario.getCorreo().equals("???")){//puesto que después no será posibe ingresar un dato que no posea el formato que corresponde a los correos xD, y recuerda que basta con eso, es decir no es necesario que se haya ingresado uno real, solo uno válido xD
-                request.setAttribute("mostrarMsjeEnvio", (enviarConGMail(usuario.getCorreo(), datosSubmit[0], (String)request.getSession().getAttribute("cuerpo"))));//se envía msje de éxito :) o fracaso :( xD
+            if(!usuario.getCorreo().equals("???")){//puesto que después no será posibe ingresar un dato que no posea el formato que corresponde a los correos xD, y recuerda que basta con eso, es decir no es necesario que se haya ingresado uno real, solo uno válido xD                
+                request.setAttribute("mostrarMsjeEnvio", (enviarConGMail(usuario.getCorreo(), datosSubmit[0], (String)request.getSession().getAttribute("cuerpo"))));//se envía msje de éxito :) o fracaso :( xD                              
                 request.getSession().removeAttribute("cuerpo");
             
                 if(!request.getSession().getAttribute("redireccionPorEnvioMail").equals("???")){                
@@ -103,7 +110,7 @@ public class GestorEnvioEmail extends HttpServlet{
         }
         return true;
     }
-    catch (MessagingException e) {
+    catch (MessagingException | NullPointerException e) {//el null lo coloqué por el hecho de no establecer el cuerpo del email al no realizar bisn la búsqueda [esto para el correo por creación de cuenta...]
         System.out.println("Error al enviar el email -> "+e.getMessage());
     }
     return false;

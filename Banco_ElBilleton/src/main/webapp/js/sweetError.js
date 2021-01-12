@@ -193,5 +193,27 @@ switch(document.getElementById("tipoMsje").value){//se ejecutará al nada más c
             position: 'bottom-end',
             icon: 'warning'
         })
+    break;
+
+    case "errorReporte":
+        Swal.fire({
+            title:'Error al cargar el Reporte',
+            text: 'Surgió algo que impidió cargar\n\
+                   los datos a mostrar en el archivo',
+            toast: true,            
+            position: 'bottom-end',
+            icon: 'warning'
+        })
+    break;  
+    
+    case "errorAvisoTransferencia":
+        Swal.fire({
+            title: 'Aviso de transferencia Fallido',
+            text: 'Surgió algo que impidió informar\n\
+                   al receptor sobre la transferencia',
+            toast: true,            
+            position: 'bottom-end',
+            icon: 'warning'
+        })
     break;  
 }    

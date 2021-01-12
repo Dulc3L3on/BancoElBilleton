@@ -6,6 +6,7 @@
 package Controladores;
 
 import Modelo.Entidades.Objetos.Asociacion;
+import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Herramientas.Kit;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -57,7 +60,8 @@ public class GestorParametrosCliente extends HttpServlet{
     
     private Map<String, Object> darParametrosPersonales(HttpServletRequest request, String tipoParametros){
         Map<String, Object> parametros = new HashMap<>();
-            Cliente cliente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", (tipoParametros.contains("DesdeCajero")?request.getParameter("codigoDueno"):(String)request.getSession().getAttribute("codigo")));
+            Cliente cliente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", 
+               (tipoParametros.contains("DesdeCajero") || (tipoParametros.contains("Resumen"))?request.getParameter("codigoDueno"):(String)request.getSession().getAttribute("codigo")));
         
         if(cliente!=null){
             parametros.put("nombre", cliente.getNombre());
@@ -98,6 +102,9 @@ public class GestorParametrosCliente extends HttpServlet{
             break;
             case "PersonalesCuenta_CuentaMasDinero":
                 establecerListadoCuentaConMasDinero(request, response);
+            break;
+            case "Personales_ResumenCreacionCuenta":
+                establecerResumenCreacionCuentas(request, response);
             break;
             default://puesto que este método ya posee la condición para hacer bien la separación xD
                 establecerListadoSolicitudes(request, response);
@@ -187,5 +194,25 @@ public class GestorParametrosCliente extends HttpServlet{
         } catch (IOException e) {
             System.out.println("Error al establecer el listado de SOLICITUDES -> "+ e.getMessage());
         }
+    }
+    
+    private void establecerResumenCreacionCuentas(HttpServletRequest request, HttpServletResponse response){
+        GestorReportesTransacciones gestorReportes = new GestorReportesTransacciones();
+        
+        try {            
+            List<Cuenta> listadoCuentasDelCliente = buscadorParaReportes.buscarCuentasDelCliente(request.getParameter("codigoDueno"));
+        
+            if(!listadoCuentasDelCliente.isEmpty()){
+                request.getSession().setAttribute("listado", listadoCuentasDelCliente);                    
+                gestorReportes.doGet(request, response);
+            }else{
+            
+                request.setAttribute("errorReporte", true);
+                request.getRequestDispatcher("ResultadoCreacionCuenta").forward(request, response);//puesto qu epara llegar aquí ya me encontraba del lado de los JSP... [pues la redirección fue directa...]
+            }       
+        }catch (ServletException | IOException e) {
+            System.out.println("Error al establecer el listado de CREACIÓN DE CUENTA -> "+e.getMessage());
+        }
+            
     }
 }

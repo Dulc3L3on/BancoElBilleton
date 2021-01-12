@@ -139,6 +139,22 @@ public class BuscadorParaReportesCliente {
         return -1;        
     }
     
+    public List<Cuenta>  buscarCuentasDelCliente(String codigoCliente){
+            List<Cuenta> listadoDeCuentas = new LinkedList<>();
+        try{
+            Cuenta[] cuentasDelCliente = buscador.buscarCuentasDeDueno(Integer.parseInt(codigoCliente));
+            
+            if(cuentasDelCliente != null){
+                for (int cuentaActual = 0; cuentaActual < cuentasDelCliente.length; cuentaActual++) {
+                    listadoDeCuentas.add(cuentasDelCliente[cuentaActual]);
+                }
+            }
+        }catch(NumberFormatException e){
+            System.out.println("Error al buscar las CUENTAS del cliente -> "+ e.getMessage());
+        }
+        return listadoDeCuentas;//al usar este método es un hecho de que debe estar lleno ellistado con al menos una cuenta puesto que se acaba de crear una xD de lo contraio salió algo mal en la búsqueda de las cuentas... es decir surgió un error...
+    }
+    
     public int darTipoSituacion(){
         return tipoSituacion;
     }    

@@ -6,6 +6,7 @@
 package Controladores;
 
 import Modelo.Entidades.Objetos.Cambio;
+import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Objetos.Transaccion;
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +54,8 @@ public class GestorReportesTransacciones extends HttpServlet{
             }
             else if(listadoGenerico.get(0) instanceof Cambio){
                dataSource = new JRBeanCollectionDataSource((List<Cambio>)request.getSession().getAttribute("listado"));
+            }else if(listadoGenerico.get(0) instanceof Cuenta){
+               dataSource = new JRBeanCollectionDataSource((List<Cuenta>)request.getSession().getAttribute("listado"));
             }                          
             
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReports, (Map<String, Object>)request.getSession().getAttribute("parametros"), dataSource);

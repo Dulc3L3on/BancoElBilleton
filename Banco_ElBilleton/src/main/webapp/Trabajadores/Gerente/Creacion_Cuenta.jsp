@@ -4,6 +4,7 @@
     Author     : phily
 --%>
 
+<%@page import="Modelo.Herramientas.CuerpoEmail"%>
 <%@page import="Modelo.Herramientas.GuardiaSeguridad"%>
 <%@page import="Modelo.Entidades.Usuarios.Cliente"%>
 <%@page import="Modelo.Herramientas.ControladorIndices"%>
@@ -18,7 +19,8 @@
         <title>CreateAccount</title>
         <%!GuardiaSeguridad guardia = new GuardiaSeguridad();
            ControladorIndices controlador = new ControladorIndices();
-           Cliente cliente;%>
+           Cliente cliente;
+           CuerpoEmail cuerpo = new CuerpoEmail();%>
     </head>
     <body>
        <%if(guardia.esPermitidaEstadia(request, response, (String) request.getSession().getAttribute("codigo"), "Gerente")==false){%>            
@@ -27,11 +29,9 @@
         <%if(guardia.estaEnHorario("Gerente", (String) request.getSession().getAttribute("codigo"))==false){%>
             <input type="text" id="tipoMsje" value="fueraDeHorario" hidden>
             <script src="../../js/sweetInformativo.js"></script><!--recuerda que veremos cómo está la apariencia de la página cuando se redireccione ella misma hacia aquí para add o no el sweet con una dir menos profunda o no xD-->
-        <%}else{%>
-        
-            <%if(request.getAttribute("mostrarMsje")==null){%>
-                <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->                                   
-                    <%cliente = (Cliente)request.getSession().getAttribute("usuarioBuscado_Cliente");%>            
+        <%}else{%>                    
+            <center><!--recuerda que ahora se obtendrán los datos por medio de la notación $_{} puesto que es un atributo... si no funcionara, entonces obtienes el atributo con el request y usas los métodos xD, recibirás un "usuario" o de una vez el tipo... todo depende XD-->                                   
+               <%cliente = (Cliente)request.getSession().getAttribute("usuarioBuscado_Cliente");%>            
                     <form method="POST" action="../../gestorCreacionCuenta">
                         <div id="contenedorGeneral">
                             <table>                        
@@ -81,21 +81,16 @@
                                     </th>
                                </tr>                              
                             </table>
-                            <%if(request.getSession().getAttribute("usuarioBuscado_Cliente")!=null){%>
-                                 <input type="submit" id="submit" name="crearCuenta" value="CREAR CUENTA">
+                            <%if(request.getSession().getAttribute("usuarioBuscado_Cliente")!=null){
+                                request.getSession().setAttribute("redireccionPorEnvioMail", "???");
+                                request.getSession().setAttribute("cuerpo", cuerpo.darCuerpoPorCreacionCuenta(cliente.getCodigo()));%>
+                                
+                                <input type="text" name="envio" value="cuentaCreada_<%=cliente.getCodigo()%>_Cliente" hidden>                                
+                                <input type="submit" id="submit" name="crearCuenta" value="CREAR CUENTA">
                             <%}%><!--para que no existan inconsistencias...-->
                         </div>
                     </form>            
-                </center>                 
-            <%}else{
-                if(request.getAttribute("mostrarMsje").equals("correcto")){%>
-                    <input type="text" id="tipoMsje" value="creacionCuentaExitoso" hidden>
-                    <script src="js/sweetInformativo.js"></script>
-                <%}else{%>
-                    <input type="text" id="tipoMsje" value="errorCreacionCuenta" hidden>
-                    <script src="js/sweetError.js"></script>
-               <%}
-            }%>
+                </center>                                                     
        <%}%>
     </body>
 </html>

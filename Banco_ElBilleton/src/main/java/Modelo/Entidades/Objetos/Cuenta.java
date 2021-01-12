@@ -66,6 +66,10 @@ public class Cuenta implements Serializable{
         return fechaCreacion;
     }
     
+    public String getEstado(){
+        return estado;
+    }
+    
     public String getTipo(){
         return "ahorro";
     }

@@ -6,10 +6,12 @@
 package Modelo.Herramientas;
 
 import Modelo.Entidades.Objetos.Cambio;
+import Modelo.Entidades.Objetos.Cuenta;
 import Modelo.Entidades.Usuarios.Cliente;
 import Modelo.Entidades.Usuarios.Trabajador;
 import Modelo.Entidades.Usuarios.Usuario;
 import Modelo.ListaEnlazada;
+import Modelo.Manejadores.DB.Buscador;
 import Modelo.Nodo;
 
 
@@ -88,8 +90,7 @@ public class CuerpoEmail {
                                 + "<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\">"
                                 + "<link href=\"https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap\" rel=\"stylesheet\">"
                                 + "<style type=\"text/css\">"
-                                    + "body {  font-family: Montserrat; }"
-                                    + "input{ color: #575656; border: none; background: transparent;}"
+                                    + "body {  font-family: Montserrat; }"                                    
                                     + "#subtitulos{ background-color: #ECECEC; width: 135px; }"
                                     + "table{  text-align: left; }"                                                                         
                                 + "</style>"
@@ -113,7 +114,7 @@ public class CuerpoEmail {
                     "   <th><h5>"+nodoAuxiliar.contenido.getDatoAntiguo()+"</h5>" +
                     "   </th>" +
                     "   <th><h5>"+nodoAuxiliar.contenido.getDatoNuevo()+"</h5>" +
-                    "   </th>\n" +
+                    "   </th>" +
                     "</tr>";
             nodoAuxiliar = nodoAuxiliar.nodoSiguiente;            
         }
@@ -122,6 +123,89 @@ public class CuerpoEmail {
                 + "    </body>"
                 + "</html>";
         
+        return cuerpo;
+    }
+    
+    public String darCuerpoPorCreacionCuenta(int codigoCliente){
+        Buscador buscador = new Buscador();
+        Cuenta[] cuentas = buscador.buscarCuentasDeDueno(codigoCliente);
+        String cuerpo = null;
+        
+        if(cuentas!=null){
+            cuerpo ="<!DOCTYPE html>"
+                      + "<html>"
+                            + "<head>"
+                                + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+                                + "<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\">"
+                                + "<link href=\"https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap\" rel=\"stylesheet\">"
+                                + "<style type=\"text/css\">"
+                                    + "body {  font-family: Montserrat; }"                                    
+                                    + "#subtitulos{ background-color: #ECECEC; width: 135px; }"
+                                    + "table{  text-align: left; }"                                                                         
+                                + "</style>"
+                            + "</head>"
+                            + "<body>"
+                            + "     <table>"
+                            + "         <tr>"
+                            + "             <th id=\"subtitulos\"><h4>Fecha de Creación</h4></th>"
+                            + "             <th id=\"subtitulos\"><h4>No. Cuenta</h4></th>"
+                            + "             <th id=\"subtitulos\"><h4>Tipo</h4></th>"
+                            + "             <th id=\"subtitulos\"><h4>Estado</h4></th>"
+                            + "         </tr>";     
+        
+    
+            for (int cuentaActual = 0; cuentaActual < cuentas.length; cuentaActual++) {
+             cuerpo+="<tr>" +
+                    "   <th><h5>"+cuentas[cuentaActual].getFechaCreacion()+"</h5>" +
+                    "   </th>" +
+                    "   <th><h5>"+cuentas[cuentaActual].getNumeroCuenta()+"</h5>" +
+                    "   </th>" +
+                    "   <th><h5>"+cuentas[cuentaActual].getTipo()+"</h5>" +
+                    "   </th>" +
+                    "   <th><h5>"+cuentas[cuentaActual].getEstado()+"</h5>" +
+                    "   </th>" +
+                    "</tr>";
+            }
+            
+          cuerpo+= "         </table>"
+                + "    </body>"
+                + "</html>";
+        }
+        
+       return cuerpo;
+    }
+    
+    public String darCuerpoPorTransferencia(String nombreDepositante, String numeroCuentaAfectada, String cantidadAcreditada){
+        String cuerpo = "<!DOCTYPE html>"
+                      + "<html>"
+                            + "<head>"
+                                + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+                                + "<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\">"
+                                + "<link href=\"https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap\" rel=\"stylesheet\">"
+                                + "<style type=\"text/css\">"
+                                    + "body {  font-family: Montserrat; }"                                                                                                     
+                                    + "input{  border: none; }"    
+                                    + "table{  text-align: left; }" 
+                                + "</style>"
+                            + "</head>"
+                            + "<body>"
+                                + "     <h3>----------->>>Transferencia Efectuada<<<----------</h3>"
+                                + "<table>"
+                                + "     <tr>"
+                                + "         <th><h4>Nombre del depositante: </h4></th>"
+                                + "         <th><input type=\"text\" value=\""+nombreDepositante+"\"></th>"
+                                + "     </tr>"
+                                + "     <tr>"
+                                + "         <th><h4>No. cuenta Receptora: </h4></th>"
+                                +"          <th><input type=\"text\" value=\""+numeroCuentaAfectada+"\"></th>"
+                                + "     </tr>"
+                                + "     <tr>"
+                                + "         <th><h4>Monto Q. </h4></th>"
+                                + "         <th><input type=\"text\" value=\""+cantidadAcreditada+"\"></th>"                                
+                                + "     </tr>"
+                                + "</table>"
+                            + " </body>"
+                            + "</html>";                                                
         return cuerpo;
     }
 }

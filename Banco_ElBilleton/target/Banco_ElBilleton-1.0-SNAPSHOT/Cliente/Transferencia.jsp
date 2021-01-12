@@ -126,6 +126,7 @@
                                     </th>                            
                                 </tr>                            
                             </table>
+                             <%request.getSession().setAttribute("redireccionPorEnvioMail", "???");%>
                              <input type="submit" id="enviar" name="transferir" value="TRANSFERIR">
                         </div>
                     </form>   

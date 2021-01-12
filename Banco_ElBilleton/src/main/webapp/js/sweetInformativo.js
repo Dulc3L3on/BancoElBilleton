@@ -129,6 +129,17 @@ switch(document.getElementById("tipoMsje").value){
             icon: 'success'            
         })            
     break;
+    
+     case "avisoTransferenciaExitoso":
+        Swal.fire({
+            title:'Aviso de transferencia Exitoso',                        
+            text: 'se ha informado al receptor\n\
+                   de la transferencia realizada',
+            position: 'center',
+            backdrop: false,
+            icon: 'success'            
+        })            
+    break;
 }
 /*Swal.fire({
   position: 'top-end',

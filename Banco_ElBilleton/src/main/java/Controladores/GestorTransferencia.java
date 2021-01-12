@@ -7,6 +7,8 @@ package Controladores;
 
 import Modelo.Entidades.Objetos.Transaccion;
 import Modelo.Entidades.Usuarios.Cajero;
+import Modelo.Entidades.Usuarios.Cliente;
+import Modelo.Herramientas.CuerpoEmail;
 import Modelo.Manejadores.DB.Buscador;
 import Modelo.Manejadores.DB.Registrador;
 import Modelo.Manejadores.DB.Tramitador;
@@ -27,6 +29,10 @@ public class GestorTransferencia extends HttpServlet{
     Transaccion transacciones[];   
     Registrador registrador = new Registrador();
     Buscador buscador = new Buscador();
+    GestorEnvioEmail gestorEnvioEmail = new GestorEnvioEmail();
+    CuerpoEmail cuerpo = new CuerpoEmail();
+    Cliente remitente;
+    Cliente receptor;
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){
@@ -42,7 +48,18 @@ public class GestorTransferencia extends HttpServlet{
                     //puesto que aquí no tengo el saldo anterior de la cuentaDEstino si en dado caso la transferencia fuera
                     //De tipo propia y por eso tendría que hacer una query en la que recuperara solo el saldo y no me conviene así que así será xD
                     //porque si lo tuviera, entonces entre los atributos debería mandar ambos saldos antiguos, el obj transacciones... aunque los request se siguen mandteniendo, así que solo sería necesario enviar las transsacciones porque los saldos  [si tuviera ambos] y el monto ya van en los request antiguos...
-                    request.setAttribute("transaccion", transacciones);                               
+                    request.setAttribute("transaccion", transacciones);   
+                    
+                    if(request.getParameter("tipoTransferencia").equals("terceros")){
+                        remitente = (Cliente) buscador.buscarUsuario("Cliente", "codigo", (String) request.getSession().getAttribute("codigo"));
+                        receptor = buscador.buscarDuenoDeCuenta(request.getParameter("destino"));
+                    
+                        if(remitente!=null && receptor!=null){                        
+                            request.setAttribute("datosEnvio", "transferenciaEfectuada_"+receptor.getCodigo()+"_Cliente");
+                            request.getSession().setAttribute("cuerpo", cuerpo.darCuerpoPorTransferencia(remitente.getNombre(), request.getParameter("destino"), request.getParameter("monto")));                        
+                            gestorEnvioEmail.doPost(request, response);
+                        }                    
+                    }                    
                 }else{
                     while(!tramitador.deshacerTransferencia(request.getParameter("origen"), request.getParameter("destino"), request.getParameter("monto"))){                
                     }//puesto que si falla debo dejar todo como antes de intentar exe la axn...
